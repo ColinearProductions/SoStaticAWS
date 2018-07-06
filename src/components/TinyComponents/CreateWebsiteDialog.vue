@@ -18,17 +18,19 @@
                     </v-card-title>
 
                     <v-card-text class="pa-4">
-
+                        <v-form v-model="formValidModel" ref="form" @submit.prevent="">
 
                         <v-text-field
                                 prepend-icon="assignment"
                                 label="Website Name"
                                 v-model="website.alias"
+                                :rules="[min3]" required
                         ></v-text-field>
                         <v-text-field
                                 prepend-icon="assignment"
                                 label="Website Urls (Separated by commas)"
                                 v-model="website.url"
+                                :rules="[min3, listOfLinks]" required=""
                         ></v-text-field>
 
 
@@ -39,6 +41,7 @@
 
                                         label="Alias"
                                         v-model="website.contacts.alias"
+                                        :rules="[min3]"
                                 ></v-text-field>
                             </v-flex>
 
@@ -47,7 +50,7 @@
 
                                         label="Email"
                                         v-model="website.contacts.email"
-
+                                        :rules="[email, min3]"
                                 ></v-text-field>
                             </v-flex>
 
@@ -64,17 +67,19 @@
                                     prepend-icon="assignment"
                                     label="Site key"
                                     v-model="website.sitekey"
+                                    :rules="[requiredIf]"
                             ></v-text-field>
                             <v-text-field
                                     prepend-icon="assignment"
                                     label="Secret"
                                     v-model="website.secret"
+                                    :rules="[requiredIf]"
                             ></v-text-field>
 
 
                         </div>
 
-
+                    </v-form>
                     </v-card-text>
                 </v-flex>
             </v-layout>
@@ -93,15 +98,15 @@
 </template>
 
 <script>
+
+
+    /* eslint-disable */
     export default {
         name: "CreateWebsiteDialog",
 
         data: function () {
             return {
                 website: {
-
-
-
                     alias: '',
                     url: '',
                     httpsOnly: true,
@@ -115,19 +120,82 @@
                     forms: [],
                     messages: [],
                 },
+                formValidModel:false,
                 display:false
             }
         },
         methods: {
             onConfirmClicked: function () {
-                this.website.contacts = [this.website.contacts];
-                this.$store.dispatch("createWebsite", this.website);
-                this.$emit('close')
+
+                this.$refs.form.validate();
+                if(this.formValidModel) {
+
+                    this.website.contacts = [this.website.contacts];
+                    this.$store.dispatch("createWebsite", this.website);
+
+                }
 
             },
             onClose: function () {
-                this.$emit('close')
+                this.$store.commit("setCreateWebsiteDialogVisibility",false);
+                this.website =  {
+                    alias: '',
+                    url: '',
+                    httpsOnly: true,
+                    recaptcha: false,
+                    sitekey: '',
+                    secret: '',
+                    contacts: {
+                        alias: '',
+                        email: ''
+                    },
+                    forms: [],
+                    messages: [],
+                };
+                this.formValidModel=false;
 
+            },
+            //RULES
+            min3: v=> {
+                if(v===undefined)
+                    return true;
+                return v.length >= 3 || 'Field must have more than 3 characters'
+            },
+            email: function(value) {
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                if(value.length<1)
+                    return true;
+
+                return re.test(value.toLowerCase()) || 'Email invalid'
+            },
+            listOfLinks: function(value){
+                let urls = value.split(',');
+                let valid = true;
+                for(let idx in urls){
+                    let url = urls[idx].trim();
+                    if(url.length<1)
+                        continue;
+                    if(url==='localhost' || url==='127.0.0.1')
+                        valid = valid && true;
+                    else{
+                        let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
+                        if(!urlValid)
+                            return url+' is not a valid domain name';
+                        valid = valid && urlValid;
+
+                    }
+                }
+                return valid || 'Not all urls are valid'
+            },
+            requiredIf: function(value){
+                //todo find a way to refer to 'this'
+
+
+                if(this.website.recaptcha)
+                    return !(value===undefined || value === null || value==='') || "This field is required";
+                else
+                    return true;
             }
 
         },

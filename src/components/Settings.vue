@@ -12,7 +12,7 @@
 
                             <v-card-text class="pa-4">
 
-                                <v-form v-model="formValidModel" @submit.prevent="">
+                                <v-form v-model="formValidModel" ref="form" @submit.prevent="">
 
                                     <div style="width:100%; text-align:left">
                                         <span class="display-1 deep-purple--text bold">Website details</span><br>
@@ -29,14 +29,14 @@
                                             label="Website Name"
                                             v-model="websiteDetailsModel.alias"
                                             v-on:keyup="onWebsiteModelChanged"
-                                            :rules="[rules.min3]" required
+                                            :rules="[min3]" required
                                     ></v-text-field>
                                     <v-text-field
                                             prepend-icon="assignment"
                                             label="Website Urls (Separated by commas)"
                                             v-model="websiteDetailsModel.url"
                                             v-on:keyup="onWebsiteModelChanged"
-                                            :rules="[rules.min3, rules.listOfLinks]" required=""
+                                            :rules="[min3, listOfLinks]" required=""
 
                                     ></v-text-field>
 
@@ -55,11 +55,13 @@
                                                 prepend-icon="assignment"
                                                 label="Site key"
                                                 v-model="websiteDetailsModel.sitekey"
+                                                :rules="[requiredIf]"
                                                 v-on:keyup="onWebsiteModelChanged"
                                         ></v-text-field>
                                         <v-text-field
                                                 prepend-icon="assignment"
                                                 label="Secret"
+                                                :rules="[requiredIf]"
                                                 v-model="websiteDetailsModel.secret"
                                                 v-on:keyup="onWebsiteModelChanged"
 
@@ -86,16 +88,23 @@
                                                     label="Alias"
                                                     v-model="contact.alias"
                                                     v-on:keyup="onWebsiteModelChanged"
+                                                    :rules="[min3]"
                                             ></v-text-field>
                                         </v-flex>
 
-                                        <v-flex xs7 class="pa-2">
+                                        <v-flex xs6 class="pa-2">
                                             <v-text-field
 
                                                     label="Email"
-                                                    v-model="contact.email"
+                                                    v-model="contact.email" :rules="[email, min3]"
                                                     v-on:keyup="onWebsiteModelChanged"
                                             ></v-text-field>
+                                        </v-flex>
+
+                                        <v-flex xs1 class="pt-3">
+                                            <v-btn color="primary lighten-1" fab small  dark v-on:click="removeContact(index)"  v-if="index!==0">
+                                                <v-icon>delete_outline</v-icon>
+                                            </v-btn>
                                         </v-flex>
 
 
@@ -146,47 +155,17 @@
                 websiteDetailsModel: {},
                 websiteModelChangePending: false,
                 formValidModel:false,
-                rules:{
-                    min3: v=> {
-                        if(v===undefined)
-                            return true;
-                        return v.length >= 3 || 'Field must have more than 3 characters'
-                    },
-                    listOfLinks: function(value){
-                        if(value===undefined)
-                            return true;
-                        let urls = value.split(',');
-                        let valid = true;
-                        for(let idx in urls){
-                            let url = urls[idx].trim();
-                            if(url.length<1)
-                                continue;
-                            if(url==='localhost' || url==='127.0.0.1')
-                                valid = valid && true;
-                            else{
-                                let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
-                                if(!urlValid)
-                                    return url+' is not a valid domain name';
-                                valid = valid && urlValid;
 
-                            }
-                        }
-                        return valid || 'Not all urls are valid'
-                    },
-                    email: function(value) {
-                        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                        return re.test(value.toLowerCase()) || 'Email invalid'
-                    }
-
-                }
             }
         },
         methods: {
             addContact: function () {
 
-                this.websiteDetailsModel.contacts.push({alias: "", email: ""})
+                this.websiteDetailsModel.contacts.push({alias: "", email: ""});
+                this.onWebsiteModelChanged();
             },
             onWebsiteModelChanged: function () {
+                this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
                 let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'url', 'contacts'];
                 let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props,['alias','email']);
@@ -196,12 +175,65 @@
 
             },
             onSavePressed: function () {
+                this.$refs.form.validate();
+
+                if(this.formValidModel)
+                    this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
 
 
-                console.log(this.websiteDetailsModel);
+            },
+            removeContact: function(index){
+              this.websiteDetailsModel.contacts.splice(index,1);
+              this.onWebsiteModelChanged();
+            },
+            //RULES
+            min3: v=> {
+                if(v===undefined)
+                    return true;
+                return v.length >= 3 || 'Field must have more than 3 characters'
+            },
+            listOfLinks: function(value){
+                if(value===undefined)
+                    return true;
+                let urls = value.split(',');
+                let valid = true;
+                for(let idx in urls){
+                    let url = urls[idx].trim();
+                    if(url.length<1)
+                        continue;
+                    if(url==='localhost' || url==='127.0.0.1')
+                        valid = valid && true;
+                    else{
+                        let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
+                        if(!urlValid)
+                            return url+' is not a valid domain name';
+                        valid = valid && urlValid;
 
-                this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
+                    }
+                }
+                return valid || 'Not all urls are valid'
+            },
+            email: function(value) {
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                if(value===undefined)
+                    return true;
+
+                if(value.length<1)
+                    return true;
+
+                return re.test(value.toLowerCase()) || 'Email invalid'
+            },
+            requiredIf: function(value){
+                //todo find a way to refer to 'this'
+
+
+                if(this.websiteDetailsModel.recaptcha)
+                    return !(value===undefined || value === null || value==='') || "This field is required";
+                else
+                    return true;
             }
+            //RULES
 
         },
         watch: {
@@ -210,6 +242,10 @@
             },
             'currentWebsite': function(){
                 this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
+                this.$refs.form.validate();
+                this.websiteModelChangePending = false;
+                this.$store.commit("setPendingModification", false);
+
             }
         },
         computed: {
