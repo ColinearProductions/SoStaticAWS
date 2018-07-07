@@ -9,6 +9,9 @@ import Authenticate from './components/Authentication/Authenticate'
 import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
 import Recover from './components/Authentication/Recover'
+import Messages from './components/Messages'
+
+
 Vue.use(Router);
 
 export default new Router({
@@ -27,6 +30,10 @@ export default new Router({
                 path: '/app/settings',
                 name: 'Settings',
                 component: Settings
+            },{
+                path: '/app/messages',
+                name: 'Messages',
+                component: Messages
             }
             ]
 

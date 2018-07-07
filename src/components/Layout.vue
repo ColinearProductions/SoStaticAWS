@@ -48,7 +48,7 @@
 
 
         <v-content>
-            <v-container fluid fill-height>
+            <v-container fluid>
                 <router-view ></router-view>
             </v-container>
         </v-content>
@@ -80,7 +80,7 @@
                 items: [
 
                     {icon: 'assignment', text: 'Forms', to: "/app/forms"},
-                    {icon: 'insert_comment', text: 'Messages'},
+                    {icon: 'insert_comment', text: 'Messages', to: "/app/messages"},
                     {icon: 'settings', text: 'Settings', to:"/app/settings"},
                     {icon: 'code', text: 'Documentation'},
                     {icon: 'assignment', text: 'About'},
