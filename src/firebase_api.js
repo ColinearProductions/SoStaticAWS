@@ -88,12 +88,57 @@ function updateForm(websiteId, form_key, update_data, callback) {
     });
 }
 
-function updateWebste(update_data, callback){
-    firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/websites/'+update_data.key).set(update_data).then(callback);
+function updateWebste(update_data, callback) {
+    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + update_data.key).set(update_data).then(callback);
 }
 
+/*
+function pullMessages(start_date, end_date, websiteId, formId, showAmount, firstPageCallback, completeCallback) {
 
-export {login, register, getWebsitesOfUser, addWebsite, logout, getWebsitesById, addFormToWebsite, updateForm, updateWebste}
+    let query = firebase.firestore().collection('messages')
+        .where('userId', '==', firebase.auth().currentUser.uid)
+        .where("addedOn", "<=", end_date)
+        .where("addedOn", ">=", start_date)
+        .where("websiteId", "==", websiteId);
+
+    if (formId !== "-1")
+        query = query.where("formId", "==", formId);
+
+    query = query.orderBy("addedOn", "desc");
+
+
+    if (showAmount > 0) {
+        query = query.limit(showAmount);
+    }
+
+
+    query.get().then((snapshot) => {
+
+        let res = snapshot.docs.map((doc) => {
+            let d = doc.data();
+            d.key = doc.id;
+
+            return d;
+        });
+
+        firstPageCallback(res);
+    });
+
+
+} */
+
+
+export {
+    login,
+    register,
+    getWebsitesOfUser,
+    addWebsite,
+    logout,
+    getWebsitesById,
+    addFormToWebsite,
+    updateForm,
+    updateWebste
+}
 
 
 function snapshotToArray(snapshot) {

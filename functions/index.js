@@ -16,7 +16,7 @@ const mailtransport = nodemailer.createTransport(
     'smtps://' + gmailUsername + ':' + gmailPassword + '@smtp.gmail.com');
 
 
-const pathToTemplate = "https://sostatic.xyz/email/inlined.html";
+const pathToTemplate = "https://sostatic.xyz/email.html";
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,12 +31,16 @@ let firestore = admin.firestore();
 app.post("/:endpointId", (request, response) => {
     let endpointId = request.params['endpointId'];
 
+    console.log(endpointId);
+
     let postParams = request.body;
 
 
+    let ref = db.ref('/endpoints/'+endpointId);
 
-    db.ref('/endpoints/' + endpointId).once('value').then(endpointSnapshot => {
+    ref.once('value').then(function(endpointSnapshot) {
 
+        console.log("*****************");
         console.log(endpointSnapshot.val());
         let formId = endpointSnapshot.val().form;
         let websiteId = endpointSnapshot.val().website;

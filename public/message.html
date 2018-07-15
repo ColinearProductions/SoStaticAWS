@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>reCAPTCHA demo: Simple page</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+<form action="https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/-LGkv90_ntmQzwM0O_JS" method="POST">
+    <label>
+        Name
+        <input type="text" name="name">
+    </label>
+    <label>
+        Email
+        <input type="text" name="email">
+    </label>
+    <label> Message
+        <textarea name="message" placeholder="Your message"></textarea>
+    </label>
+
+    <input type="submit" value="Submit">
+</form>
+
+</body>

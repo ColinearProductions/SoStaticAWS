@@ -14,7 +14,6 @@
             <v-card-text class="pa-4">
 
 
-
                 <p class="deep-purple--text bold mb-1">
                     Messages {{form.message_count}}/300 <a class="deep-purple--text text--lighten-3">(Read)</a>
                 </p>
@@ -23,22 +22,23 @@
                 <p class="deep-purple--text bold mb-2">
                     ReCAPTCHA
                     <br>
-                    <small  v-bind:class="{ 'red--text': !form.recaptcha, 'green--text':form.recaptcha}" >
+                    <small v-bind:class="{ 'red--text': !form.recaptcha, 'green--text':form.recaptcha}">
                         {{form.recaptcha?'Enabled':'Disabled'}}
                     </small>
 
                 <p class="deep-purple--text bold mb-1">
-                   <v-icon class="deep-purple--text">http</v-icon> Endpoint:
+                    <v-icon class="deep-purple--text">http</v-icon>
+                    Endpoint:
                 </p>
 
-                <p class="deep-purple--text text-lighten-2 deep-purple lighten-5 pa-2 " style="width:100%" >
-                    <span class="caption">https://sostatic.xyz/</span> -L9edJSb7hRIAXHyL8T3
+                <p @click="onEndpointClicked" class="deep-purple--text text-lighten-2 deep-purple lighten-5 pa-2 "
+                   style="cursor: pointer;width:100%">
+                    <span class="caption">{{shortEndpoint}}</span>
                 </p>
 
                 <a class="deep-purple--text bold">
                     Generate form boilerplate
                 </a>
-
 
 
             </v-card-text>
@@ -50,34 +50,46 @@
             </v-card-actions>
         </v-card>
     </v-flex>
-    
+
 </template>
 
 <script>
     import moment from 'moment'
+    const pathToFunction ="https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/";
+
     export default {
         name: "FormCard",
-        props:['form'],
-        computed:{
-            messagesProgress: function(){
-                return (this.form.message_count / 300)*100;
+        props: ['form'],
+        computed: {
+            messagesProgress: function () {
+                return (this.form.message_count / 300) * 100;
             },
-            formAddedOn:function(){
-                return moment(this.form.added_on).format("YYYY-MM-DD HH:mm") ;
+            formAddedOn: function () {
+                return moment(this.form.added_on).format("YYYY-MM-DD HH:mm");
+            },
+            shortEndpoint: function () {
+                return "https://us-central1-sostatic-1d381   ...   " + this.form.endpoint
             }
         },
-        methods:{
-           editForm: function (){
-
-               this.$emit('onEditFormClicked', this.form);
-           }
+        methods: {
+            editForm: function () {
+                this.$emit('onEditFormClicked', this.form);
+            },
+            onEndpointClicked: function () {
+                const el = document.createElement('textarea');
+                el.value = pathToFunction+this.form.endpoint;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            }
         }
     }
 </script>
 
 <style scoped>
-    .bold{
-        font-weight:bold;
+    .bold {
+        font-weight: bold;
     }
 
 

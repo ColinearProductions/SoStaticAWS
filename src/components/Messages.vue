@@ -1,12 +1,14 @@
 <template>
 
     <v-flex xs12>
-        <v-card >
+        <v-card>
             <v-layout align-content-center>
 
                 <v-flex md3 d-flex class="pl-5 pt-3 pb-0">
                     <v-select
-                            :items="items"
+                            :items="listOfForms"
+                            item-text="alias"
+                            item-value="id"
                             label="Standard"
                             outline
                     ></v-select>
@@ -36,7 +38,8 @@
                         <v-date-picker v-model="startDatePicker.date" no-title scrollable>
                             <v-spacer></v-spacer>
                             <v-btn flat color="primary" @click="startDatePicker.menu = false">Cancel</v-btn>
-                            <v-btn flat color="primary" @click="$refs.startDatePicker.save(startDatePicker.date)">OK</v-btn>
+                            <v-btn flat color="primary" @click="$refs.startDatePicker.save(startDatePicker.date)">OK
+                            </v-btn>
                         </v-date-picker>
                     </v-menu>
                 </v-flex>
@@ -71,12 +74,11 @@
                 </v-flex>
 
 
-
-                <v-flex md3 d-flex class="pl-5 pr-5 pt-3 pb-0" >
+                <v-flex md3 d-flex class="pl-5 pr-5 pt-3 pb-0">
                     <v-btn depressed large color="primary lighten-1" class="pr-3">
                         <v-icon dark class="pr-3">filter_list</v-icon>
                         Filter
-                        </v-btn>
+                    </v-btn>
 
                 </v-flex>
 
@@ -93,19 +95,37 @@
         name: "Messages",
         data: function () {
             return {
-                items: ['1', '2', '3'],
-                startDatePicker:{
+
+                startDatePicker: {
                     date: null,
                     menu: false,
                     modal: false
                 },
-                endDatePicker:{
+                endDatePicker: {
                     date: null,
                     menu: false,
                     modal: false
                 }
 
 
+            }
+        },
+        computed: {
+            listOfForms: function () {
+                let formsList = Object.values(this.currentWebsite.forms);
+                let res = [];
+                res.push({'id':-1,'alias':'All' });
+                for(let i =0; i<formsList.length;i++){
+                    res.push({'id':formsList[i].key,'alias':formsList[i].alias })
+                }
+
+
+
+                return res;
+
+            },
+            currentWebsite: function () {
+                return this.$store.getters.currentWebsite;
             }
         }
     }
