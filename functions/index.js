@@ -27,29 +27,71 @@ let db = admin.database();
 
 let firestore = admin.firestore();
 
+const VERSION = 'Version'+'6';
 
 app.post("/:endpointId", (request, response) => {
+
+    console.log(VERSION);
+
     let endpointId = request.params['endpointId'];
 
-    console.log(endpointId);
+    console.log("Received message for "+endpointId);
 
     let postParams = request.body;
+    let task = {
+        endpointId:endpointId,
+        requestProtocol:request.protocol,
+        requestHost:request.get('origin').split(":")[0], //todo get rid of the host concept, no enforcement at all, just for descriptive purpuses
+        message:postParams
+    };
+
+    response.send(task);
+    return db.ref('/tasks').push(task).then(function(){
+        console.log('Created task:');
+    });
 
 
-    let ref = db.ref('/endpoints/'+endpointId);
 
-    ref.once('value').then(function(endpointSnapshot) {
+
+
+//todo redirect url
+
+});
+
+
+//todo IDEA
+//todo Management logic on firebase,
+//todo Endpoints logic on aws server
+
+
+const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, context) => {
+    console.log(VERSION);
+
+    console.log(" ON NEW TASK MOTHER FUKERRR");
+
+
+
+    let snapshotVal = snapshot.val();
+    let endpointId = snapshotVal.endpointId;
+    let message = snapshotVal.message;
+    let wasRequestHttps = snapshotVal.requestProtocol ==='https';
+    let requestHost = snapshotVal.requestHost;
+
+    //why would you assume the endpoint exists?
+    return  db.ref('/endpoints/'+endpointId).once('value').then(function (endpointSnapshot) {
 
         console.log("*****************");
         console.log(endpointSnapshot.val());
+
         let formId = endpointSnapshot.val().form;
         let websiteId = endpointSnapshot.val().website;
         let userId = endpointSnapshot.val().user;
 
 
         //read website configuration
-        db.ref('/users/'+userId+'/websites/' + websiteId).once('value').then(websiteSnapshot => {
+        return db.ref('/users/' + userId + '/websites/' + websiteId).once('value').then(websiteSnapshot => {
 
+            console.log("GOT HERE 1111");
             let websiteConfig = websiteSnapshot.val();
             websiteConfig.key = websiteId;
 
@@ -57,17 +99,17 @@ app.post("/:endpointId", (request, response) => {
             formConfig.key = formId;
 
 
-            if (websiteConfig.httpsOnly && request.protocol !== 'https')
+            if (websiteConfig.httpsOnly && !wasRequestHttps)
                 console.log("Website expected https, dropping request");
 
-            if (websiteConfig.url !== request.get('host').split(":")[0])
+            if (websiteConfig.url !== requestHost)
                 console.log("Website defined domain does not match source domain of request, dropping request");
 
             if (formConfig.recaptcha)
-                //websiteConfig.secret,
-                validateRecaptcha(postParams, websiteConfig, formConfig);
+            //websiteConfig.secret,
+                validateRecaptcha(message, websiteConfig, formConfig);
             else {
-                onValidMessage(postParams, websiteConfig, formConfig, userId)
+                onValidMessage(message, websiteConfig, formConfig, userId)
             }
 
 
@@ -78,16 +120,10 @@ app.post("/:endpointId", (request, response) => {
         });
 
     });
-    let messageObj = request.body;
-    response.send(messageObj)
-
-
-//todo redirect url
-
 });
 
 
-function validateRecaptcha( postParams, websiteConfig, formConfig, userId) {
+function validateRecaptcha(postParams, websiteConfig, formConfig, userId) {
     console.log("Validating recaptcha");
     requestPromise({
         uri: recaptchaValidationURL,
@@ -111,6 +147,7 @@ function validateRecaptcha( postParams, websiteConfig, formConfig, userId) {
 
 function onValidMessage(postParams, websiteConfig, formConfig, userId) {
 
+    console.log("On Valid message");
     delete postParams['g-recaptcha-response'];
 
     loadTemplate(postParams, websiteConfig, formConfig);
@@ -121,7 +158,6 @@ function onValidMessage(postParams, websiteConfig, formConfig, userId) {
     message.websiteId = websiteConfig.key;
     message.userId = userId;
     message.data = postParams;
-
 
 
     return firestore.collection('messages').add(message);
@@ -138,7 +174,6 @@ function loadTemplate(postParams, websiteConfig, formConfig) {
                 entries.push({key: key, value: postParams[key]});
 
         console.log(postParams);
-
 
 
         let emailData = {
@@ -161,7 +196,7 @@ function loadTemplate(postParams, websiteConfig, formConfig) {
 function emailMessage(html, websiteConfig) {
 
 
-    if(websiteConfig.contacts === undefined)
+    if (websiteConfig.contacts === undefined)
         return;
 
     let email = objToArray(websiteConfig.contacts)[0].email;
@@ -178,7 +213,7 @@ function emailMessage(html, websiteConfig) {
     return mailtransport.sendMail(mailOptions).then(() => {
         console.log('New welcome email sent to:', email);
     }).catch((resolve, reject) => {
-        console.log(resolve);
+        console.log("(((", resolve);
         console.log(reject);
 
     });
@@ -237,7 +272,5 @@ const onUserCreated = functions.auth.user().onCreate((user) => {
 const endpoint = functions.https.onRequest(app);
 
 module.exports = {
-    endpoint,
-    onUserCreated: onUserCreated,
-  //  onFormCreated: onFormCreated
+    endpoint, onUserCreated,onNewTask
 };
