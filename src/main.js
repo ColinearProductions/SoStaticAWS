@@ -8,7 +8,7 @@ import 'vuetify/dist/vuetify.min.css'
 
 import Vuetify from 'vuetify'
 
-
+import VueHighlightJS from 'vue-highlightjs'
 
 
 
@@ -25,7 +25,7 @@ Vue.use(Vuetify, {
     }
 );
 
-
+Vue.use(VueHighlightJS);
 Vue.use(VeeValidate);
 
 Vue.config.productionTip = false;

@@ -12,13 +12,17 @@ let recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/sitever
 
 const gmailUsername = "sostatic.xyz";
 const gmailPassword = "jQ6sbEu3";
-const mailtransport = nodemailer.createTransport(
-    'smtps://' + gmailUsername + ':' + gmailPassword + '@smtp.gmail.com');
+//const mailtransport = nodemailer.createTransport('smtps://' + gmailUsername + ':' + gmailPassword + '@smtp.gmail.com');
+const mailtransport = nodemailer.createTransport({service:'gmail',auth:{user:gmailUsername,pass:gmailPassword}});
 
 
-const pathToTemplate = "https://sostatic.xyz/email.html";
+const pathToTemplate = "https://firebasestorage.googleapis.com/v0/b/sostatic-1d381.appspot.com/o/inlined.html?alt=media&token=7160622a-335e-4028-aed3-f2bd3caa8859";
 
 const app = express();
+
+
+
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -102,15 +106,12 @@ const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, 
             if (websiteConfig.httpsOnly && !wasRequestHttps)
                 console.log("Website expected https, dropping request");
 
-            if (websiteConfig.url !== requestHost)
-                console.log("Website defined domain does not match source domain of request, dropping request");
 
             if (formConfig.recaptcha)
-            //websiteConfig.secret,
                 validateRecaptcha(message, websiteConfig, formConfig);
-            else {
+            else
                 onValidMessage(message, websiteConfig, formConfig, userId)
-            }
+
 
 
         }).catch((ex) => {
@@ -150,7 +151,7 @@ function onValidMessage(postParams, websiteConfig, formConfig, userId) {
     console.log("On Valid message");
     delete postParams['g-recaptcha-response'];
 
-    loadTemplate(postParams, websiteConfig, formConfig);
+    loadTemplatePromise(postParams, websiteConfig, formConfig);
 
     let message = {};
     message.formId = formConfig.key;
@@ -164,7 +165,15 @@ function onValidMessage(postParams, websiteConfig, formConfig, userId) {
 }
 
 function loadTemplate(postParams, websiteConfig, formConfig) {
+    console.log("Loading template");
     request(pathToTemplate, (error, response, body) => {
+        console.log("On request result");
+
+        console.log(error);
+        console.log(response);
+        console.log(body);
+
+
         let template = body;
         let entries = [];
 
@@ -191,10 +200,50 @@ function loadTemplate(postParams, websiteConfig, formConfig) {
 
         emailMessage(rendered, websiteConfig)
     });
+    console.log("Load template ended");
+}
+
+function loadTemplatePromise(postParams, websiteConfig, formConfig) {
+    console.log("Loading template");
+    requestPromise({uri:pathToTemplate,method:'GET'}).then(result=>{
+
+        console.log(result);
+
+
+        let template = result;
+        let entries = [];
+
+
+        for (let key in postParams)
+            if (postParams.hasOwnProperty(key))
+                entries.push({key: key, value: postParams[key]});
+
+        console.log(postParams);
+
+
+        let emailData = {
+            'alias': websiteConfig.alias,
+            'formAlias': formConfig.alias,
+            'entries': entries,
+            'websiteurl': websiteConfig.url,
+            'unsubscribeUrl': ""
+
+        };
+
+        console.log(emailData);
+        let rendered = Mustache.render(template, emailData);
+
+
+        emailMessage(rendered, websiteConfig)
+    });
+
+
+
+    console.log("Load template ended");
 }
 
 function emailMessage(html, websiteConfig) {
-
+    console.log("Email Message");
 
     if (websiteConfig.contacts === undefined)
         return;
@@ -229,28 +278,6 @@ function objToArray(obj) {
     });
 }
 
-/* moved on the client
-const onFormCreated = functions.database.ref('/users/{userId}/websites/{websiteId}/forms/{formId}').onCreate((snapshot, context) => {
-    console.log(context);
-    console.log(snapshot);
-
-    let formid = context.params.formId;
-    let websiteid = context.params.websiteId;
-    let userid = context.params.userId;
-
-
-
-    let endpointData = {form: formid, website: websiteid, user: userid};
-    console.log(endpointData);
-    let endpoint = db.ref('/endpoints').push(endpointData).key;
-
-    console.log(endpoint);
-
-
-
-    return db.ref(snapshot._path).update({endpoint: endpoint, key:formid})
-
-}); */
 
 
 const onUserCreated = functions.auth.user().onCreate((user) => {

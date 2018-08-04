@@ -108,7 +108,7 @@
                 formValidModel: false,
                 rules:{
                     min3: v=> v.length >= 3 || 'Field must have more than 3 characters',
-                    listOfLinks: function(value){
+                    listOfLinks: function(value){ //todo what about websites like .com.ro
                         let urls = value.split(',');
                         let valid = true;
                         for(let idx in urls){
