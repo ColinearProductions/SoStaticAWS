@@ -24,7 +24,7 @@
                 y: 'top',
                 x: null,
                 mode: '',
-                timeout: 3000,
+                timeout: 2000,
                 text: 'Hello, I\'m a snackbar'
             }
         },

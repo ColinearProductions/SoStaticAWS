@@ -144,6 +144,7 @@
 
             },
             showSnackbar(state, text) {
+                state.snackbarVisible = false;
                 state.snackbarText = text;
                 state.snackbarVisible = true;
             },

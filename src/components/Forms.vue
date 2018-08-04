@@ -12,23 +12,8 @@
 
 
 
-
-        <v-dialog v-model="!dialogModel.visible" width="800px">
-
-
-            <v-card class=" grey lighten-5 pa-2">
-                <pre v-highlightjs="sourcecode"><code class="html headline"></code></pre>
-
-                <v-btn flat color="primary" v-text="dialogModel.confirmButton">
-                    Create
-                </v-btn>
-            </v-card>
-        </v-dialog>
-
-
         <v-dialog v-model="dialogModel.visible" width="800px">
 
-            <pre v-highlightjs="sourcecode"><code class="html"></code></pre>
 
             <v-card>
                 <v-form v-model="formValidModel" ref="form" @submit.prevent="">
@@ -68,9 +53,13 @@
 
         </v-dialog>
 
+
     </v-layout>
 
+
+
 </template>
+
 
 <script>
     /* eslint-disable */
@@ -80,7 +69,7 @@
 
     export default {
         name: "Forms",
-        components: {FormCard},
+        components: { FormCard},
         data: function () {
             return {
                 dialogModel: {
@@ -90,15 +79,10 @@
                     aliasField: "",
                     confirmButton: "Create",
                     update: false,
-                    formToBeUpdatedId: ''
+                    formToBeUpdatedId: '',
+                    formToBeUpdated:null
                 },
-                formValidModel: false,
-                sourcecode:'<form>\n' +
-                '  First name:<br>\n' +
-                '  <input type="text" name="firstname"><br>\n' +
-                '  Last name:<br>\n' +
-                '  <input type="text" name="lastname">\n' +
-                '</form>'
+                formValidModel: false
 
             }
         },
@@ -113,9 +97,14 @@
                     return true;
 
                 Object.values(this.currentWebsite.forms).forEach((form)=>{
+                    if(this.dialogModel.formToBeUpdated!==null && this.dialogModel.formToBeUpdated.alias === v)
+                        return true;
+
+
+
                     if(v===form.alias)
                         res = false;
-                });
+                }); //todo it wont allow the change because there is a forrm with that name
                 return res || 'Form name must be unique to avoid confusion';
             },
             onAddFormConfirm: function () {
@@ -153,7 +142,8 @@
                     confirmButton: "Create",
                     aliasField: "",
                     update: false,
-                    formToBeUpdatedIdId: ''
+                    formToBeUpdatedIdId: '',
+                    formToBeUpdated:null
                 }
             },
             onEditFormClicked: function (form) {
@@ -164,7 +154,8 @@
                     confirmButton: "Confirm",
                     aliasField: form.alias,
                     update: true,
-                    formToBeUpdatedId: form.key
+                    formToBeUpdatedId: form.key,
+                    formToBeUpdated:form
                 }
             },
             deleteForm:function(form){

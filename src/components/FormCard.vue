@@ -1,6 +1,34 @@
 <template>
-
     <v-flex xs12 sm6 md6 lg4 class="pa-2">
+
+
+        <v-dialog v-model="dialog.visible" width="800px">
+
+
+            <v-card class=" grey lighten-5 pl-4 pt-4 pr-4">
+
+
+                <pre v-highlightjs="recaptchaScriptRefString" v-if="this.form.recaptcha"><code class="html subheading font-weight-regular"></code></pre>
+
+                <v-card-actions v-if="this.form.recaptcha">
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="onCopyRecaptchaRefClicked">Copy</v-btn>
+
+                </v-card-actions>
+
+                <pre v-highlightjs="sourceCode"><code class="html subheading font-weight-regular"></code></pre>
+
+                <v-card-actions>
+                    <v-btn flat color="primary" @click="dialog.visible = false">Close</v-btn>
+
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="onCopyFormCodeClicked">Copy</v-btn>
+
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
         <v-card>
             <v-card-title class="pb-0">
                 <div>
@@ -36,7 +64,7 @@
                     <span class="caption">{{shortEndpoint}}</span>
                 </p>
 
-                <a class="deep-purple--text bold">
+                <a class="deep-purple--text bold" v-on:click="onGenerateBoilerplateClicked">
                     Generate form boilerplate
                 </a>
 
@@ -49,17 +77,27 @@
 
             </v-card-actions>
         </v-card>
+
     </v-flex>
 
 </template>
 
 <script>
     import moment from 'moment'
-    const pathToFunction ="https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/";
+
+    const pathToFunction = "https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/";
 
     export default {
         name: "FormCard",
         props: ['form'],
+        data: function () {
+            return {
+                dialog: {
+                    visible: false
+                }
+
+            }
+        },
         computed: {
             messagesProgress: function () {
                 return (this.form.message_count / 300) * 100;
@@ -69,6 +107,35 @@
             },
             shortEndpoint: function () {
                 return "https://us-central1-sostatic-1d381   ...   " + this.form.endpoint
+            },
+            recaptchaScriptRefString: function () {
+                return `<script src="https://www.google.com/recaptcha/api.js" async defer><script>`;
+
+            },
+            currentWebsite: function () {
+                return this.$store.getters.currentWebsite;
+            },
+            sourceCode: function () {
+                let url = 'https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/-LGkv90_ntmQzwM0O_JS';
+
+                let recaptchaSiteKey='';
+                let recaptchaCode='';
+
+                if(this.form.recaptcha) {
+                    recaptchaSiteKey = this.currentWebsite.sitekey;
+                    recaptchaCode = `<div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}"></div>`;
+                }
+
+                return `<form action="${ url } " method="POST">
+    <label for="name">Name</label>
+        <input type="text" name="name">
+    <label for="email">Email  </label>
+        <input type="text" name="email">
+    <label for="message"> Message </label>
+        <textarea name="message" placeholder="Your message"></textarea>
+    ${recaptchaCode}
+    <input type="submit" value="Submit">
+</form>`;
             }
         },
         methods: {
@@ -76,12 +143,30 @@
                 this.$emit('onEditFormClicked', this.form);
             },
             onEndpointClicked: function () {
+                this.$store.commit("showSnackbar", "Endpoint copied to clipboard");
+                this.copyToClipboard(pathToFunction + this.form.endpoint);
+            },
+            onGenerateBoilerplateClicked: function () {
+                this.dialog.visible = true;
+            },
+            onCopyRecaptchaRefClicked: function(){
+                this.$store.commit("showSnackbar", "Recaptcha reference copied to clipboard");
+
+                this.copyToClipboard(this.recaptchaScriptRefString);
+            },
+            onCopyFormCodeClicked: function(){
+                this.$store.commit("showSnackbar", "Boilerplate code copied to clipboard");
+
+                this.copyToClipboard(this.sourceCode);
+            },
+            copyToClipboard(text){
                 const el = document.createElement('textarea');
-                el.value = pathToFunction+this.form.endpoint;
+                el.value = text;
                 document.body.appendChild(el);
                 el.select();
                 document.execCommand('copy');
                 document.body.removeChild(el);
+
             }
         }
     }
