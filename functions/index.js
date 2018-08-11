@@ -31,27 +31,31 @@ let db = admin.database();
 
 let firestore = admin.firestore();
 
-const VERSION = 'Version'+'6';
+
+const VERSION = 'Version'+'9';
+
+
+
+
 
 app.post("/:endpointId", (request, response) => {
 
-    console.log(VERSION);
 
     let endpointId = request.params['endpointId'];
 
-    console.log("Received message for "+endpointId);
-
-    let postParams = request.body;
     let task = {
         endpointId:endpointId,
         requestProtocol:request.protocol,
-        requestHost:request.get('origin').split(":")[0], //todo get rid of the host concept, no enforcement at all, just for descriptive purpuses
-        message:postParams
+        requestHost:request.get('origin'), //todo get rid of the host concept, no enforcement at all, just for descriptive purpuses
+        payload:request.body
     };
 
+    console.log("Received message on endpoint", endpointId);
+    console.log("---------------------- Creating task ----------------------");
+    console.log(task);
     response.send(task);
     return db.ref('/tasks').push(task).then(function(){
-        console.log('Created task:');
+        console.log("---------------------- Created task ----------------------");
     });
 
 
@@ -69,48 +73,52 @@ app.post("/:endpointId", (request, response) => {
 
 
 const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, context) => {
-    console.log(VERSION);
-
-    console.log(" ON NEW TASK MOTHER FUKERRR");
-
-
 
     let snapshotVal = snapshot.val();
     let endpointId = snapshotVal.endpointId;
-    let message = snapshotVal.message;
+    let payload = snapshotVal.payload;
     let wasRequestHttps = snapshotVal.requestProtocol ==='https';
     let requestHost = snapshotVal.requestHost;
 
-    //why would you assume the endpoint exists?
-    return  db.ref('/endpoints/'+endpointId).once('value').then(function (endpointSnapshot) {
 
-        console.log("*****************");
+    console.log("\n\n --- Processing new task --- \n\n");
+
+
+    return db.ref('/endpoints/'+endpointId).once('value').then(function (endpointSnapshot) {
+
+        console.log("-------- Endpoint data --------");
         console.log(endpointSnapshot.val());
+        console.log("-------------------------------\n\n");
 
         let formId = endpointSnapshot.val().form;
         let websiteId = endpointSnapshot.val().website;
         let userId = endpointSnapshot.val().user;
 
-
         //read website configuration
         return db.ref('/users/' + userId + '/websites/' + websiteId).once('value').then(websiteSnapshot => {
 
-            console.log("GOT HERE 1111");
             let websiteConfig = websiteSnapshot.val();
             websiteConfig.key = websiteId;
-
             let formConfig = websiteConfig.forms[formId];
             formConfig.key = formId;
 
+            console.log("------------- On website configuration loaded -------------");
+            console.log(websiteConfig);
+            console.log("-----------------------------------------------------------\n\n\n");
 
-            if (websiteConfig.httpsOnly && !wasRequestHttps)
-                console.log("Website expected https, dropping request");
+
+            if (websiteConfig.httpsOnly && !wasRequestHttps) {
+                console.err(">>>>>>>>>> Website expected https, dropping request");
+            }
 
 
-            if (formConfig.recaptcha)
-                validateRecaptcha(message, websiteConfig, formConfig);
+            if (formConfig.recaptcha) {
+                if(payload['g-recaptcha-response']===undefined) //form requires recaptcha, but no recapcha field has been received
+                    return;
+                validateRecaptcha(payload, websiteConfig, formConfig, userId);
+            }
             else
-                onValidMessage(message, websiteConfig, formConfig, userId)
+                storeMessage(payload, websiteConfig, formConfig, userId)
 
 
 
@@ -125,7 +133,7 @@ const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, 
 
 
 function validateRecaptcha(postParams, websiteConfig, formConfig, userId) {
-    console.log("Validating recaptcha");
+
     requestPromise({
         uri: recaptchaValidationURL,
         method: 'POST',
@@ -135,23 +143,27 @@ function validateRecaptcha(postParams, websiteConfig, formConfig, userId) {
         },
         json: true
     }).then(result => {
+        console.log("***",result);
         if (result.success) {
             console.log("Recaptcha matched successfully");
-            emailMessage(postParams, websiteConfig, formConfig);
-            onValidMessage(postParams, websiteConfig, formConfig, userId)
+            //todo add field that it has been validated
+            sendEmail(postParams, websiteConfig, formConfig);
+            storeMessage(postParams, websiteConfig, formConfig, userId)
         } else
             console.log("Recaptcha validation failed, dropping message")
-
+            //todo save message but without email, and mark field as invalid
     });
 }
 
 
-function onValidMessage(postParams, websiteConfig, formConfig, userId) {
+//store message no matter what, if it is valid, also email it
+function storeMessage(postParams, websiteConfig, formConfig, userId,valid,failure_reason) {
 
     console.log("On Valid message");
     delete postParams['g-recaptcha-response'];
 
-    loadTemplatePromise(postParams, websiteConfig, formConfig);
+
+
 
     let message = {};
     message.formId = formConfig.key;
@@ -159,6 +171,10 @@ function onValidMessage(postParams, websiteConfig, formConfig, userId) {
     message.websiteId = websiteConfig.key;
     message.userId = userId;
     message.data = postParams;
+
+
+    if(valid)
+        onValidMessage(postParams, websiteConfig, formConfig);
 
 
     return firestore.collection('messages').add(message);
@@ -198,12 +214,12 @@ function loadTemplate(postParams, websiteConfig, formConfig) {
         let rendered = Mustache.render(template, emailData);
 
 
-        emailMessage(rendered, websiteConfig)
+        sendEmail(rendered, websiteConfig)
     });
     console.log("Load template ended");
 }
 
-function loadTemplatePromise(postParams, websiteConfig, formConfig) {
+function onValidMessage(postParams, websiteConfig, formConfig) {
     console.log("Loading template");
     requestPromise({uri:pathToTemplate,method:'GET'}).then(result=>{
 
@@ -234,7 +250,7 @@ function loadTemplatePromise(postParams, websiteConfig, formConfig) {
         let rendered = Mustache.render(template, emailData);
 
 
-        emailMessage(rendered, websiteConfig)
+        sendEmail(rendered, websiteConfig)
     });
 
 
@@ -242,7 +258,7 @@ function loadTemplatePromise(postParams, websiteConfig, formConfig) {
     console.log("Load template ended");
 }
 
-function emailMessage(html, websiteConfig) {
+function sendEmail(html, websiteConfig) {
     console.log("Email Message");
 
     if (websiteConfig.contacts === undefined)

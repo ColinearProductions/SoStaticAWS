@@ -1,4 +1,7 @@
 import firebase from 'firebase'
+import 'firebase/firestore';
+const settings = {/* your settings... */ timestampsInSnapshots: true};
+
 
 let config = {
     apiKey: "AIzaSyDOpoNcoeSWE8weaKuT8DvMWt2qSTok11k",
@@ -10,6 +13,7 @@ let config = {
 };
 
 firebase.initializeApp(config);
+firebase.firestore().settings(settings);
 
 
 function logout() {
@@ -92,6 +96,36 @@ function updateWebste(update_data, callback) {
     firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + update_data.key).set(update_data).then(callback);
 }
 
+
+
+function pullMessages(websiteId, formId, start_date, end_date, callback) {
+    console.log("pulling messages",websiteId,formId,new Date(start_date),new Date(end_date));
+
+
+
+
+    let query = firebase.firestore().collection('messages')
+      //  .where('userId', '==', firebase.auth().currentUser.uid)
+     //   .where("addedOn", "<=", new Date(end_date))
+      //  .where("addedOn", ">=",new Date(start_date))
+     //   .where("websiteId", "==", websiteId);
+   // if (formId !== "-1")
+     //   query = query.where("formId", "==", formId);
+
+    query.get().then((snapshot) => {
+
+        let res = snapshot.docs.map((doc) => {
+            let d = doc.data();
+            d.key = doc.id;
+
+            return d;
+        });
+
+
+        callback(res);
+    });
+}
+
 /*
 function pullMessages(start_date, end_date, websiteId, formId, showAmount, firstPageCallback, completeCallback) {
 
@@ -137,7 +171,8 @@ export {
     getWebsitesById,
     addFormToWebsite,
     updateForm,
-    updateWebste
+    updateWebste,
+    pullMessages
 }
 
 

@@ -9,8 +9,7 @@
                             :items="listOfForms"
                             item-text="alias"
                             item-value="id"
-                            v-model="selectedForm"
-                            label="Form"
+                            label="Standard"
                             outline
                     ></v-select>
                 </v-flex>
@@ -32,7 +31,7 @@
                         <v-text-field
                                 slot="activator"
                                 v-model="startDatePicker.date"
-                                label="Starting from"
+                                label="Picker in menu"
                                 prepend-icon="event"
                                 readonly
                         ></v-text-field>
@@ -62,7 +61,7 @@
                         <v-text-field
                                 slot="activator"
                                 v-model="endDatePicker.date"
-                                label="Until"
+                                label="Picker in menu"
                                 prepend-icon="event"
                                 readonly
                         ></v-text-field>
@@ -76,9 +75,9 @@
 
 
                 <v-flex md3 d-flex class="pl-5 pr-5 pt-3 pb-0">
-                    <v-btn depressed large color="primary lighten-1" @click="onDownloadPressed" class="pr-3">
-                        <v-icon dark class="pr-3">cloud_download</v-icon>
-                        Download
+                    <v-btn depressed large color="primary lighten-1" class="pr-3">
+                        <v-icon dark class="pr-3">filter_list</v-icon>
+                        Filter
                     </v-btn>
 
                 </v-flex>
@@ -90,11 +89,15 @@
 </template>
 
 <script>
-    /* eslint-disable */
-    import moment from 'moment'
-    import zipcelx from 'zipcelx'
-    import * as api from '../firebase_api';
 
+
+    //todo
+    //todo
+    //todo
+    //Maybe in the future have an interface for filtering messages and displaying them in the interface
+
+
+    /* eslint-disable */
 
     export default {
         name: "Messages",
@@ -102,16 +105,15 @@
             return {
 
                 startDatePicker: {
-                    date: moment().subtract(120, 'months').format("YYYY-MM-DD"),
+                    date: null,
                     menu: false,
                     modal: false
                 },
                 endDatePicker: {
-                    date: moment().format("YYYY-MM-DD"),
+                    date: null,
                     menu: false,
                     modal: false
-                },
-                selectedForm:-1
+                }
 
 
             }
@@ -133,22 +135,8 @@
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
             }
-        },
-        methods:{
-            onDownloadPressed: function(){
-
-                let that = this;
-
-                api.pullMessages(this.currentWebsite.key,this.selectedForm,this.startDatePicker.date,this.endDatePicker.date, function(res){
-
-                });
-
-
-
-            }
         }
     }
-
 </script>
 
 <style scoped>

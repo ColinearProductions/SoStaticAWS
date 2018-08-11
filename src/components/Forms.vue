@@ -97,14 +97,12 @@
                     return true;
 
                 Object.values(this.currentWebsite.forms).forEach((form)=>{
+                    // if the form didnt change name
                     if(this.dialogModel.formToBeUpdated!==null && this.dialogModel.formToBeUpdated.alias === v)
                         return true;
-
-
-
                     if(v===form.alias)
                         res = false;
-                }); //todo it wont allow the change because there is a forrm with that name
+                });
                 return res || 'Form name must be unique to avoid confusion';
             },
             onAddFormConfirm: function () {
