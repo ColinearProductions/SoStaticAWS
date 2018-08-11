@@ -80,15 +80,17 @@ const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, 
     let wasRequestHttps = snapshotVal.requestProtocol ==='https';
     let requestHost = snapshotVal.requestHost;
 
-
-    console.log("\n\n --- Processing new task --- \n\n");
+    printBreak();
+    console.log("--- Processing new task ---");
+    printBreak();
 
 
     return db.ref('/endpoints/'+endpointId).once('value').then(function (endpointSnapshot) {
 
         console.log("-------- Endpoint data --------");
         console.log(endpointSnapshot.val());
-        console.log("-------------------------------\n\n");
+        console.log("-------------------------------");
+        printBreak();
 
         let formId = endpointSnapshot.val().form;
         let websiteId = endpointSnapshot.val().website;
@@ -104,21 +106,22 @@ const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, 
 
             console.log("------------- On website configuration loaded -------------");
             console.log(websiteConfig);
-            console.log("-----------------------------------------------------------\n\n\n");
+            console.log("-----------------------------------------------------------");
+            printBreak();
 
 
             if (websiteConfig.httpsOnly && !wasRequestHttps) {
-                console.err(">>>>>>>>>> Website expected https, dropping request");
+                storeMessage(payload, websiteConfig, formConfig, userId, requestHost,false,"Request did not come from a secure source (no HTTPS)");
+                console.error(">>>>>>>>>> Website expected https, dropping request");
             }
 
 
             if (formConfig.recaptcha) {
                 if(payload['g-recaptcha-response']===undefined) //form requires recaptcha, but no recapcha field has been received
-                    return;
-                validateRecaptcha(payload, websiteConfig, formConfig, userId);
-            }
-            else
-                storeMessage(payload, websiteConfig, formConfig, userId)
+                    storeMessage(payload, websiteConfig, formConfig, userId, requestHost,false,'Missing recaptcha field');
+                validateRecaptcha(payload, websiteConfig, formConfig, userId, requestHost);
+            }else
+                storeMessage(payload, websiteConfig, formConfig, userId, requestHost,true)
 
 
 
@@ -132,7 +135,7 @@ const onNewTask = functions.database.ref('/tasks/{taskId}').onCreate((snapshot, 
 });
 
 
-function validateRecaptcha(postParams, websiteConfig, formConfig, userId) {
+function validateRecaptcha(postParams, websiteConfig, formConfig, userId, requestHost) {
 
     requestPromise({
         uri: recaptchaValidationURL,
@@ -147,95 +150,64 @@ function validateRecaptcha(postParams, websiteConfig, formConfig, userId) {
         if (result.success) {
             console.log("Recaptcha matched successfully");
             //todo add field that it has been validated
-            sendEmail(postParams, websiteConfig, formConfig);
-            storeMessage(postParams, websiteConfig, formConfig, userId)
-        } else
-            console.log("Recaptcha validation failed, dropping message")
-            //todo save message but without email, and mark field as invalid
+            onValidMessage(postParams, websiteConfig, formConfig);
+            storeMessage(postParams, websiteConfig, formConfig, userId, requestHost,true)
+        } else {
+            console.log("Recaptcha validation failed, dropping message");
+            storeMessage(postParams, websiteConfig, formConfig, userId, requestHost, false, "Invalid recaptcha")
+        }
+        //todo save message but without email, and mark field as invalid
     });
 }
 
 
 //store message no matter what, if it is valid, also email it
-function storeMessage(postParams, websiteConfig, formConfig, userId,valid,failure_reason) {
+function storeMessage(payload, websiteConfig, formConfig, userId,requestHost, valid,failure_reason) {
 
     console.log("On Valid message");
-    delete postParams['g-recaptcha-response'];
+    delete payload['g-recaptcha-response'];
 
 
 
 
     let message = {};
-    message.formId = formConfig.key;
-    message.addedOn = admin.firestore.FieldValue.serverTimestamp();
-    message.websiteId = websiteConfig.key;
+    message.timestamp = admin.firestore.FieldValue.serverTimestamp();
+    message.form_id = formConfig.key;
+    message.form_name = formConfig.alias;
+    message.website_id = websiteConfig.key;
+    message.website_name =websiteConfig.alias;
+    message.sent_to  = websiteConfig.contacts;
     message.userId = userId;
-    message.data = postParams;
+    message.payload = payload;
+    message.source_website = requestHost;
+    message.valid=valid;
 
 
     if(valid)
-        onValidMessage(postParams, websiteConfig, formConfig);
+        onValidMessage(payload, websiteConfig, formConfig);
+    else
+        message.failure_reason=failure_reason;
 
 
     return firestore.collection('messages').add(message);
 }
 
-function loadTemplate(postParams, websiteConfig, formConfig) {
-    console.log("Loading template");
-    request(pathToTemplate, (error, response, body) => {
-        console.log("On request result");
-
-        console.log(error);
-        console.log(response);
-        console.log(body);
 
 
-        let template = body;
-        let entries = [];
+function onValidMessage(payload, websiteConfig, formConfig) {
+    console.log("Loading template...............");
 
-
-        for (let key in postParams)
-            if (postParams.hasOwnProperty(key))
-                entries.push({key: key, value: postParams[key]});
-
-        console.log(postParams);
-
-
-        let emailData = {
-            'alias': websiteConfig.alias,
-            'formAlias': formConfig.alias,
-            'entries': entries,
-            'websiteurl': websiteConfig.url,
-            'unsubscribeUrl': ""
-
-        };
-
-        console.log(emailData);
-        let rendered = Mustache.render(template, emailData);
-
-
-        sendEmail(rendered, websiteConfig)
-    });
-    console.log("Load template ended");
-}
-
-function onValidMessage(postParams, websiteConfig, formConfig) {
-    console.log("Loading template");
     requestPromise({uri:pathToTemplate,method:'GET'}).then(result=>{
 
-        console.log(result);
+        console.log("Template loaded Successfully");
 
 
         let template = result;
         let entries = [];
 
-
-        for (let key in postParams)
-            if (postParams.hasOwnProperty(key))
-                entries.push({key: key, value: postParams[key]});
-
-        console.log(postParams);
-
+        for (let key in payload)
+            if (payload.hasOwnProperty(key))
+                entries.push({key: key, value: payload[key]});
 
         let emailData = {
             'alias': websiteConfig.alias,
@@ -245,10 +217,13 @@ function onValidMessage(postParams, websiteConfig, formConfig) {
             'unsubscribeUrl': ""
 
         };
-
-        console.log(emailData);
         let rendered = Mustache.render(template, emailData);
 
+
+        printBreak();
+        console.log("-------- Payload parsed: --------");
+        console.log(emailData);
+        console.log('---------------------------------');
 
         sendEmail(rendered, websiteConfig)
     });
@@ -258,11 +233,21 @@ function onValidMessage(postParams, websiteConfig, formConfig) {
     console.log("Load template ended");
 }
 
-function sendEmail(html, websiteConfig) {
-    console.log("Email Message");
+function printBreak(){
+    console.log('');
+    console.log('');
+    console.log('');
+}
 
-    if (websiteConfig.contacts === undefined)
+function sendEmail(html, websiteConfig) {
+
+
+    console.log('\n\n\n ------------ Sending Email -----------');
+
+    if (websiteConfig.contacts === undefined){
+        console.error('_ No contacts defined for this website');
         return;
+    }
 
     let email = objToArray(websiteConfig.contacts)[0].email;
     const mailOptions = {
@@ -276,10 +261,14 @@ function sendEmail(html, websiteConfig) {
 
 
     return mailtransport.sendMail(mailOptions).then(() => {
-        console.log('New welcome email sent to:', email);
+        console.log('\n\n\n\n************ EMAIL SENT SUCCESSFULLY *********');
+        console.log(email);
+        console.log('\n\n\n');
     }).catch((resolve, reject) => {
-        console.log("(((", resolve);
+        console.error('\n\n **** EMAIL FAILED TO SEND ***');
+        console.log(resolve);
         console.log(reject);
+        console.log("***************************");
 
     });
 

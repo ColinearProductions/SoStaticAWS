@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import 'firebase/firestore';
+
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 
 
@@ -97,20 +98,30 @@ function updateWebste(update_data, callback) {
 }
 
 
+function pullMessages(websiteId, form_id, start_date, end_date, only_valid, callback) {
+    console.log("pulling messages");
 
-function pullMessages(websiteId, formId, start_date, end_date, callback) {
-    console.log("pulling messages",websiteId,formId,new Date(start_date),new Date(end_date));
+    start_date = new Date(start_date);
+    end_date = new Date(end_date);
+    end_date.setDate(end_date.getDate()+1);
 
+    console.log(start_date);
+    console.log(end_date);
 
-
-
+    console.log(firebase.auth().currentUser.uid);
     let query = firebase.firestore().collection('messages')
-      //  .where('userId', '==', firebase.auth().currentUser.uid)
-     //   .where("addedOn", "<=", new Date(end_date))
-      //  .where("addedOn", ">=",new Date(start_date))
-     //   .where("websiteId", "==", websiteId);
-   // if (formId !== "-1")
-     //   query = query.where("formId", "==", formId);
+        .where('userId', '==', firebase.auth().currentUser.uid)
+        .where("timestamp", "<=",end_date )
+        .where("timestamp", ">=",start_date)
+        .where("website_id", "==", websiteId);
+
+
+    if(only_valid)
+        query = query.where("valid", "==", only_valid);
+
+
+    if (form_id != -1)
+        query = query.where("formId", "==", form_id);
 
     query.get().then((snapshot) => {
 
@@ -125,41 +136,6 @@ function pullMessages(websiteId, formId, start_date, end_date, callback) {
         callback(res);
     });
 }
-
-/*
-function pullMessages(start_date, end_date, websiteId, formId, showAmount, firstPageCallback, completeCallback) {
-
-    let query = firebase.firestore().collection('messages')
-        .where('userId', '==', firebase.auth().currentUser.uid)
-        .where("addedOn", "<=", end_date)
-        .where("addedOn", ">=", start_date)
-        .where("websiteId", "==", websiteId);
-
-    if (formId !== "-1")
-        query = query.where("formId", "==", formId);
-
-    query = query.orderBy("addedOn", "desc");
-
-
-    if (showAmount > 0) {
-        query = query.limit(showAmount);
-    }
-
-
-    query.get().then((snapshot) => {
-
-        let res = snapshot.docs.map((doc) => {
-            let d = doc.data();
-            d.key = doc.id;
-
-            return d;
-        });
-
-        firstPageCallback(res);
-    });
-
-
-} */
 
 
 export {

@@ -74,6 +74,13 @@
                     </v-menu>
                 </v-flex>
 
+                <v-flex md2 d-flex class="pl-5 pr-5 pt-4 pb-0">
+                    <v-checkbox
+                            label="Only valid"
+                            v-model="onlyValidCheckbox"
+                    ></v-checkbox>
+                </v-flex>
+
 
                 <v-flex md3 d-flex class="pl-5 pr-5 pt-3 pb-0">
                     <v-btn depressed large color="primary lighten-1" @click="onDownloadPressed" class="pr-3">
@@ -102,7 +109,7 @@
             return {
 
                 startDatePicker: {
-                    date: moment().subtract(120, 'months').format("YYYY-MM-DD"),
+                    date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
                     menu: false,
                     modal: false
                 },
@@ -111,16 +118,22 @@
                     menu: false,
                     modal: false
                 },
-                selectedForm:-1
+                selectedForm:-1,
+                onlyValidCheckbox:true
 
 
             }
         },
         computed: {
             listOfForms: function () {
-                let formsList = Object.values(this.currentWebsite.forms);
+                console.log('*******',this.currentWebsite.forms);
                 let res = [];
                 res.push({'id':-1,'alias':'All' });
+
+                if(this.currentWebsite.forms === undefined)
+                    return res;
+                let formsList = Object.values(this.currentWebsite.forms);
+
                 for(let i =0; i<formsList.length;i++){
                     res.push({'id':formsList[i].key,'alias':formsList[i].alias })
                 }
@@ -137,16 +150,23 @@
         methods:{
             onDownloadPressed: function(){
 
-                let that = this;
 
-                api.pullMessages(this.currentWebsite.key,this.selectedForm,this.startDatePicker.date,this.endDatePicker.date, function(res){
-
+                api.pullMessages(this.currentWebsite.key,this.selectedForm,this.startDatePicker.date,this.endDatePicker.date,this.onlyValidCheckbox, function(res){
+                    download(JSON.stringify(res, null, "\t"), 'json.txt', 'text/plain');
                 });
 
 
 
             }
         }
+    }
+
+    function download(content, fileName, contentType) {
+        let a = document.createElement("a");
+        let file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
     }
 
 </script>

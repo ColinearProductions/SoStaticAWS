@@ -29,7 +29,7 @@
                                 </h4>
                                 <v-text-field @keyup.enter="onNextPressed" label="URL"
                                               hint="Ex: example.com, www.example.com, example.org, www.example.org"
-                                              v-model="website.url" :rules="[rules.min3, rules.listOfLinks]" required=""
+                                              v-model="website.url" :rules="[rules.min3, rules.url]" required=""
                                               autofocus></v-text-field>
                             </div>
 
@@ -108,24 +108,9 @@
                 formValidModel: false,
                 rules:{
                     min3: v=> v.length >= 3 || 'Field must have more than 3 characters',
-                    listOfLinks: function(value){ //todo what about websites like .com.ro
-                        let urls = value.split(',');
-                        let valid = true;
-                        for(let idx in urls){
-                            let url = urls[idx].trim();
-                            if(url.length<1)
-                                continue;
-                            if(url==='localhost' || url==='127.0.0.1')
-                                valid = valid && true;
-                            else{
-                                let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
-                                if(!urlValid)
-                                    return url+' is not a valid domain name';
-                                valid = valid && urlValid;
-
-                            }
-                        }
-                        return valid || 'Not all urls are valid'
+                    url: function(value){ //todo what about websites like .com.ro
+                        let re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+                        return re.test(value.toLowerCase()) || 'URL not valid'
                     },
                     email: function(value) {
                         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
