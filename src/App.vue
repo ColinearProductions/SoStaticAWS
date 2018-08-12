@@ -29,13 +29,13 @@
     import router from './router'
 
 
-    //api.logout();
-    //api.login(u,p,alert);
+
     firebase.auth().onAuthStateChanged(function (user) {
 
 
         if (user) {
             store.commit('setLoggedInState', true);
+            store.commit('setUser',user);
 
             console.log('Logged in', user);
             api.getWebsitesOfUser((snapshot) => {
@@ -88,7 +88,8 @@
                 "messagesPercentage": 7,
                 "forms": {}
             }],
-            pendingModification: false
+            pendingModification: false,
+            user:null,
 
         },
         mutations: {
@@ -96,7 +97,13 @@
                 state.websitesData = payload
             },
             setLoggedInState(state, payload) {
-                state.isLoggedIn = payload
+                state.isLoggedIn = payload;
+                if(payload===false)
+                    state.user = null;
+            },
+            setUser(state,payload){
+              state.user = payload;
+              console.log("USER JUST GOT SET");
             },
             updateCurrentWebsite(state, payload) {
                 console.log(state, payload);
@@ -179,6 +186,10 @@
             },
             getSnackbarText(state) {
                 return state.snackbarText;
+            },
+            getUser(state) {
+                console.log("TRYING TO GET USER");
+                return state.user;
             }
 
 
@@ -243,11 +254,31 @@
         }
     });
 
+
+    router.beforeEach((to, from, next) => {
+        if(store.getters.getPendingModification) {
+            if (confirm('Do you want to proceed?')) {
+                store.commit("setPendingModification", false);
+
+                next();
+            }else
+                next(false);
+        }else{
+            next();
+        }
+
+    });
+
     export default {
         name: 'app',
         components: {
             MSnackBar,
             Layout, Loader, LandingPage
+        },
+        data:function(){
+          return{
+              s:store
+          }
         },
         store
     }

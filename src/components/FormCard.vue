@@ -43,7 +43,7 @@
 
 
                 <p class="deep-purple--text bold mb-1">
-                    Messages {{form.message_count}}/300 <a class="deep-purple--text text--lighten-3">(Read)</a>
+                    Messages {{form.message_count}}/300
                 </p>
                 <v-progress-linear v-bind:value="messagesProgress" height="3" class="mt-1"></v-progress-linear>
 
@@ -116,7 +116,7 @@
                 return this.$store.getters.currentWebsite;
             },
             sourceCode: function () {
-                let url = 'https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/-LGkv90_ntmQzwM0O_JS';
+                let url = 'https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/' + this.form.endpoint;
 
                 let recaptchaSiteKey='';
                 let recaptchaCode='';

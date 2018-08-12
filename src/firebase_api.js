@@ -26,10 +26,15 @@ function logout() {
 }
 
 
-function register(user, pass, callback) {
-    firebase.auth().createUserWithEmailAndPassword(user, pass).catch(function (error) {
-        console.log(error);
-        callback(error);
+function register(displayName, email, password, onSuccessCallback, onErrorCallback) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+        let user = firebase.auth().currentUser;
+        user.updateProfile({
+            displayName: ''+displayName
+        }).then(() => onSuccessCallback())
+
+    }).catch(function (error) {
+        onErrorCallback(error.code, error.message);
     });
 }
 
@@ -65,7 +70,7 @@ function addWebsite(website, callback) {
 
 function addFormToWebsite(website_id, form, callback) {
     form.added_on = firebase.database.ServerValue.TIMESTAMP;
-    form.message_count = 128;
+    form.message_count = 0;
 
     //don't worry if the keys are very similar.
 
@@ -103,7 +108,7 @@ function pullMessages(websiteId, form_id, start_date, end_date, only_valid, call
 
     start_date = new Date(start_date);
     end_date = new Date(end_date);
-    end_date.setDate(end_date.getDate()+1);
+    end_date.setDate(end_date.getDate() + 1);
 
     console.log(start_date);
     console.log(end_date);
@@ -111,12 +116,12 @@ function pullMessages(websiteId, form_id, start_date, end_date, only_valid, call
     console.log(firebase.auth().currentUser.uid);
     let query = firebase.firestore().collection('messages')
         .where('userId', '==', firebase.auth().currentUser.uid)
-        .where("timestamp", "<=",end_date )
-        .where("timestamp", ">=",start_date)
+        .where("timestamp", "<=", end_date)
+        .where("timestamp", ">=", start_date)
         .where("website_id", "==", websiteId);
 
 
-    if(only_valid)
+    if (only_valid)
         query = query.where("valid", "==", only_valid);
 
 

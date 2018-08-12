@@ -183,17 +183,23 @@ function storeMessage(payload, websiteConfig, formConfig, userId,requestHost, va
     message.valid=valid;
 
 
-    if(valid)
+    if(valid) {
         onValidMessage(payload, websiteConfig, formConfig);
-    else
+        incrementFormMessageCount(userId,websiteConfig.key,formConfig.key)
+    }else
         message.failure_reason=failure_reason;
 
 
     return firestore.collection('messages').add(message);
 }
 
+function incrementFormMessageCount(userId,websiteId,formId){
 
-
+    let ref = db.ref('/users/' + userId + '/websites/' + websiteId+'/forms/'+formId);
+    return ref.once('value').then(formSnapshot => {
+        return ref.update({message_count:formSnapshot.val().message_count+1})
+    });
+}
 function onValidMessage(payload, websiteConfig, formConfig) {
     console.log("Loading template...............");
 
@@ -294,7 +300,7 @@ const onUserCreated = functions.auth.user().onCreate((user) => {
     };
 
 
-    db.ref('/users/' + user.uid).set(blankUser).then((resp) => console.log("RESP: " + resp));
+    return db.ref('/users/' + user.uid).set(blankUser).then((resp) => console.log("RESP: " + resp));
 
 });
 

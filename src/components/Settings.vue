@@ -233,7 +233,8 @@
                 else
                     return true;
             }
-            //RULES
+            //RULES,
+
 
         },
         watch: {
@@ -241,7 +242,7 @@
                 this.websiteModelChangePending = this.isWebsiteChangePending
             },
             'currentWebsite': function(){
-                this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
+                this.websiteDetailsModel =  this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
                 this.websiteModelChangePending = false;
                 this.$store.commit("setPendingModification", false);
@@ -254,6 +255,9 @@
             },
             currentWebsite(){
                 return this.$store.getters.currentWebsite;
+            },
+            currentWebsiteClone(){
+                return  JSON.parse(JSON.stringify( this.$store.getters.currentWebsiteClone));
             }
         },
         beforeMount: function () {

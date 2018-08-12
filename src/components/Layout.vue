@@ -41,6 +41,8 @@
 
             </v-toolbar-title>
             <v-spacer></v-spacer>
+            <h5 class="subheading mb-0">Welcome back {{state.user.displayName}}</h5>
+
             <v-btn class="primary lighten-1" @click="logout">
                 Logout
             </v-btn>
@@ -83,7 +85,7 @@
                     {icon: 'insert_comment', text: 'Messages', to: "/app/messages"},
                     {icon: 'settings', text: 'Settings', to:"/app/settings"},
                     {icon: 'code', text: 'Documentation'},
-                    {icon: 'assignment', text: 'About'},
+                    {icon: 'person', text: 'Account'},
                 ]
 
             }

@@ -103,8 +103,6 @@
                     contacts: []
                 },
                 // form_alias:'',
-                contact_email: '',
-                contact_alias: '',
                 formValidModel: false,
                 rules:{
                     min3: v=> v.length >= 3 || 'Field must have more than 3 characters',
@@ -152,6 +150,15 @@
         computed: {
             nextButtonText: function () {
                 return this.current_step===3?'Finish':'Next';
+            },
+            user:function(){
+                return this.$store.getters.getUser;
+            }
+        },
+        watch:{
+            'user': function(){
+                this.contact_alias = this.user.displayName;
+                this.contact_email = this.user.email;
             }
         }
     }

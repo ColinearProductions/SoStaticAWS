@@ -14,7 +14,8 @@ import Messages from './components/Messages'
 
 Vue.use(Router);
 
-export default new Router({
+
+let router = new Router({
     mode: 'history',
     routes: [
         {
@@ -30,7 +31,7 @@ export default new Router({
                 path: '/app/settings',
                 name: 'Settings',
                 component: Settings
-            },{
+            }, {
                 path: '/app/messages',
                 name: 'Messages',
                 component: Messages
@@ -45,32 +46,37 @@ export default new Router({
             component: Setup //todo replace
         },
         {
-            path:'/',
-            name:'Landing Page',
-            component:LandingPage
+            path: '/',
+            name: 'Landing Page',
+            component: LandingPage
         },
         {
-            path:'/auth',
-            name:'Authentication',
-            component:Authenticate,
-            children:[
+            path: '/auth',
+            name: 'Authentication',
+            component: Authenticate,
+            children: [
                 {
-                    path:'/auth/login',
-                    name:'Login',
+                    path: '/auth/login',
+                    name: 'Login',
                     component: Login
                 },
                 {
-                    path:'/auth/register',
-                    name:'Register',
+                    path: '/auth/register',
+                    name: 'Register',
                     component: Register
                 },
                 {
-                    path:'/auth/recover',
-                    name:'Recover',
+                    path: '/auth/recover',
+                    name: 'Recover',
                     component: Recover
                 }
             ]
         }
 
     ]
-})
+});
+
+
+
+
+export default router;

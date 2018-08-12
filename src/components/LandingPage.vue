@@ -18,6 +18,7 @@
 
 
             <div v-if="isLoggedIn">
+
                 <v-btn  class="primary lighten-1" @click="logout">
                     Logout
                 </v-btn>
