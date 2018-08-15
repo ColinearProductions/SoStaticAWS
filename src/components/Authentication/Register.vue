@@ -1,6 +1,6 @@
 <template>
 
-    <v-form>
+    <v-form class="pa-5">
         <p class="display-2 deep-purple--text text--lighten-1 thin">
             Register
         </p>
@@ -46,7 +46,7 @@
             onSubmit: function () {
                 let that = this;
                 this.$store.commit('setLoaderVisibility', true);
-                api.register(this.form_model.displayName, this.form_model.username, this.form_model.password, (s) => {}, (error_code, error_message) => {
+                api.register(this.form_model.displayName, this.form_model.username, this.form_model.password, () => {}, (error_code, error_message) => {
                     that.$store.commit('setLoaderVisibility', false);
                     console.log(error_code, error_message);
                 })

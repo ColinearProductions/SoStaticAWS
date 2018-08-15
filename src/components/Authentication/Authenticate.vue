@@ -12,7 +12,7 @@
                             </v-btn>
                             <v-toolbar dark color="primary">
 
-                                <v-toolbar-items class="hidden-sm-and-down">
+                                <v-toolbar-items >
                                     <v-btn :to="{name:'Login'}" flat class="px-5">Login</v-btn>
                                     <v-btn  :to="{name:'Register'}"  flat  class="px-5">Register</v-btn>
                                     <v-btn  :to="{name:'Recover'}" flat  class="px-5">Recover</v-btn>

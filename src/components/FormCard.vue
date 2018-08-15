@@ -2,7 +2,8 @@
     <v-flex xs12 sm6 md6 lg4 class="pa-2">
 
 
-        <v-dialog v-model="dialog.visible" width="800px">
+
+        <v-dialog v-model="dialog.visible" width="60%" max-width="1000px">
 
 
             <v-card class=" grey lighten-5 pl-4 pt-4 pr-4">
@@ -85,7 +86,7 @@
 <script>
     import moment from 'moment'
 
-    const pathToFunction = "https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/";
+    const pathToFunction = "https://sostatic.xyz/e/";
 
     export default {
         name: "FormCard",
@@ -106,7 +107,7 @@
                 return moment(this.form.added_on).format("YYYY-MM-DD HH:mm");
             },
             shortEndpoint: function () {
-                return "https://us-central1-sostatic-1d381   ...   " + this.form.endpoint
+                return pathToFunction + this.form.endpoint
             },
             recaptchaScriptRefString: function () {
                 return `<script src="https://www.google.com/recaptcha/api.js" async defer><script>`;
@@ -116,7 +117,7 @@
                 return this.$store.getters.currentWebsite;
             },
             sourceCode: function () {
-                let url = 'https://us-central1-sostatic-1d381.cloudfunctions.net/endpoint/' + this.form.endpoint;
+                let url =pathToFunction + this.form.endpoint;
 
                 let recaptchaSiteKey='';
                 let recaptchaCode='';
@@ -128,11 +129,11 @@
 
                 return `<form action="${ url } " method="POST">
     <label for="name">Name</label>
-        <input type="text" name="name">
+    <input type="text" name="name">
     <label for="email">Email  </label>
-        <input type="text" name="email">
+    <input type="text" name="email">
     <label for="message"> Message </label>
-        <textarea name="message" placeholder="Your message"></textarea>
+    <textarea name="message" placeholder="Your message"></textarea>
     ${recaptchaCode}
     <input type="submit" value="Submit">
 </form>`;

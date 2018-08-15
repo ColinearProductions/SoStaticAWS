@@ -76,6 +76,11 @@
                                    v-text="'Reset'">
                             </v-btn>
 
+
+                            <v-btn color="primary" flat class="mt-4" dark right @click="logout"
+                                   v-text="'Logout'">
+                            </v-btn>
+
                             <v-btn color="primary" flat class="mt-4" dark right @click="onBackPressed"
                                    v-bind:disabled="current_step===1"
                                    v-text="'Back'">
@@ -91,6 +96,10 @@
 </template>
 
 <script>
+
+    import * as api from '../firebase_api';
+
+
     /* eslint-disable */
     export default {
         name: "Setup",
@@ -145,6 +154,9 @@
                 this.$store.commit('setLoaderVisibility', true);
                 this.website.contacts.push({alias: this.contact_alias, email: this.contact_email});
                 this.$store.dispatch("createWebsite", this.website);
+            },
+            logout: function(){
+                api.logout();
             }
         },
         computed: {

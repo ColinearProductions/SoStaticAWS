@@ -161,6 +161,24 @@ function validateRecaptcha(postParams, websiteConfig, formConfig, userId, reques
 }
 
 
+
+
+/*
+todo maybe ad confirmation email options: when a visitor submits a form, you can send him a confirmation of received on certain forms
+todo how to call firebase functions from sostatic.xyz instead of that long link
+{
+  "hosting": {
+    "public": "public",
+
+    // Add the following rewrites section *within* "hosting"
+    "rewrites": [ {
+      "source": "/bigben", "function": "bigben"
+    } ]
+  }
+}
+
+ */
+
 //store message no matter what, if it is valid, also email it
 function storeMessage(payload, websiteConfig, formConfig, userId,requestHost, valid,failure_reason) {
 

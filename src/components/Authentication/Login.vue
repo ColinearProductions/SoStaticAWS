@@ -1,6 +1,6 @@
 <template>
 
-                    <v-form>
+                    <v-form class="pa-5">
                         <p class="display-2 deep-purple--text text--lighten-1 thin">
                             Login
                         </p>
