@@ -20,7 +20,7 @@ const pathToTemplate = "https://firebasestorage.googleapis.com/v0/b/sostatic-1d3
 
 const app = express();
 
-
+//todo we will need statistics at one point...
 
 
 app.use(bodyParser.urlencoded({extended: true}));
