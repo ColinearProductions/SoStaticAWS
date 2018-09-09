@@ -39,10 +39,12 @@ function register(displayName, email, password, onSuccessCallback, onErrorCallba
 }
 
 
-function login(user, pass, callback) {
-    firebase.auth().signInWithEmailAndPassword(user, pass).catch(function (error) {
-        console.log(error);
-        callback(error)
+function login(user, pass,onSuccessCallback, onErrorCallback) {
+    firebase.auth().signInWithEmailAndPassword(user, pass).then(function(){
+        onSuccessCallback();
+    }).catch(function (error) {
+        console.log('Login error',error);
+        onErrorCallback(error)
     });
 }
 
@@ -98,7 +100,18 @@ function updateForm(websiteId, form_key, update_data, callback) {
     });
 }
 
-function updateWebste(update_data, callback) {
+function deleteForm(websieId, formId, callback){
+    firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/websites/'+websieId+'/forms/'+formId).remove().then(()=>{
+        callback();
+    }).catch((reason)=>{
+        console.error(reason);
+    })
+}
+
+
+
+
+function updateWebsite(update_data, callback) {
     firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + update_data.key).set(update_data).then(callback);
 }
 
@@ -152,7 +165,8 @@ export {
     getWebsitesById,
     addFormToWebsite,
     updateForm,
-    updateWebste,
+    deleteForm,
+    updateWebsite,
     pullMessages
 }
 

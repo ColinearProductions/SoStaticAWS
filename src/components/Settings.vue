@@ -225,9 +225,6 @@
                 return re.test(value.toLowerCase()) || 'Email invalid'
             },
             requiredIf: function(value){
-                //todo find a way to refer to 'this'
-
-
                 if(this.websiteDetailsModel.recaptcha)
                     return !(value===undefined || value === null || value==='') || "This field is required";
                 else

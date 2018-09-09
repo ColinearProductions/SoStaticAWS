@@ -12,9 +12,6 @@
     /* eslint-disable */
     import MSnackBar from "./components/TinyComponents/MSnackBar";
 
-    const u = "razvanule@gmail.com";
-    const p = "3718509654";
-
     import Layout from './components/Layout.vue'
     import Loader from './components/TinyComponents/Loader'
     import LandingPage from './components/LandingPage'
@@ -29,13 +26,12 @@
     import router from './router'
 
 
-
     firebase.auth().onAuthStateChanged(function (user) {
 
 
         if (user) {
             store.commit('setLoggedInState', true);
-            store.commit('setUser',user);
+            store.commit('setUser', user);
 
             console.log('Logged in', user);
             api.getWebsitesOfUser((snapshot) => {
@@ -43,15 +39,11 @@
                 console.log('Websites count', snapshot.length);
                 if (snapshot.length < 1) {
                     router.push('/setup');
-                    store.commit('setLoaderVisibility', false)
                 } else {
-                    //router.push('/app/forms');
-
-
                     store.commit('setInitialData', snapshot);
-                    store.commit('setLoaderVisibility', false)
                 }
 
+                store.commit('setLoaderVisibility', false)
 
             });
         } else {
@@ -89,7 +81,7 @@
                 "forms": {}
             }],
             pendingModification: false,
-            user:null,
+            user: null,
 
         },
         mutations: {
@@ -98,12 +90,12 @@
             },
             setLoggedInState(state, payload) {
                 state.isLoggedIn = payload;
-                if(payload===false)
+                if (payload === false)
                     state.user = null;
             },
-            setUser(state,payload){
-              state.user = payload;
-              console.log("USER JUST GOT SET");
+            setUser(state, payload) {
+                state.user = payload;
+                console.log("USER JUST GOT SET");
             },
             updateCurrentWebsite(state, payload) {
                 console.log(state, payload);
@@ -119,7 +111,8 @@
                 state.pendingModification = pendingModification;
             },
             setLoaderVisibility(state, visible) {
-                state.loaderVisible = visible;
+               state.loaderVisible = visible;
+
             },
             updateWebsiteData(state, website) {
                 for (let i = 0; i < state.websitesData.length; i++) {
@@ -146,6 +139,18 @@
                 console.log(state.websitesData[state.currentWebsite].forms[formId]);
                 state.websitesData[state.currentWebsite].forms[formId].alias = newAlias;
                 state.websitesData[state.currentWebsite].forms[formId].recaptcha = recaptcha;
+                state.loaderVisible = false;
+
+
+            },
+            removeForm(state, formId) {
+                console.log("REMOVED FORM");
+                Vue.delete(state.websitesData[state.currentWebsite].forms, formId);
+                delete state.websitesData[state.currentWebsite].forms[formId];
+
+
+
+
                 state.loaderVisible = false;
 
 
@@ -207,7 +212,7 @@
                         context.commit('setLoaderVisibility', false);
                         router.push('/app/settings');
                         context.commit('showSnackbar', 'Form ' + website.alias + ' created successfully');
-                        context.commit('setCreateWebsiteDialogVisibility',false);
+                        context.commit('setCreateWebsiteDialogVisibility', false);
 
                     })
                 })
@@ -230,9 +235,9 @@
             },
             updateWebsite(context, website) {
                 context.commit('setLoaderVisibility', true);
-                api.updateWebste(website, ()=>{
+                api.updateWebsite(website, () => {
 
-                    context.commit('updateWebsiteData',  JSON.parse(JSON.stringify(website)));
+                    context.commit('updateWebsiteData', JSON.parse(JSON.stringify(website)));
                     context.commit('setPendingModification', false);
                     context.commit('showSnackbar', 'Update webste ' + website.alias + ' successful');
                 })
@@ -249,6 +254,14 @@
                     context.commit('updateFormById', data);
 
                 });
+            },
+            deleteForm(context, formId) {
+                context.commit('setLoaderVisibility', true);
+                let websiteId = context.getters.currentWebsite.key;
+                api.deleteForm(websiteId, formId, () => {
+                    context.commit('removeForm', formId);
+
+                })
             }
 
         }
@@ -256,14 +269,21 @@
 
 
     router.beforeEach((to, from, next) => {
-        if(store.getters.getPendingModification) {
+        if (store.getters.getPendingModification) {
+            if(!store.getters.getIsLoggedIn) {
+                next();
+                return;
+            }
+
             if (confirm('Do you want to proceed?')) {
                 store.commit("setPendingModification", false);
 
                 next();
-            }else
+            } else {
+
                 next(false);
-        }else{
+            }
+        } else {
             next();
         }
 
@@ -275,10 +295,10 @@
             MSnackBar,
             Layout, Loader, LandingPage
         },
-        data:function(){
-          return{
-              s:store
-          }
+        data: function () {
+            return {
+                s: store
+            }
         },
         store
     }

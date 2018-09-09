@@ -1,27 +1,22 @@
 <template>
 
     <v-app id="inspire" class="deep-purple lighten-1">
-                        <v-content>
-                            <v-container fluid fill-height>
-                                <v-layout align-center justify-center>
-                                    <v-flex xs12 sm8 md8>
+        <section style="position:absolute;background: linear-gradient(120deg,#74309d 0,#7660b8);width:100%;height:100vh">
+        </section>
+        <v-content>
+            <v-container fluid fill-height>
+                <v-layout align-center justify-center>
+                    <v-flex xs12 sm8 md4>
                         <v-card md-12 raised>
                             <v-btn color="primary" dark absolute bottom right fab
                                    :to="{name:'Landing Page'}">
                                 <v-icon>home</v-icon>
                             </v-btn>
-                            <v-toolbar dark color="primary">
 
-                                <v-toolbar-items >
-                                    <v-btn :to="{name:'Login'}" flat class="px-5">Login</v-btn>
-                                    <v-btn  :to="{name:'Register'}"  flat  class="px-5">Register</v-btn>
-                                    <v-btn  :to="{name:'Recover'}" flat  class="px-5">Recover</v-btn>
-                                </v-toolbar-items>
-                            </v-toolbar>
-                            <div style="height:60vh">
+
                                 <v-card flat color="grey lighten-5" style="height:100%">
                                     <v-layout align-center justify-center>
-                                        <v-flex xs12 sm8 md8>
+                                        <v-flex xs12 sm12 md12>
                                             <router-view>
 
                                             </router-view>
@@ -29,7 +24,7 @@
                                     </v-layout>
                                 </v-card>
 
-                            </div>
+
                         </v-card>
 
                     </v-flex>
@@ -44,7 +39,19 @@
         name: "Authenticate",
         data: function () {
             return {
-                tab: 1
+                tab: 1,
+                menuItems: [
+                    {
+                        title: 'Login',
+                        to: '/login'
+                    }, {
+                        title: 'Login',
+                        to: '/login'
+                    }, {
+                        title: 'Login',
+                        to: '/login'
+                    }
+                ]
             }
         },
         mounted: function () {

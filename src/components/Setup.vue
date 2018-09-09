@@ -77,13 +77,16 @@
                             </v-btn>
 
 
-                            <v-btn color="primary" flat class="mt-4" dark right @click="logout"
-                                   v-text="'Logout'">
-                            </v-btn>
 
                             <v-btn color="primary" flat class="mt-4" dark right @click="onBackPressed"
                                    v-bind:disabled="current_step===1"
                                    v-text="'Back'">
+                            </v-btn>
+
+
+
+                            <v-btn color="primary" outline  class="mt-4 right" dark right @click="logout"
+                                   v-text="'Logout'">
                             </v-btn>
                         </v-form>
                     </v-flex>
@@ -115,7 +118,7 @@
                 formValidModel: false,
                 rules:{
                     min3: v=> v.length >= 3 || 'Field must have more than 3 characters',
-                    url: function(value){ //todo what about websites like .com.ro
+                    url: function(value){
                         let re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
                         return re.test(value.toLowerCase()) || 'URL not valid'
                     },

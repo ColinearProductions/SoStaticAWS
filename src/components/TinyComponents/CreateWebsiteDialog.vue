@@ -189,9 +189,6 @@
                 return valid || 'Not all urls are valid'
             },
             requiredIf: function(value){
-                //todo find a way to refer to 'this'
-
-
                 if(this.website.recaptcha)
                     return !(value===undefined || value === null || value==='') || "This field is required";
                 else

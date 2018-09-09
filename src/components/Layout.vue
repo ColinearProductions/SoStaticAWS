@@ -41,9 +41,9 @@
 
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <h5 class="subheading mb-0">Welcome back {{state.user.displayName}}</h5>
+            <h5 class="subheading mb-0"> {{welcomeMessage}}</h5>
 
-            <v-btn class="primary lighten-1" @click="logout">
+            <v-btn outline @click="logout">
                 Logout
             </v-btn>
         </v-toolbar>
@@ -86,13 +86,17 @@
                     {icon: 'settings', text: 'Settings', to:"/app/settings"},
                     {icon: 'code', text: 'Documentation'},
                     {icon: 'person', text: 'Account'},
+                    {icon: 'home', text: 'Home', to:"/"},
+
                 ]
 
             }
         },
         computed:{
-            state(){
-                return this.$store.state;
+            welcomeMessage(){
+                if( this.$store.state.user === null)
+                    return "";
+                return "Welcome back, " + this.$store.state.user.displayName ;
             }
         },
         props: {

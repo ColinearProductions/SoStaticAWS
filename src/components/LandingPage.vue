@@ -1,7 +1,7 @@
 <template>
     <v-app>
 
-        <v-toolbar color="transparent" class="elevation-0 hidden-sm-and-down" dark fixed app>
+        <v-toolbar color="transparent" class="elevation-0 hidden-sm-and-down" dark absolute app>
             <v-toolbar-title>SoStatic</v-toolbar-title>
             <v-spacer></v-spacer>
 
@@ -15,10 +15,10 @@
 
             <div v-if="isLoggedIn">
 
-                <v-btn class="primary lighten-1" outline @click="logout">
+                <v-btn outline @click="logout">
                     Logout
                 </v-btn>
-                <v-btn class="primary lighten-1" outline :to="{name:'Home'}">
+                <v-btn outline :to="{name:'Settings'}">
                     Go to dashboard
                 </v-btn>
             </div>
@@ -34,7 +34,7 @@
 
 
         </v-toolbar>
-        <v-toolbar color="transparent" class="elevation-0 hidden-md-and-up" dark fixed app>
+        <v-toolbar color="transparent" class="elevation-0 hidden-md-and-up" dark absolute app>
             <v-toolbar-title>SoStatic</v-toolbar-title>
             <v-spacer></v-spacer>
 
@@ -53,11 +53,11 @@
 
         </v-toolbar>
 
-        <section style="    background: linear-gradient(180deg,#74309d 0,#5f62b8);width:100%;height:50vh">
+        <section style="    background: linear-gradient(180deg,#74309d 0,#5f62b8);width:100%;height:50vh;">
 
             <v-container fill-height class="mt-4">
                 <v-layout row wrap align-center>
-                    <v-flex class="text-xs-center">
+                    <v-flex class="text-xs-center" style="z-index:2">
                         <h1 class="display-1 font-weight-regular" style="color:white">Form submission for static
                             websites</h1>
                         <h1 class="headline font-weight-regular mb-4" style="color:white"> without any backend</h1>
@@ -68,12 +68,12 @@
             </v-container>
         </section>
 
-        <section style="width:100%;height:50vh;
+        <section style="width:100%;height:30vh;
           background: linear-gradient(to right bottom,#5f62b8 49.9%,transparent 50.1%);">
         </section>
 
 
-        <div style="position:absolute;width:100%;height:100vh" class="hidden-sm-and-down">
+        <div style="position:absolute;width:100%;height:100vh;z-index:1" class="hidden-sm-and-down">
 
             <v-container fill-height>
                 <v-layout row wrap>
@@ -100,170 +100,237 @@
 
         </div>
 
-        <div class="hidden-sm-and-down" style="margin-top:18vh"></div>
-        <v-container fluid class="pa-5">
+        <div class="hidden-sm-and-down" style="margin-top:16vh"></div>
+
+
+        <v-container text-xs-center>
             <v-layout row wrap>
-                <v-flex xs12 text-xs-center class="mb-5">
-                    <h2 class="text--secondary display-4"> How it works</h2>
-                </v-flex>
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
 
-                        <v-card-media
-                                src="images/Photoshop/form.png"
-                                height="300px"
-                                contain
-                        ></v-card-media>
-                        <v-card-title primary-title>
-                            <div>
-                                <h3 class="headline mb-0">Point your form to the generated link</h3>
-                                <div>Use the generated endpoint as the action for your form.<br> This is the only change
-                                    you have to make to your website
-                                </div>
-                            </div>
-                        </v-card-title>
-                    </v-card>
-                </v-flex>
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
+                <v-flex offset-xl2 xl8 offset-lg1 lg10 offset-md0 md12>
+                    <v-layout row wrap>
+                        <v-flex xs12 text-xs-center class="mb-5">
+                            <h2 class="text--secondary display-2"> How it works</h2>
+                        </v-flex>
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
 
-                        <v-card-media
-                                src="images/Photoshop/server.png"
-                                height="300px"
-                                contain
-                        ></v-card-media>
-                        <v-card-title primary-title>
-                            <div>
-                                <h3 class="headline mb-0">Let us provide you the backend</h3>
-                                <div>The form content will be processed by our servers and matched with the information
-                                    you provided, including checking recaptcha validity
-                                </div>
-                            </div>
-                        </v-card-title>
-                    </v-card>
-                </v-flex>
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
+                                <v-card-media
+                                        src="images/Photoshop/form.png"
+                                        height="250px"
+                                        contain
+                                ></v-card-media>
+                                <v-card-title style="min-height:170px;" primary-title>
+                                    <div>
+                                        <h3 class="headline mb-0">Point your form to the generated link</h3>
+                                        <div>Use the generated endpoint as the action for your form. No additional
+                                            dependencies required
+                                        </div>
+                                    </div>
+                                </v-card-title>
+                            </v-card>
+                        </v-flex>
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
 
-                        <v-card-media
-                                src="images/Photoshop/email.png"
-                                height="300px"
-                                contain
-                        ></v-card-media>
-                        <v-card-title primary-title class="justify-center">
-                            <div>
-                                <h3 class="headline mb-0 ">Read the emails</h3>
-                                <div>After making sure that the message is not span, we will redirect it to the email
-                                    addresses you provided as soon as possible
-                                </div>
-                            </div>
-                        </v-card-title>
-                    </v-card>
+                                <v-card-media
+                                        src="images/Photoshop/server.png"
+                                        height="250px"
+                                        contain
+                                ></v-card-media>
+                                <v-card-title primary-title style="min-height:170px;">
+                                    <div>
+                                        <h3 class="headline mb-0">Let us provide you the backend</h3>
+                                        <div>The form content will be processed by our servers, matched and validated
+                                            with the
+                                            information you provided
+                                        </div>
+                                    </div>
+                                </v-card-title>
+                            </v-card>
+                        </v-flex>
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
+
+                                <v-card-media
+                                        src="images/Photoshop/email.png"
+                                        height="250px"
+                                        contain
+                                ></v-card-media>
+                                <v-card-title primary-title class="justify-center" style="min-height:170px;">
+                                    <div>
+                                        <h3 class="headline mb-0 ">Read the emails</h3>
+                                        <div>After making sure that the message is not span, we will redirect it to the
+                                            email
+                                            addresses you provided as soon as possible
+                                        </div>
+                                    </div>
+                                </v-card-title>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
             </v-layout>
+
         </v-container>
 
 
-        <v-container class="">
+        <section style="background: white;">
+            <v-divider></v-divider>
+            <v-container class="pa-5 mb-5">
+                <v-layout row wrap>
+
+                    <v-flex offset-xl2 xl8 offset-lg1 lg10 offset-md0 md12>
+                        <v-layout row wrap>
+
+                            <v-flex xs12 text-xs-center class="mb-5">
+                                <h2 class=" display-2"> Why?</h2>
+                                <h3 class="title text--secondary pt-4"> We mostly recommend this solution for small,
+                                    static websites. The simplest solution for form submission on a website hosted on
+                                    github of firebase </h3>
+                            </v-flex>
+
+                            <v-flex md6 class="pt-4">
+                                <h5 class="headline">No need for backend</h5>
+                                <h6 class="subheading">Using our service, you dont need to waste time or money
+                                    implementing and maintaining a backend just for this simple task</h6>
+
+                            </v-flex>
+
+                            <v-flex md6 class="pt-4">
+                                <h5 class="headline">Zero dependencies</h5>
+                                <h6 class="subheading">You dont need to download or know any javascript, our solution
+                                    will work even if you just downloaded a website template</h6>
+                            </v-flex>
+
+                            <v-flex md6 class="pt-5">
+                                <h5 class="headline">Simple recaptcha validation</h5>
+                                <h6 class="subheading">With just a checkbox, you can also integrate spam filtering using
+                                    Google's recaptcha for free. </h6>
+                            </v-flex>
+
+                            <v-flex md6 class="pt-5">
+                                <h5 class="headline">Set up once and forget about it</h5>
+                                <h6 class="subheading">Once you added the endpoint to your website, you dont have to to
+                                    manage anything else. </h6>
+                            </v-flex>
+
+
+                        </v-layout>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+            <v-divider></v-divider>
+
+        </section>
+
+
+        <v-container text-xs-center class="mt-5">
             <v-layout row wrap>
-                <v-flex xs12 class="mb-5 text--secondary">
-                    <h2 class="text--secondary display-4 ma-4"> Why would you do this?</h2>
-                    <h3 class="title">
-                        There is no easy solution for you if you have a simple static website hosted on Firebase or
-                        Github and want to add a contact form.<br>
-                        You could build and deploy a very basic web server and deploy it to any host, but then you would
-                        have to worry about that.<br>
-                        Using So Static you can avoid writing any backend code for such a small problem.
-                    </h3>
-                </v-flex>
-            </v-layout>
-        </v-container>
 
-
-        <v-container class="">
-            <v-layout row wrap>
-                <v-flex xs12 class="mb-5 text--secondary">
-                    <h2 class="text--secondary display-4 ma-4 text-lg-center"> Pricing </h2>
-                </v-flex>
-
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
-
-
-                        <v-flex xs12 class="text-lg-center">
-                            <h3 class="headline " style="width:100%">Free:</h3>
-                            <v-card-media
-                                    src="images/Photoshop/server.png"
-                                    height="300px"
-                                    contain
-                            ></v-card-media>
-                            <h3 class="display-2 " style="width:100%">$0/Mo</h3>
-                            <p class="title ma-2"> <b>1</b> Website</p>
-                            <p class="title ma-2"> <b>1</b> Form</p>
-                            <p class="title ma-2"> <b>100</b> Messages per Month</p>
-                            <p class="title ma-2"> <b>1</b> Contact</p>
+                <v-flex offset-xl2 xl8 offset-lg1 lg10 offset-md0 md12>
+                    <v-layout row wrap>
+                        <v-flex xs12 text-xs-center class="mb-5">
+                            <h2 class="text--secondary display-2"> Pricing</h2>
                         </v-flex>
 
-                    </v-card>
-                </v-flex>
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
 
 
-                        <v-flex xs12 class="text-lg-center">
-                            <h3 class="headline " style="width:100%">Freelancer:</h3>
-                            <v-card-media
-                                    src="images/Photoshop/server.png"
-                                    height="300px"
-                                    contain
-                            ></v-card-media>
-                            <h3 class="display-2 " style="width:100%">$5/Mo/Website</h3>
-                            <p class="title ma-2"> <b>∞</b> Website</p>
-                            <p class="title ma-2"> <b>∞</b> Forms</p>
-                            <p class="title ma-2"> <b>1000</b> Messages / Website</p>
-                            <p class="title ma-2"> <b>∞</b> Contacts / Website</p>
+                                <v-flex xs12 class="text-lg-center">
+                                    <h3 class="display-1 " style="width:100%">Free</h3>
+                                    <v-card-media
+                                            src="images/Photoshop/server.png"
+                                            height="200px"
+                                            contain
+                                    ></v-card-media>
+
+                                    <h3 class="display-1 font-weight-thin " style="width:100%">$0/Mo</h3>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1</b> Website</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1</b> Form</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>100</b> Messages per Month</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1</b> Contact</p>
+                                </v-flex>
+
+                            </v-card>
+                        </v-flex>
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
+
+
+                                <v-flex xs12 class="text-lg-center">
+                                    <h3 class="display-1 " style="width:100%">Freelancer</h3>
+                                    <v-card-media
+                                            src="images/Photoshop/server.png"
+                                            height="200px"
+                                            contain
+                                    ></v-card-media>
+
+                                    <h3 class="display-1 font-weight-thin " style="width:100%">$5/Mo/Websitte</h3>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>∞</b> Website</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>∞</b> Form</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1000</b> Messages / Month / Website</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1</b> Contact / Website</p>
+                                </v-flex>
+
+                            </v-card>
+                        </v-flex>
+                        <v-flex md4 xs12 class="pa-2">
+                            <v-card class="pa-2">
+
+
+                                <v-flex xs12 class="text-lg-center">
+                                    <h3 class="display-1 " style="width:100%">Small Business</h3>
+                                    <v-card-media
+                                            src="images/Photoshop/server.png"
+                                            height="200px"
+                                            contain
+                                    ></v-card-media>
+
+                                    <h3 class="display-1 font-weight-thin " style="width:100%">$30 / Websitte</h3>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>1</b> Website</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>∞</b> Form</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>∞</b> Messages / Month / Website</p>
+                                    <v-divider></v-divider>
+                                    <p class="subheading ma-2"><b>∞</b> Contact / Website</p>
+                                </v-flex>
+
+                            </v-card>
                         </v-flex>
 
-                    </v-card>
-                </v-flex>
-                <v-flex md4 xs12 class="pa-2">
-                    <v-card class="pa-2">
-
-
-                        <v-flex xs12 class="text-lg-center">
-                            <h3 class="headline " style="width:100%">Small business:</h3>
-                            <v-card-media
-                                    src="images/Photoshop/server.png"
-                                    height="300px"
-                                    contain
-                            ></v-card-media>
-                            <h3 class="display-2 " style="width:100%">$30/Mo</h3>
-                            <p class="title ma-2"> <b>1</b> Website</p>
-                            <p class="title ma-2"> <b>∞</b> Forms</p>
-                            <p class="title ma-2"> <b>∞</b> Messages / Website</p>
-                            <p class="title ma-2"> <b>∞</b> Contacts / Website</p>
+                        <v-flex md12 class="pa-2">
+                            <h5 class="text--secondary">* If these plans are not appropriate for your needs, it means
+                                that this is not the recommended solution for you.
+                                If you still want to outsource this task, please consider contacting us at
+                                inquiry@sostatic.xyz to discuss a custom solution for your needs</h5>
                         </v-flex>
 
-                    </v-card>
+                        <v-flex xs12 class="mt-5 mb-5 text--secondary text-lg-center">
+                            <v-btn large class="text--primary " :to="{name:'Register'}">Get started</v-btn>
+
+                        </v-flex>
+
+                    </v-layout>
                 </v-flex>
             </v-layout>
         </v-container>
-
-        <v-container class="">
-            <v-layout row wrap>
-                <v-flex xs12 class="mb-5 text--secondary text-lg-center">
-                    <v-btn large class="text--primary" :to="{name:'Register'}">Get started</v-btn>
-
-                </v-flex>
-            </v-layout>
-        </v-container>
-
 
 
         <!--<section style="width: 100%; height:10vh;box-shadow: rgba(0, 0, 0, 0.3) 0 2px 1px -1px"></section> -->
 
 
-        <v-footer color="primary" app>
+        <v-footer color="primary" app absolute>
             <span class="white--text">&copy; 2017</span>
         </v-footer>
     </v-app>
@@ -280,11 +347,11 @@
                 menuItems: [
                     {
                         title: "Login",
-                        to: "/Login"
+                        to: "/auth/login"
                     },
                     {
                         title: "Register",
-                        to: "/Login"
+                        to: "/auth/register"
                     },
                     {
                         title: "Documentation",

@@ -11,7 +11,6 @@
         </v-btn>
 
 
-
         <v-dialog v-model="dialogModel.visible" width="800px">
 
 
@@ -39,7 +38,7 @@
                         </v-layout>
                     </v-container>
                     <v-card-actions>
-                        <v-btn flat  color="red" @click="deleteForm" v-if="dialogModel.update">Delete form</v-btn>
+                        <v-btn flat color="red" @click="deleteForm" v-if="dialogModel.update">Delete form</v-btn>
 
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" @click="dialogModel.visible = false">Cancel</v-btn>
@@ -57,7 +56,6 @@
     </v-layout>
 
 
-
 </template>
 
 
@@ -66,10 +64,9 @@
     import FormCard from "./FormCard";
 
 
-
     export default {
         name: "Forms",
-        components: { FormCard},
+        components: {FormCard},
         data: function () {
             return {
                 dialogModel: {
@@ -80,7 +77,11 @@
                     confirmButton: "Create",
                     update: false,
                     formToBeUpdatedId: '',
-                    formToBeUpdated:null
+                    formToBeUpdated: null
+                },
+                deleteFormDialog:{
+                    visible:false,
+                    //todo
                 },
                 formValidModel: false
 
@@ -90,17 +91,17 @@
             min3: v => {
                 return v.length >= 3 || 'Field must have more than 3 characters'
             },
-            uniqueFormName: function(v){
+            uniqueFormName: function (v) {
                 let res = true;
 
-                if(this.currentWebsite.forms===undefined)
+                if (this.currentWebsite.forms === undefined)
                     return true;
 
-                Object.values(this.currentWebsite.forms).forEach((form)=>{
+                Object.values(this.currentWebsite.forms).forEach((form) => {
                     // if the form didnt change name
-                    if(this.dialogModel.formToBeUpdated!==null && this.dialogModel.formToBeUpdated.alias === v)
+                    if (this.dialogModel.formToBeUpdated !== null && this.dialogModel.formToBeUpdated.alias === v)
                         return true;
-                    if(v===form.alias)
+                    if (v === form.alias)
                         res = false;
                 });
                 return res || 'Form name must be unique to avoid confusion';
@@ -108,7 +109,7 @@
             onAddFormConfirm: function () {
 
 
-                if(!this.formValidModel)
+                if (!this.formValidModel)
                     return;
 
                 if (this.dialogModel.update) {
@@ -141,7 +142,7 @@
                     aliasField: "",
                     update: false,
                     formToBeUpdatedIdId: '',
-                    formToBeUpdated:null
+                    formToBeUpdated: null
                 }
             },
             onEditFormClicked: function (form) {
@@ -153,12 +154,17 @@
                     aliasField: form.alias,
                     update: true,
                     formToBeUpdatedId: form.key,
-                    formToBeUpdated:form
+                    formToBeUpdated: form
                 }
             },
-            deleteForm:function(form){
+            deleteForm: function (form) {
                 let formId = this.dialogModel.formToBeUpdatedId;
-                //todo
+
+
+                        this.$store.dispatch('deleteForm', formId);
+                        this.dialogModel.visible = false;
+
+
             }
         },
         computed: {
@@ -169,8 +175,6 @@
 
 
     }
-
-
 
 
     function snapshotToArray(snapshot) {

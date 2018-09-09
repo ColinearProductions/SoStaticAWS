@@ -9,7 +9,7 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 
 import VueHighlightJS from 'vue-highlightjs'
-
+import VuetifyConfirm from 'vuetify-confirm'
 
 
 Vue.use(Vuetify, {
@@ -27,6 +27,8 @@ Vue.use(Vuetify, {
 
 Vue.use(VueHighlightJS);
 Vue.use(VeeValidate);
+Vue.use(VuetifyConfirm,{  icon: 'warning'});
+
 
 Vue.config.productionTip = false;
 

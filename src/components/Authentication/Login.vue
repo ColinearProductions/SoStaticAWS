@@ -33,6 +33,7 @@
 <script>
 
     import * as api from '../../firebase_api';
+    import router from '../../router'
 
     export default {
         name: "Login",
@@ -47,8 +48,15 @@
         methods:{
             onSubmit:function(){
                 this.$store.commit('setLoaderVisibility', true);
-                api.login(this.form_model.username, this.form_model.password, function(error){
+                let that = this;
+                api.login(this.form_model.username, this.form_model.password,function(){
+                    router.push('/app/settings');
+                    that.$store.commit('setLoaderVisibility', false);
+
+                }, function(error){
                     console.log(error);
+                    that.$store.commit('setLoaderVisibility', false);
+
                 })
             }
         }
