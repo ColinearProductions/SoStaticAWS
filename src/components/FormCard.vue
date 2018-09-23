@@ -86,7 +86,7 @@
 <script>
     import moment from 'moment'
 
-    const pathToFunction = "https://sostatic.xyz/e/";
+    const pathToFunction = "https://sostatic.xyz/api/";
 
     export default {
         name: "FormCard",

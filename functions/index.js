@@ -32,13 +32,13 @@ let db = admin.database();
 let firestore = admin.firestore();
 
 
-const VERSION = 'Version'+'9';
+const VERSION = 'Version'+'11';
 
 
 
 
 
-app.post("/:endpointId", (request, response) => {
+app.post("/api/:endpointId", (request, response) => {
 
 
     let endpointId = request.params['endpointId'];
@@ -325,8 +325,8 @@ const onUserCreated = functions.auth.user().onCreate((user) => {
 //todo maybe add event logs, with all the declined messages + reasons for decline
 
 
-const endpoint = functions.https.onRequest(app);
+const api = functions.https.onRequest(app);
 
 module.exports = {
-    endpoint, onUserCreated,onNewTask
+    api, onUserCreated,onNewTask
 };

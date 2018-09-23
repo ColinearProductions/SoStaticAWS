@@ -68,7 +68,7 @@
             </v-container>
         </section>
 
-        <section style="width:100%;height:30vh;
+        <section style="width:100%;height:30vh;margin-top:-1px;
           background: linear-gradient(to right bottom,#5f62b8 49.9%,transparent 50.1%);">
         </section>
 
@@ -209,9 +209,8 @@
                             </v-flex>
 
                             <v-flex md6 class="pt-5">
-                                <h5 class="headline">Set up once and forget about it</h5>
-                                <h6 class="subheading">Once you added the endpoint to your website, you dont have to to
-                                    manage anything else. </h6>
+                                <h5 class="headline">Hide your email from the internet</h5>
+                                <h6 class="subheading">Using our service, you wont have to make your email public to the visitors, thus avoiding spam</h6>
                             </v-flex>
 
 
@@ -372,7 +371,7 @@
                 return this.$store.getters.getIsLoggedIn;
             },
             code: function () {
-                return `<form action="https://sostatic.xyz/email/{YOUR_KEY}" method="POST">
+                return `<form action="https://sostatic.xyz/api/{YOUR_KEY}" method="POST">
     <label for="name">Name</label>
     <input type="text" name="name">
     <label for="email">Email </label>
