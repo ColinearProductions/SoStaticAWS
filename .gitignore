@@ -1,1 +1,5 @@
 */node_modules
+.idea/
+server/public/images/
+server/public/javascripts/
+server/firebase_keyu.json
