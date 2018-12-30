@@ -4,6 +4,7 @@ import 'firebase/firestore';
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 
 
+
 let config = {
     apiKey: "AIzaSyDOpoNcoeSWE8weaKuT8DvMWt2qSTok11k",
     authDomain: "sostatic-1d381.firebaseapp.com",
@@ -64,15 +65,16 @@ function getWebsitesById(id, callback) {
 
 
 function addWebsite(website, callback) {
-    website.messagesCount = 0;
-    website.formsCount = 0;
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites').push(website).then(callback);
+
+    let uid =  firebase.auth().currentUser.uid;
+    firebase.database().ref(`/users/${uid}/websites`).push(website).then(callback);
 }
 
 
 function addFormToWebsite(website_id, form, callback) {
     form.added_on = firebase.database.ServerValue.TIMESTAMP;
     form.message_count = 0;
+    form.spam_count=0;
 
     //don't worry if the keys are very similar.
 

@@ -74,7 +74,6 @@
                 "sitekey": "recaptcha sitekey",
                 "url": "loading.com",
                 "key": "",
-                "formsCount": 1,
                 "messagesCount": 128,
                 "formsPercentage": 34,
                 "messagesPercentage": 7,

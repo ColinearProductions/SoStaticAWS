@@ -1,7 +1,20 @@
 <template>
 
 
-    <v-layout row wrap>
+
+    <v-layout row wrap >
+        <v-container v-if="formsCount<1" bg fill-height grid-list-md text-xs-center>
+            <v-layout row wrap align-center>
+                <v-flex>
+                    <h3 class="display-1 text--secondary text--lighten-3">
+                        You have no forms at the moment, click <span class="deep-purple--text text--lighten-3">+</span> to create a form
+                    </h3>
+                </v-flex>
+            </v-layout>
+        </v-container>
+
+
+
 
         <FormCard v-for="form in currentWebsite.forms" :key="form.key" v-bind:form="form"
                   v-on:onEditFormClicked="onEditFormClicked"></FormCard>
@@ -56,12 +69,21 @@
     </v-layout>
 
 
+
 </template>
 
 
 <script>
     /* eslint-disable */
     import FormCard from "./FormCard";
+
+    function objToArray(obj) {
+        return Object.keys(obj).map(function (key) {
+            obj[key]['key'] = key;
+            return obj[key];
+        });
+    }
+
 
 
     export default {
@@ -133,7 +155,7 @@
                 this.dialogModel.visible = false;
             },
             onCreateFormClicked: function () {
-
+                PUB = this.currentWebsite;
                 this.dialogModel = {
                     visible: true,
                     useRecaptcha: false,
@@ -170,7 +192,11 @@
         computed: {
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
+            },
+            formsCount: function(){
+                return objToArray(this.currentWebsite.forms).length;
             }
+
         }
 
 

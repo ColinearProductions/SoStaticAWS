@@ -202,7 +202,7 @@ function incrementFormMessageCount(userId, websiteId, formId, valid) {
         if (valid)
             return ref.update({message_count: formSnapshot.val().message_count + 1});
         else
-            return ref.update({message_count: formSnapshot.val().message_count + 1}) //todo change tot spam_count
+            return ref.update({spam_count: formSnapshot.val().spam_count + 1})
     });
 }
 
