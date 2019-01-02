@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const requestPromise = require('request-promise');
 const admin = require('firebase-admin');
-const serviceAccount = require('C:\\Users\\Colinear\\Dropbox\\Workspace\\Web\\VueSoStatic\\server\\firebase_keyu.json');
+const serviceAccount = require('C:\\Users\\Colinear\\WebstormProjects\\VueSoStatic\\server\\firebase_pkey.json');
 const nodemailer = require('nodemailer');
 const Mustache = require('mustache');
 
@@ -12,6 +12,7 @@ const pathToTemplate = "https://firebasestorage.googleapis.com/v0/b/sostatic-1d3
 
 const gmailUsername = "sostatic.xyz";
 const gmailPassword = "jQ6sbEu3";
+const mongoDbProvider = require('../db');
 const mailtransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -30,18 +31,11 @@ admin.initializeApp({
 });
 
 let firebaseDB = admin.database();
-let mongoDB;
-
-let MongoClient = require('mongodb').MongoClient;
-
-MongoClient.connect('mongodb://localhost:27017/sostatic', function (err, client) {
-    if (err) throw err;
-    mongoDB = client.db('sostatic');
-});
 
 
 router.get('/list', (req, res, next) => {
-    mongoDB.collection('messages').find().toArray(function (err, result) {
+
+    mongoDbProvider.getDb().collection('messages').find().toArray(function (err, result) {
         if (err) throw err;
         res.send(result);
     })

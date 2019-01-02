@@ -34,6 +34,16 @@
             store.commit('setUser', user);
 
             console.log('Logged in', user);
+
+            firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+                store.commit('setUserToken', idToken);
+
+            }).catch(function(error) {
+
+            });
+
+
+
             api.getWebsitesOfUser((snapshot) => {
 
                 console.log('Websites count', snapshot.length);
@@ -81,6 +91,7 @@
             }],
             pendingModification: false,
             user: null,
+            userToken:null
 
         },
         mutations: {
@@ -95,6 +106,10 @@
             setUser(state, payload) {
                 state.user = payload;
                 console.log("USER JUST GOT SET");
+            },
+            setUserToken(state,token){
+              state.userToken = token;
+
             },
             updateCurrentWebsite(state, payload) {
                 console.log(state, payload);
@@ -202,6 +217,7 @@
             createWebsite(context, website) {
                 context.commit('setLoaderVisibility', true);
                 console.log(website);
+                website.forms = {};
                 api.addWebsite(website, function (snapshot) {
                     console.log(snapshot);
                     let newWebsiteKey = snapshot.key;

@@ -10,6 +10,7 @@ const onUserCreated = functions.auth.user().onCreate((user) => {
         websites: [],
         messages: [],
         email: user.email
+
     };
 
 

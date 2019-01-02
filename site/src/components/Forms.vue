@@ -194,7 +194,10 @@
                 return this.$store.getters.currentWebsite;
             },
             formsCount: function(){
-                return objToArray(this.currentWebsite.forms).length;
+                if(this.currentWebsite.forms !== undefined && this.currentWebsite.forms !== null)
+                    return objToArray(this.currentWebsite.forms).length;
+                else
+                    return 0;
             }
 
         }

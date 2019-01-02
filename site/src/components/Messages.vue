@@ -1,8 +1,8 @@
 <template>
 
-    <v-flex xs12>
+    <v-flex xs12  fill-height>
         <v-card>
-            <v-layout align-content-center>
+            <v-layout>
 
                 <v-flex md3 d-flex class="pl-5 pt-3 pb-0">
                     <v-select
