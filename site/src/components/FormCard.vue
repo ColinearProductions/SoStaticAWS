@@ -1,48 +1,28 @@
 <template>
-    <v-flex xs12 sm6 md6 lg4 class="pa-2">
-
-
-
+    <v-flex xs12 sm6 md6 lg4 >
         <v-dialog v-model="dialog.visible" width="60%" max-width="1000px">
-
-
             <v-card class=" grey lighten-5 pl-4 pt-4 pr-4">
-
-
                 <pre v-highlightjs="recaptchaScriptRefString" v-if="this.form.recaptcha"><code class="html subheading font-weight-regular"></code></pre>
-
                 <v-card-actions v-if="this.form.recaptcha">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="onCopyRecaptchaRefClicked">Copy</v-btn>
-
                 </v-card-actions>
-
                 <pre v-highlightjs="sourceCode"><code class="html subheading font-weight-regular"></code></pre>
-
                 <v-card-actions>
                     <v-btn flat color="primary" @click="dialog.visible = false">Close</v-btn>
-
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="onCopyFormCodeClicked">Copy</v-btn>
-
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
-
         <v-card>
             <v-card-title class="pb-0">
                 <div>
                     <span class="headline deep-purple--text bold">{{form.alias}}</span><br>
                     <span class="body-1 grey--text text--lighten-1 ">Added on {{formAddedOn}}</span><br>
                 </div>
-
-
             </v-card-title>
-
             <v-card-text class="pa-4">
-
-
                 <p class="deep-purple--text bold mb-1">
                     Messages {{form.message_count}}/300
                 </p>

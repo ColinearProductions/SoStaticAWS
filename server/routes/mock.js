@@ -39,7 +39,7 @@ router.post('/message',(req,res)=>{
     };
     message.source_website = "localhost";
     message.source_page = "http://localhost:3001";
-    message.valid = req.body.valid;
+    message.valid = req.body.valid==='true';
     message.err_message = req.body.error;
 
 
@@ -52,19 +52,10 @@ router.post('/message',(req,res)=>{
 });
 
 router.delete('/messages', (req, res, next) => {
-    let start = req.body.start;
-    let end = req.body.end;
-    console.log(start,end);
 
-    mongoDbProvider.getDb().collection('messages').deleteMany({
-        timestamp:{
-            $lt:end,
-            $gt:start
-        }
-    }, (err, result)=>{
-        if(err) throw err;
-        res.send(result);
-    });
+
+    mongoDbProvider.getDb().collection('messages').remove();
+    res.send(200);
 
 });
 

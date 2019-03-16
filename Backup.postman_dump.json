@@ -1,0 +1,79 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "0e2c1440-e5ee-4e64-9014-2ebb7897f619",
+			"name": "SoStatic",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"3d318064-08d3-42a6-a469-e029673863e6"
+			],
+			"folders_order": [],
+			"folders": [],
+			"requests": [
+				{
+					"id": "3d318064-08d3-42a6-a469-e029673863e6",
+					"name": "List",
+					"url": "http://localhost:3001/list?website_id=-1&form_id=-1&only_valid=false&start=0&end=99999999999999",
+					"description": "",
+					"data": null,
+					"dataMode": null,
+					"headerData": null,
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [
+						{
+							"key": "website_id",
+							"value": "-1",
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "form_id",
+							"value": "-1",
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "only_valid",
+							"value": "false",
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "start",
+							"value": "0",
+							"description": "",
+							"enabled": true
+						},
+						{
+							"key": "end",
+							"value": "99999999999999",
+							"description": "",
+							"enabled": true
+						}
+					],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "0e2c1440-e5ee-4e64-9014-2ebb7897f619",
+					"pathVariables": {}
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "1d584299-e462-475e-8565-eac712693c5b",
+			"name": "My Workspace - globals",
+			"values": []
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}

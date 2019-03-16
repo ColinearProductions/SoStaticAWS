@@ -1,19 +1,17 @@
 <template>
 
 
-
-    <v-layout row wrap >
+    <v-layout row wrap>
         <v-container v-if="formsCount<1" bg fill-height grid-list-md text-xs-center>
             <v-layout row wrap align-center>
                 <v-flex>
                     <h3 class="display-1 text--secondary text--lighten-3">
-                        You have no forms at the moment, click <span class="deep-purple--text text--lighten-3">+</span> to create a form
+                        You have no forms at the moment, click <span class="deep-purple--text text--lighten-3">+</span>
+                        to create a form
                     </h3>
                 </v-flex>
             </v-layout>
         </v-container>
-
-
 
 
         <FormCard v-for="form in currentWebsite.forms" :key="form.key" v-bind:form="form"
@@ -69,7 +67,6 @@
     </v-layout>
 
 
-
 </template>
 
 
@@ -83,7 +80,6 @@
             return obj[key];
         });
     }
-
 
 
     export default {
@@ -101,8 +97,8 @@
                     formToBeUpdatedId: '',
                     formToBeUpdated: null
                 },
-                deleteFormDialog:{
-                    visible:false,
+                deleteFormDialog: {
+                    visible: false,
                     //todo
                 },
                 formValidModel: false
@@ -183,8 +179,8 @@
                 let formId = this.dialogModel.formToBeUpdatedId;
 
 
-                        this.$store.dispatch('deleteForm', formId);
-                        this.dialogModel.visible = false;
+                this.$store.dispatch('deleteForm', formId);
+                this.dialogModel.visible = false;
 
 
             }
@@ -193,8 +189,8 @@
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
             },
-            formsCount: function(){
-                if(this.currentWebsite.forms !== undefined && this.currentWebsite.forms !== null)
+            formsCount: function () {
+                if (this.currentWebsite.forms !== undefined && this.currentWebsite.forms !== null)
                     return objToArray(this.currentWebsite.forms).length;
                 else
                     return 0;

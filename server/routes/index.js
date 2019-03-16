@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const requestPromise = require('request-promise');
 const admin = require('firebase-admin');
-const serviceAccount = require('C:\\Users\\Colinear\\WebstormProjects\\VueSoStatic\\server\\firebase_pkey.json');
+const serviceAccount = require('C:\\Users\\Razvan\\Dropbox\\SoStaticAWS\\server\\firebase_pkey.json');
 const nodemailer = require('nodemailer');
 const Mustache = require('mustache');
 
@@ -13,6 +13,7 @@ const pathToTemplate = "https://firebasestorage.googleapis.com/v0/b/sostatic-1d3
 const gmailUsername = "sostatic.xyz";
 const gmailPassword = "jQ6sbEu3";
 const mongoDbProvider = require('../db');
+
 const mailtransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -35,7 +36,38 @@ let firebaseDB = admin.database();
 
 router.get('/list', (req, res, next) => {
 
-    mongoDbProvider.getDb().collection('messages').find().toArray(function (err, result) {
+    let start = parseInt(req.query.start,10);
+    let end =  parseInt(req.query.end,10);
+    let onlyValid= req.query.only_valid==='true';
+    let formId = req.query.form_id;
+    let websiteId = req.query.website_id;
+
+
+
+
+
+    let query = {
+        timestamp:{
+            $lt:end,
+            $gt:start
+        }
+    };
+
+    if(onlyValid)
+        query.valid=true;
+
+    if(formId!=='-1') //todo or null
+        query.form_id=formId;
+
+    if(websiteId!=='-1')
+        query.website_id = websiteId;
+
+
+
+
+    console.log(query);
+
+    mongoDbProvider.getDb().collection('messages').find(query).toArray(function (err, result) {
         if (err) throw err;
         res.send(result);
     })
@@ -105,7 +137,7 @@ function storeMessage(payload, websiteConfig, formConfig, userId, requestHost, r
 
     incrementFormMessageCount(userId, websiteConfig.key, formConfig.key);
 
-    mongoDB.collection('messages').insertOne(message, function (err, doc) {
+    mongoDbProvider.getDb().collection('messages').insertOne(message, function (err, doc) {
         console.log("Store on mongodb: ");
         console.log("Error:", err);
     });

@@ -1,8 +1,7 @@
 import firebase from 'firebase'
-import 'firebase/firestore';
 
-const settings = {/* your settings... */ timestampsInSnapshots: true};
 
+const axios = require('axios');
 
 
 let config = {
@@ -15,7 +14,6 @@ let config = {
 };
 
 firebase.initializeApp(config);
-firebase.firestore().settings(settings);
 
 
 function logout() {
@@ -31,7 +29,7 @@ function register(displayName, email, password, onSuccessCallback, onErrorCallba
     firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
         let user = firebase.auth().currentUser;
         user.updateProfile({
-            displayName: ''+displayName
+            displayName: '' + displayName
         }).then(() => onSuccessCallback())
 
     }).catch(function (error) {
@@ -40,11 +38,11 @@ function register(displayName, email, password, onSuccessCallback, onErrorCallba
 }
 
 
-function login(user, pass,onSuccessCallback, onErrorCallback) {
-    firebase.auth().signInWithEmailAndPassword(user, pass).then(function(){
+function login(user, pass, onSuccessCallback, onErrorCallback) {
+    firebase.auth().signInWithEmailAndPassword(user, pass).then(function () {
         onSuccessCallback();
     }).catch(function (error) {
-        console.log('Login error',error);
+        console.log('Login error', error);
         onErrorCallback(error)
     });
 }
@@ -66,7 +64,7 @@ function getWebsitesById(id, callback) {
 
 function addWebsite(website, callback) {
 
-    let uid =  firebase.auth().currentUser.uid;
+    let uid = firebase.auth().currentUser.uid;
     firebase.database().ref(`/users/${uid}/websites`).push(website).then(callback);
 }
 
@@ -74,7 +72,7 @@ function addWebsite(website, callback) {
 function addFormToWebsite(website_id, form, callback) {
     form.added_on = firebase.database.ServerValue.TIMESTAMP;
     form.message_count = 0;
-    form.spam_count=0;
+    form.spam_count = 0;
 
     //don't worry if the keys are very similar.
 
@@ -102,15 +100,13 @@ function updateForm(websiteId, form_key, update_data, callback) {
     });
 }
 
-function deleteForm(websieId, formId, callback){
-    firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/websites/'+websieId+'/forms/'+formId).remove().then(()=>{
+function deleteForm(websieId, formId, callback) {
+    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + websieId + '/forms/' + formId).remove().then(() => {
         callback();
-    }).catch((reason)=>{
+    }).catch((reason) => {
         console.error(reason);
     })
 }
-
-
 
 
 function updateWebsite(update_data, callback) {
@@ -118,43 +114,26 @@ function updateWebsite(update_data, callback) {
 }
 
 
-function pullMessages(websiteId, form_id, start_date, end_date, only_valid, callback) {
+function pullMessages(websiteId, formId, start_date, end_date, onlyValid, callback) {
     console.log("pulling messages");
 
-    start_date = new Date(start_date);
-    end_date = new Date(end_date);
-    end_date.setDate(end_date.getDate() + 1);
 
-    console.log(start_date);
-    console.log(end_date);
-
-    console.log(firebase.auth().currentUser.uid);
-    let query = firebase.firestore().collection('messages')
-        .where('userId', '==', firebase.auth().currentUser.uid)
-        .where("timestamp", "<=", end_date)
-        .where("timestamp", ">=", start_date)
-        .where("website_id", "==", websiteId);
-
-
-    if (only_valid)
-        query = query.where("valid", "==", only_valid);
-
-
-    if (form_id != -1)
-        query = query.where("formId", "==", form_id);
-
-    query.get().then((snapshot) => {
-
-        let res = snapshot.docs.map((doc) => {
-            let d = doc.data();
-            d.key = doc.id;
-
-            return d;
-        });
-
-
-        callback(res);
+    axios.get("http://localhost:3001/list",
+        {
+            params: {
+                start: start_date,
+                end: end_date,
+                only_valid: onlyValid,
+                form_id: formId,
+                website_id: websiteId
+            }
+        }).then((response) => {
+        console.log(response);
+        callback(response.data);
+    }).catch(function (error) {
+        console.log(error);
     });
+
 }
 
 
