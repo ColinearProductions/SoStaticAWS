@@ -1,0 +1,14 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server/app:/app
+    depends_on:
+      - db
+  db:
+    build: ./mongo
+    ports:
+      - "27001:27001"

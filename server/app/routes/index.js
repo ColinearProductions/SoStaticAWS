@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const requestPromise = require('request-promise');
 const admin = require('firebase-admin');
-const serviceAccount = require('C:\\Users\\Razvan\\Dropbox\\SoStaticAWS\\server\\firebase_pkey.json');
+const serviceAccount = require('../firebase_pkey.json');
 const nodemailer = require('nodemailer');
 const Mustache = require('mustache');
 
@@ -35,6 +35,9 @@ let firebaseDB = admin.database();
 
 
 router.get('/list', (req, res, next) => {
+
+
+  
 
     let start = parseInt(req.query.start,10);
     let end =  parseInt(req.query.end,10);
