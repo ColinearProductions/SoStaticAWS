@@ -1,5 +1,4 @@
 */node_modules
 .idea/
-server/public/images/
-server/public/javascripts/
-server/firebase_pkey.json
+/server/app/firebase_pkey.json
+/server/app/node_modules
