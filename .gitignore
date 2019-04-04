@@ -1,6 +1,5 @@
-server/app/node_modules
-site/node_modules
-functions/node_modules
 .idea/
 firebase_pkey.json
-
+/server/app/node_modules/
+/functions/node_modules/
+/site/node_modules/
