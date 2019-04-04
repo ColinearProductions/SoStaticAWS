@@ -1,4 +1,6 @@
-*/node_modules
+server/app/node_modules
+site/node_modules
+functions/node_modules
 .idea/
-/server/app/firebase_pkey.json
-/server/app/node_modules
+firebase_pkey.json
+
