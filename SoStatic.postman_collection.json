@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "e89ab07f-0e13-4c7b-81e7-ba28495ac80b",
+		"name": "SoStatic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "Name",
+							"value": "Test",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "Test@test.test",
+							"type": "text"
+						},
+						{
+							"key": "Message",
+							"value": "Test Message",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3001/-LboSot9PfXcCq7vnd4J",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"-LboSot9PfXcCq7vnd4J"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3001/list?website_id=-1&form_id=-1&only_valid=false&start=0&end=99999999999999",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"list"
+					],
+					"query": [
+						{
+							"key": "website_id",
+							"value": "-1"
+						},
+						{
+							"key": "form_id",
+							"value": "-1"
+						},
+						{
+							"key": "only_valid",
+							"value": "false"
+						},
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "end",
+							"value": "99999999999999"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

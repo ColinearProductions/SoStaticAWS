@@ -10,6 +10,7 @@ import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
 import Recover from './components/Authentication/Recover'
 import Messages from './components/Messages'
+import DemoForm from "./components/DemoForm";
 
 
 Vue.use(Router);
@@ -18,6 +19,7 @@ Vue.use(Router);
 let router = new Router({
     mode: 'history',
     routes: [
+
         {
             path: '/app',
             name: 'Home',
@@ -71,6 +73,11 @@ let router = new Router({
                     component: Recover
                 }
             ]
+        },
+        {
+            path:'/app/demo/:endpoint',
+            name:'DemoForm',
+            component:DemoForm
         }
 
     ]

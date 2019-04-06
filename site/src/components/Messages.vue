@@ -83,9 +83,9 @@
                                 ></v-checkbox>
                             </v-flex>
                             <v-flex md3 d-flex>
-                                <v-btn depressed color="primary lighten-1" @click="onDownloadPressed" class="pr-3">
+                                <v-btn depressed color="primary lighten-1" @click="" class="pr-3">
                                     <v-icon dark class="pr-3">cloud_download</v-icon>
-                                    Download
+                                    Filter
                                 </v-btn>
 
                             </v-flex>
@@ -94,9 +94,9 @@
                 </v-card>
 
             </v-flex>
-            <v-card class="pa-3 fill-height">
+            <v-card class="pa-3 ">
                 <v-layout row wrap>
-                    <v-flex xs12 fill-height>
+                    <v-flex xs12 >
                         <p class="title pl-3">Messages </p>
 
 
@@ -106,7 +106,7 @@
                                              v-bind:class="{'v-list__tile--highlighted':message.highlight}">
 
 
-                                    <v-list-tile-content>
+                                    <v-list-tile-content >
                                         <v-list-tile-title v-text="message.card.title"></v-list-tile-title>
                                         <v-list-tile-sub-title>{{message.card.subtitle}}</v-list-tile-sub-title>
 
@@ -120,20 +120,65 @@
 
                                 </v-list-tile>
 
-                                <v-card class="pb-3 pt-3 mb-4" flat v-if="message.highlight" >
+                                <v-card class=" pt-3 pb-2" flat v-if="message.highlight" >
 
-                                    <v-flex xs12class="pa-3">
+                                    <v-flex xs12 class="pa-3">
                                         <v-layout row v-for="(property,index) in message.properties" wrap class="py-1">
 
                                             <v-flex xs2 class="py-0">
-                                                <p class="text-capitalize my-0 grey--text ">{{property}}:</p>
+                                                <p class="text-capitalize  mb-1 grey--text ">{{property}}:</p>
                                             </v-flex>
                                             <v-flex xs10 class="py-0 ">
-                                                <p class="align-end  my-0  subheading">
-                                                    {{message.payload[property]}}</p>
+                                                <v-layout v-if="isEmail(message.payload[property])">
+                                                    <v-flex xs-6>
+                                                        <p class="align-end  mb-1  subheading">
+                                                            {{message.payload[property]}}
+
+                                                        </p>
+                                                    </v-flex>
+                                                    <v-flex xs-6 class="text-xs-right">
+                                                        <a :href="mailto(message.payload[property])" style="text-decoration: none" >
+                                                            <v-btn class="ma-0 mb-1 align-end " color="primary" flat small>
+                                                                <v-icon dark class="pr-3">reply</v-icon>
+                                                                reply
+                                                            </v-btn>
+                                                        </a>
+                                                    </v-flex>
+
+
+
+                                                </v-layout>
+                                                <template v-else>
+                                                    <p class="align-end  mb-1  subheading">
+                                                        {{message.payload[property]}}
+
+                                                    </p>
+                                                </template>
+
+
                                             </v-flex>
-                                            <v-flex xs112 class="py-0" v-if="index<message.properties.length-1">
+
+                                            <v-flex xs112 class="py-0" >
                                                 <v-divider></v-divider>
+                                            </v-flex>
+
+                                        </v-layout>
+
+                                        <v-layout class="pl-3 mt-2" wrap>
+                                            <v-flex xs12 class="pa-0">
+
+                                                <p class="grey--text  ma-0"> Submitted from <a  :href="message.source_page">{{message.source_page}} </a></p>
+
+
+                                            </v-flex>
+                                            <v-flex xs12 class="pa-0">
+                                                <p class="grey--text  ma-0">Sent to: <template v-for="target in message.sent_to" > {{target.alias}} at <a href="#"> {{target.email}}</a></template> </p>
+
+                                            </v-flex>
+                                            <v-flex xs12 class="pa-0 text-xs-right">
+
+                                                 <v-btn flat class="my-0">delete</v-btn>
+                                                 <v-btn flat class="my-0">resend</v-btn>
                                             </v-flex>
 
                                         </v-layout>
@@ -220,17 +265,17 @@
                 return this.$store.getters.currentWebsite;
             }
         }
+        //todo add hook into firebase messages, and show new messages in real-time
         ,
         methods: {
-            onDownloadPressed: function () {
-
-
-                api.pullMessages(this.currentWebsite.key, this.selectedForm, this.startDatePicker.date, this.endDatePicker.date, this.onlyValidCheckbox, function (res) {
-                    download(JSON.stringify(res, null, "\t"), 'messages.json', 'text/plain');
-                });
-
-
+            mailto:function(email){
+                return 'mailto:'+email;
             },
+            isEmail: function(payload){
+                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(payload.toLowerCase())
+            },
+
             highlightMessage: function (message) {
 
                 if(message.highlight){
@@ -241,10 +286,8 @@
                     message.highlight = false;
                 });
                 message.highlight = !message.highlight;
-            }
-        },
-        watch: {
-            'currentWebsite': function () {
+            },
+            loadMessages:function () {
                 let that = this;
                 api.pullMessages(this.currentWebsite.key, this.selectedForm, 0, 99999999999999, this.onlyValidCheckbox, function (res) {
                     console.log(res);
@@ -263,16 +306,19 @@
                     });
                 });
             }
+        },
+        mounted:function(){
+            //if website has loaded
+            this.loadMessages();
+        },
+        watch: {
+            'currentWebsite': function () {
+                this.loadMessages();
+            }
         }
     }
 
-    function download(content, fileName, contentType) {
-        let a = document.createElement("a");
-        let file = new Blob([content], {type: contentType});
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
-    }
+
 
 </script>
 

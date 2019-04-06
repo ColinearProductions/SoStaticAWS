@@ -40,6 +40,7 @@
 </template>
 
 <script>
+    /* eslint-disable */
     import WebsitePicker from "./TinyComponents/WebsitePicker"
     import Forms from "./Forms"
     import CreateWebsiteDialog from "./TinyComponents/CreateWebsiteDialog";

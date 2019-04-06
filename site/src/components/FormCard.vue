@@ -54,9 +54,11 @@
 
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn flat color="primary" @click="editForm">Edit</v-btn>
-
+                <v-btn flat color="primary" @click="goToDemo">Demo</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn  flat color="primary" @click="editForm">Edit</v-btn>
             </v-card-actions>
+
         </v-card>
 
     </v-flex>
@@ -148,6 +150,9 @@
                 document.execCommand('copy');
                 document.body.removeChild(el);
 
+            },
+            goToDemo: function(){
+                this.$router.push({ name: 'DemoForm', params: { endpoint: this.form.endpoint } })
             }
         }
     }

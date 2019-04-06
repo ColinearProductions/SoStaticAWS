@@ -1,16 +1,18 @@
+
+/* eslint-disable */
 import firebase from 'firebase'
 
 
 const axios = require('axios');
 
 
-let config = {
-    apiKey: "AIzaSyDOpoNcoeSWE8weaKuT8DvMWt2qSTok11k",
-    authDomain: "sostatic-1d381.firebaseapp.com",
-    databaseURL: "https://sostatic-1d381.firebaseio.com",
-    projectId: "sostatic-1d381",
-    storageBucket: "sostatic-1d381.appspot.com",
-    messagingSenderId: "446439468118"
+let  config = {
+    apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
+    authDomain: "sostatic-aws.firebaseapp.com",
+    databaseURL: "https://sostatic-aws.firebaseio.com",
+    projectId: "sostatic-aws",
+    storageBucket: "",
+    messagingSenderId: "1045757408696"
 };
 
 firebase.initializeApp(config);

@@ -5,20 +5,20 @@ const admin = require('firebase-admin');
 const serviceAccount = require('../firebase_pkey.json');
 const nodemailer = require('nodemailer');
 const Mustache = require('mustache');
-
+const fs = require('fs');
+const path = require("path");
 
 const recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/siteverify";
-const pathToTemplate = "https://firebasestorage.googleapis.com/v0/b/sostatic-1d381.appspot.com/o/inlined.html?alt=media&token=7160622a-335e-4028-aed3-f2bd3caa8859";
 
-const gmailUsername = "sostatic.xyz";
-const gmailPassword = "jQ6sbEu3";
+
+const emailCredentials = require('../credentials');
 const mongoDbProvider = require('../db');
 
 const mailtransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: gmailUsername,
-        pass: gmailPassword
+        user: emailCredentials.email,
+        pass: emailCredentials.password
     },
     tls: {
         rejectUnauthorized: false
@@ -28,7 +28,7 @@ const mailtransport = nodemailer.createTransport({
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://sostatic-1d381.firebaseio.com"
+    databaseURL: "https://sostatic-aws.firebaseio.com"
 });
 
 let firebaseDB = admin.database();
@@ -37,35 +37,28 @@ let firebaseDB = admin.database();
 router.get('/list', (req, res, next) => {
 
 
-  
-
-    let start = parseInt(req.query.start,10);
-    let end =  parseInt(req.query.end,10);
-    let onlyValid= req.query.only_valid==='true';
+    let start = parseInt(req.query.start, 10);
+    let end = parseInt(req.query.end, 10);
+    let onlyValid = req.query.only_valid === 'true';
     let formId = req.query.form_id;
     let websiteId = req.query.website_id;
 
 
-
-
-
     let query = {
-        timestamp:{
-            $lt:end,
-            $gt:start
+        timestamp: {
+            $lt: end,
+            $gt: start
         }
     };
 
-    if(onlyValid)
-        query.valid=true;
+    if (onlyValid)
+        query.valid = true;
 
-    if(formId!=='-1') //todo or null
-        query.form_id=formId;
+    if (formId !== '-1') //todo or null
+        query.form_id = formId;
 
-    if(websiteId!=='-1')
+    if (websiteId !== '-1')
         query.website_id = websiteId;
-
-
 
 
     console.log(query);
@@ -151,12 +144,13 @@ function storeMessage(payload, websiteConfig, formConfig, userId, requestHost, r
 }
 
 function emailMessage(payload, websiteConfig, formConfig) {
-    requestPromise({uri: pathToTemplate, method: 'GET'}).then(result => {
+    fs.readFile(path.resolve(__dirname,'./../email/inlined.html'), 'utf8', (err, template) => {
+
 
         console.log("Template loaded Successfully");
 
 
-        let template = result;
+
         let entries = [];
 
         for (let key in payload)
