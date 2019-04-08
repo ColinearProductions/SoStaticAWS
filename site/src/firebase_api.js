@@ -116,7 +116,7 @@ function updateWebsite(update_data, callback) {
 }
 
 
-function pullMessages(websiteId, formId, start_date, end_date, onlyValid, callback) {
+function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,items_per_page, callback) {
     console.log("pulling messages");
 
 
@@ -127,7 +127,9 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid, callba
                 end: end_date,
                 only_valid: onlyValid,
                 form_id: formId,
-                website_id: websiteId
+                website_id: websiteId,
+                page:page,
+                items_per_page:items_per_page
             }
         }).then((response) => {
         console.log(response);

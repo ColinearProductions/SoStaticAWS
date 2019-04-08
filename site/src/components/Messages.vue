@@ -6,7 +6,7 @@
         <v-flex xs8 offset-md2>
             <v-flex xs12 class="pa-0 pb-3">
                 <v-card>
-                    <v-flex>
+                    <v-flex class="pl-4 pr-4 pt-4">
                         <v-layout>
                             <v-flex md3 d-flex>
                                 <v-select
@@ -38,7 +38,7 @@
                                             prepend-icon="event"
                                             readonly
                                     ></v-text-field>
-                                    <v-date-picker v-model="startDatePicker.date" no-title scrollable>
+                                    <v-date-picker v-model="startDatePicker.date" no-title scrollable :min="startDatePicker.minimum" :max="startDatePicker.maximum">
                                         <v-spacer></v-spacer>
                                         <v-btn flat color="primary" @click="startDatePicker.menu = false">Cancel</v-btn>
                                         <v-btn flat color="primary"
@@ -67,7 +67,7 @@
                                             prepend-icon="event"
                                             readonly
                                     ></v-text-field>
-                                    <v-date-picker v-model="endDatePicker.date" no-title scrollable>
+                                    <v-date-picker v-model="endDatePicker.date" no-title scrollable  :min="endDatePicker.minimum" :max="endDatePicker.maximum">
                                         <v-spacer></v-spacer>
                                         <v-btn flat color="primary" @click="endDatePicker.menu = false">Cancel</v-btn>
                                         <v-btn flat color="primary"
@@ -76,15 +76,10 @@
                                     </v-date-picker>
                                 </v-menu>
                             </v-flex>
-                            <v-flex md2 d-flex>
-                                <v-checkbox
-                                        label="Only valid"
-                                        v-model="onlyValidCheckbox"
-                                ></v-checkbox>
-                            </v-flex>
-                            <v-flex md3 d-flex>
-                                <v-btn depressed color="primary lighten-1" @click="" class="pr-3">
-                                    <v-icon dark class="pr-3">cloud_download</v-icon>
+
+                            <v-flex md5 d-flex class="mt-2">
+                                <v-btn  dark color="primary lighten-1" @click="loadMessages">
+                                    <v-icon dark class="pr-2">cloud_download</v-icon>
                                     Filter
                                 </v-btn>
 
@@ -97,8 +92,19 @@
             <v-card class="pa-3 ">
                 <v-layout row wrap>
                     <v-flex xs12 >
-                        <p class="title pl-3">Messages </p>
+                        <v-flex xs12 class="ma-0 pa-0">
+                            <div class="text-xs-center grey--text">
+                                Total {{items_count}} messages since {{startDatePicker.date}} until {{endDatePicker.date}}
+                            </div>
+                            <div class="text-xs-center">
+                                <v-pagination v-if="page_length>0"
+                                        v-model="page"
+                                        :length="page_length"
+                                        :total-visible="7"
+                                ></v-pagination>
+                            </div>
 
+                        </v-flex>
 
                         <v-list>
                             <v-card v-for="(message,index) in messages" :key="index" flat class="my-2"  style="border:1px solid rgb(230, 230, 230)">
@@ -123,7 +129,7 @@
                                 <v-card class=" pt-3 pb-2" flat v-if="message.highlight" >
 
                                     <v-flex xs12 class="pa-3">
-                                        <v-layout row v-for="(property,index) in message.properties" wrap class="py-1">
+                                        <v-layout row v-for="(property,index) in message.properties" :key="index" wrap class="py-1">
 
                                             <v-flex xs2 class="py-0">
                                                 <p class="text-capitalize  mb-1 grey--text ">{{property}}:</p>
@@ -172,7 +178,7 @@
 
                                             </v-flex>
                                             <v-flex xs12 class="pa-0">
-                                                <p class="grey--text  ma-0">Sent to: <template v-for="target in message.sent_to" > {{target.alias}} at <a href="#"> {{target.email}}</a></template> </p>
+                                                <p class="grey--text  ma-0">Sent to: <span v-for="(target,index) in message.sent_to" :key="index" > {{target.alias}} at <a href="#"> {{target.email}}</a></span> </p>
 
                                             </v-flex>
                                             <v-flex xs12 class="pa-0 text-xs-right">
@@ -192,6 +198,16 @@
 
                             </v-card>
                         </v-list>
+                        <v-flex xs12 class="ma-0 pa-0" >
+                            <div class="text-xs-center">
+                                <v-pagination v-if="page_length>0"
+                                        v-model="page"
+                                        :length="page_length"
+                                        :total-visible="7"
+                                ></v-pagination>
+                            </div>
+
+                        </v-flex>
 
 
                     </v-flex>
@@ -208,23 +224,27 @@
 <script>
     /* eslint-disable */
     import moment from 'moment'
-    import zipcelx from 'zipcelx'
     import * as api from '../firebase_api';
 
 
     export default {
         name: "Messages",
+
         data: function () {
             return {
                 messages: [],
                 currentMessage: null,
                 startDatePicker: {
-                    date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
+                    date: moment().format("YYYY-MM-DD"),
+                    minimum:moment().subtract(31, 'days').format("YYYY-MM-DD"),
+                    maximum:moment().format("YYYY-MM-DD"),
                     menu: false,
                     modal: false
                 },
                 endDatePicker: {
                     date: moment().format("YYYY-MM-DD"),
+                    minimum:moment().subtract(31, 'days').format("YYYY-MM-DD"),
+                    maximum:moment().format("YYYY-MM-DD"),
                     menu: false,
                     modal: false
                 },
@@ -236,7 +256,12 @@
                     {title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg'},
                     {title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg'},
 
-                ]
+                ],
+                page:1,
+                page_length:5,
+                items_per_page:10,
+                items_count:0,
+
 
 
             }
@@ -264,6 +289,7 @@
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
             }
+
         }
         //todo add hook into firebase messages, and show new messages in real-time
         ,
@@ -289,11 +315,20 @@
             },
             loadMessages:function () {
                 let that = this;
-                api.pullMessages(this.currentWebsite.key, this.selectedForm, 0, 99999999999999, this.onlyValidCheckbox, function (res) {
+                this.$store.commit('setLoaderVisibility', true);
+
+                let startDate = moment(this.startDatePicker.date).valueOf();
+                let endDate = moment(this.endDatePicker.date).add(24,'hours').valueOf();
+
+                this.page =1;
+
+                api.pullMessages(this.currentWebsite.key, this.selectedForm, startDate, endDate, this.onlyValidCheckbox,this.page,this.items_per_page, function (res) {
                     console.log(res);
 
+                    that.items_count = res.count;
+                    that.page_length=Math.ceil(res.count/that.items_per_page);
 
-                    that.messages = res.map((message) => {
+                    that.messages = res.messages.map((message) => {
                         let payload = message.payload;
                         message.highlight = false;
                         message.card = {
@@ -304,6 +339,8 @@
                         message.properties = Object.keys(message.payload);
                         return message;
                     });
+                    that.$store.commit('setLoaderVisibility', false);
+
                 });
             }
         },
@@ -314,6 +351,10 @@
         watch: {
             'currentWebsite': function () {
                 this.loadMessages();
+            },
+            'page':function(){
+                this.loadMessages();
+
             }
         }
     }

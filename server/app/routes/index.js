@@ -42,6 +42,8 @@ router.get('/list', (req, res, next) => {
     let onlyValid = req.query.only_valid === 'true';
     let formId = req.query.form_id;
     let websiteId = req.query.website_id;
+    let itemsPerPage = parseInt(req.query.items_per_page);
+    let page = parseInt(req.query.page);
 
 
     let query = {
@@ -61,12 +63,20 @@ router.get('/list', (req, res, next) => {
         query.website_id = websiteId;
 
 
-    console.log(query);
 
-    mongoDbProvider.getDb().collection('messages').find(query).toArray(function (err, result) {
-        if (err) throw err;
-        res.send(result);
-    })
+    let countCursor = mongoDbProvider.getDb().collection('messages').find(query);
+
+    countCursor.count().then((count)=> {
+        countCursor.skip((page - 1) * itemsPerPage).limit(itemsPerPage).toArray(function (err, result) {
+            if (err) throw err;
+            res.send({count: count, messages: result});
+
+        })
+    });
+
+
+
+
 });
 
 
