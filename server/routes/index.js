@@ -36,6 +36,8 @@ let firebaseDB = admin.database();
 
 router.get('/list', (req, res, next) => {
 
+    console.log(process.env.DB_ADDRESS);
+
 
     let start = parseInt(req.query.start, 10);
     let end = parseInt(req.query.end, 10);

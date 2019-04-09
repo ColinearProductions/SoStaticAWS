@@ -16,6 +16,7 @@
     "mustache": "^3.0.1",
     "nodemailer": "^5.0.0",
     "request-promise": "^4.2.2",
-    "cors": "latest"
+    "cors": "latest",
+    "dotenv": "^7.0.0"
   }
 }

@@ -320,7 +320,7 @@
                 let startDate = moment(this.startDatePicker.date).valueOf();
                 let endDate = moment(this.endDatePicker.date).add(24,'hours').valueOf();
 
-                this.page =1;
+
 
                 api.pullMessages(this.currentWebsite.key, this.selectedForm, startDate, endDate, this.onlyValidCheckbox,this.page,this.items_per_page, function (res) {
                     console.log(res);
@@ -350,6 +350,7 @@
         },
         watch: {
             'currentWebsite': function () {
+                this.page =1;
                 this.loadMessages();
             },
             'page':function(){

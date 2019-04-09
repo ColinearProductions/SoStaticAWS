@@ -120,7 +120,7 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,it
     console.log("pulling messages");
 
 
-    axios.get("http://localhost:3001/list",
+    axios.get("http://34.65.167.98:8080/list",
         {
             params: {
                 start: start_date,
