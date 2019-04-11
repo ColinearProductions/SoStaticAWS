@@ -20,12 +20,12 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 app.use('/mock', mockRouter);
 
-const port = 8080;
+const port = process.env.APP_PORT || 8080;
 
 initMongoDB((mongoDb)=>{
     app.listen(port, () => console.log(`Example app listening on port ${port}!`));
