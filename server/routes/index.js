@@ -11,14 +11,14 @@ const path = require("path");
 const recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/siteverify";
 
 
-const emailCredentials = require('../credentials');
+
 const mongoDbProvider = require('../db');
 
 const mailtransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: emailCredentials.email,
-        pass: emailCredentials.password
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
     },
     tls: {
         rejectUnauthorized: false
@@ -36,7 +36,6 @@ let firebaseDB = admin.database();
 
 router.get('/list', (req, res, next) => {
 
-    console.log(process.env.DB_ADDRESS);
 
 
     let start = parseInt(req.query.start, 10);

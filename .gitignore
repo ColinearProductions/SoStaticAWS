@@ -1,6 +1,7 @@
 .idea
-/server/app/node_modules/
 firebase_pkey.json
 /functions/node_modules/
 /site/node_modules/
 credentials.js
+/server/.env
+/server/node_modules/

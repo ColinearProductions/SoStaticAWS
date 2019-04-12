@@ -101,7 +101,7 @@
     /* eslint-disable */
     import moment from 'moment'
     import zipcelx from 'zipcelx'
-    import * as api from '../firebase_api';
+    import * as api from '../API';
 
 
     export default {

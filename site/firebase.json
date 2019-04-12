@@ -14,9 +14,6 @@
       {
         "source": "/auth/**",
         "destination": "/index.html"
-      },
-      {
-        "source": "/api/**", "function": "api"
       }
     ]
   }

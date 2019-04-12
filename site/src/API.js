@@ -6,6 +6,9 @@ import firebase from 'firebase'
 const axios = require('axios');
 
 
+const SERVER = process.env.NODE_ENV==='development'?'http://localhost':'https://ssttc.xyz';
+
+
 let  config = {
     apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
     authDomain: "sostatic-aws.firebaseapp.com",
@@ -120,7 +123,7 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,it
     console.log("pulling messages");
 
 
-    axios.get("http://34.65.167.98:8080/list",
+    axios.get(`${SERVER}/list`,
         {
             params: {
                 start: start_date,
@@ -152,7 +155,8 @@ export {
     updateForm,
     deleteForm,
     updateWebsite,
-    pullMessages
+    pullMessages,
+    SERVER
 }
 
 

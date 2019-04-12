@@ -1,9 +1,11 @@
 
 
+
 let mongoDB;
 let MongoClient = require('mongodb').MongoClient;
 
-let db_url = process.env.DB_ADDRESS || 'db:27017';
+let db_url = process.env.DB_ADDRESS;
+
 
 function initDb(onSuccess){
     //db is mapped in hosts to localhost. in docker to the network shared with the mongo container

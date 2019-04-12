@@ -1,5 +1,4 @@
 let express = require('express');
-let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let cors = require('cors');
@@ -7,13 +6,18 @@ let bodyParser = require('body-parser');
 let indexRouter = require('./routes/index');
 let mockRouter = require('./routes/mock');
 
+
+
 const initMongoDB = require('./db').initDb;
+
+
+
 
 
 let app = express();
 
 app.use(logger('dev'));
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({
@@ -25,7 +29,7 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/mock', mockRouter);
 
-const port = process.env.APP_PORT || 8080;
+const port = process.env.APP_PORT;
 
 initMongoDB((mongoDb)=>{
     app.listen(port, () => console.log(`Example app listening on port ${port}!`));

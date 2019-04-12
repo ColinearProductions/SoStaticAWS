@@ -44,7 +44,7 @@
     import WebsitePicker from "./TinyComponents/WebsitePicker"
     import Forms from "./Forms"
     import CreateWebsiteDialog from "./TinyComponents/CreateWebsiteDialog";
-    import * as api from '../firebase_api';
+    import * as api from '../API';
 
 
     export default {

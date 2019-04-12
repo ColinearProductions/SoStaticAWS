@@ -46,11 +46,15 @@
 </template>
 
 <script>
+    import * as api from '../API';
+    const SERVER = api.SERVER;
+
+
     export default {
         name: "DemoForm",
         computed:{
             endpoint:function(){
-                return  'http://localhost:3001/'+ this.$route.params.endpoint
+                return  `${SERVER}/${this.$route.params.endpoint}`
             }
         }
     }

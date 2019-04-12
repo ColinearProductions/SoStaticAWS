@@ -18,7 +18,7 @@
     import Vue from 'vue'
     import Vuex from "vuex";
 
-    import * as api from './firebase_api';
+    import * as api from './API';
     import firebase from 'firebase';
 
     Vue.use(Vuex);

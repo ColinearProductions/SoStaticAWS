@@ -67,8 +67,9 @@
 
 <script>
     import moment from 'moment'
+    import * as api from '../API';
+    const SERVER = api.SERVER;
 
-    const pathToFunction = "https://sostatic.xyz/api/";
 
     export default {
         name: "FormCard",
@@ -89,7 +90,7 @@
                 return moment(this.form.added_on).format("YYYY-MM-DD HH:mm");
             },
             shortEndpoint: function () {
-                return pathToFunction + this.form.endpoint
+                return `${SERVER}/${this.form.endpoint}`
             },
             recaptchaScriptRefString: function () {
                 return `<script src="https://www.google.com/recaptcha/api.js" async defer><script>`;
@@ -99,7 +100,7 @@
                 return this.$store.getters.currentWebsite;
             },
             sourceCode: function () {
-                let url =pathToFunction + this.form.endpoint;
+                let url =`${SERVER}/${this.form.endpoint}`;
 
                 let recaptchaSiteKey='';
                 let recaptchaCode='';
@@ -110,15 +111,15 @@
                 }
 
                 return `<form action="${ url } " method="POST">
-    <label for="name">Name</label>
-    <input type="text" name="name">
-    <label for="email">Email  </label>
-    <input type="text" name="email">
-    <label for="message"> Message </label>
-    <textarea name="message" placeholder="Your message"></textarea>
-    ${recaptchaCode}
-    <input type="submit" value="Submit">
-</form>`;
+                    <label for="name">Name</label>
+                    <input type="text" name="name">
+                    <label for="email">Email  </label>
+                    <input type="text" name="email">
+                    <label for="message"> Message </label>
+                    <textarea name="message" placeholder="Your message"></textarea>
+                    ${recaptchaCode}
+                    <input type="submit" value="Submit">
+                </form>`;
             }
         },
         methods: {
@@ -127,7 +128,7 @@
             },
             onEndpointClicked: function () {
                 this.$store.commit("showSnackbar", "Endpoint copied to clipboard");
-                this.copyToClipboard(pathToFunction + this.form.endpoint);
+                this.copyToClipboard(`${SERVER}/${this.form.endpoint}`);
             },
             onGenerateBoilerplateClicked: function () {
                 this.dialog.visible = true;

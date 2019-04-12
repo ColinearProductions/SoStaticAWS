@@ -1,46 +1,15 @@
 version: '3'
 services:
-  server:
-    build: ./server
-    ports:
-      - "8080:8080"
-    container_name: testing_server
-    environment:
-      - NODE_ENV=testing
-      - DB_ADDRESS=db:27017
-      - APP_PORT=8080
-    depends_on:
-      - db
-    restart: always #restart in case of error
   db:
-    build: ./mongo
-    ports:
-      - "27017:27017"
+    image: mongo
     container_name: testing_mongo
-
-
-
+    ports:
+      - 27017:27017
   nginx:
     image: nginx:latest
     container_name: testing_nginx
     volumes:
-      - ./nginx/web-root:/var/www/html
-      - ./nginx/nginx-conf:/etc/nginx/conf.d
-      - ./nginx/certbot-etc:/etc/letsencrypt
-      - ./nginx/certbot-var:/var/lib/letsencrypt
-
+      - ./nginx/conf.d:/etc/nginx/conf.d #mount the local nginx folder with the config, to the one in the container
     ports:
       - 80:80
-      - 443:443
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./nginx/certbot-etc:/etc/letsencrypt
-      - ./nginx/certbot-var:/var/lib/letsencrypt
-      - ./nginx/web-root:/var/www/html
-      - ./nginx/certbot-logs:/var/log/letsencrypt/
-    depends_on:
-      - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email becheru.razvan@gmail.com --agree-tos --no-eff-email --staging -d a.sostatic.xyz  -d www.a.sostatic.xyz

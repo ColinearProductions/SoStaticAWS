@@ -326,7 +326,7 @@
 
 <script>
 
-    import * as api from '../firebase_api';
+    import * as api from '../API';
 
     export default {
         name: "LandingPage",
