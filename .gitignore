@@ -5,3 +5,4 @@ firebase_pkey.json
 credentials.js
 /server/.env
 /server/node_modules/
+/site/dist/
