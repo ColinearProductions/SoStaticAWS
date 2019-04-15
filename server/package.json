@@ -17,6 +17,7 @@
     "nodemailer": "^5.0.0",
     "request-promise": "^4.2.2",
     "cors": "latest",
-    "dotenv": "^7.0.0"
+    "dotenv": "^7.0.0",
+    "@sendgrid/mail": "^6.3.1"
   }
 }

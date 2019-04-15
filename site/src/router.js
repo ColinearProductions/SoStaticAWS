@@ -30,7 +30,7 @@ let router = new Router({
                 name: 'Forms',
                 component: Forms
             }, {
-                path: '/app/settings',
+                path: '/app/settings/:website_index',
                 name: 'Settings',
                 component: Settings
             }, {

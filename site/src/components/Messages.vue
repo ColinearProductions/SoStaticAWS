@@ -5,7 +5,7 @@
 
         <v-flex xs8 offset-md2>
             <v-flex xs12 class="pa-0 pb-3">
-                <v-card>
+                <v-card class="px-4">
                     <v-flex class="pl-4 pr-4 pt-4">
                         <v-layout>
                             <v-flex md3 d-flex>
@@ -110,10 +110,10 @@
                         </v-flex>
 
                         <v-list>
-                            <v-card v-for="(message,index) in messages" :key="index" flat class="my-2"
+                            <v-card v-for="(message,index) in messages" :key="index" flat class="my-2 mb-3"
                                     :color="message.highlight?'deep-purple lighten-1':''"
                                     :elevation="message.highlight?4:0"
-                                    v-bind:class="{'my-4':message.highlight}"
+                                    v-bind:class="{'mb-4':message.highlight}"
                                     style="border:1px solid rgb(230, 230, 230)">
                                 <v-list-tile @click="highlightMessage(message)"
                                              v-bind:class="{'v-list__tile--highlighted':message.highlight}">

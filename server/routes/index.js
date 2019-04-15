@@ -1,29 +1,16 @@
+
 const express = require('express');
 const router = express.Router();
 const requestPromise = require('request-promise');
 const admin = require('firebase-admin');
 const serviceAccount = require('../firebase_pkey.json');
-const nodemailer = require('nodemailer');
-const Mustache = require('mustache');
-const fs = require('fs');
-const path = require("path");
+
 
 const recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/siteverify";
-
+const sendgridUtils = require('../sendgrid');
 
 
 const mongoDbProvider = require('../db');
-
-const mailtransport = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
 
 
 admin.initializeApp({
@@ -32,6 +19,9 @@ admin.initializeApp({
 });
 
 let firebaseDB = admin.database();
+
+
+
 
 
 router.get('/list', (req, res, next) => {
@@ -81,7 +71,7 @@ router.get('/list', (req, res, next) => {
 });
 
 
-router.post('/:endpointId', (request, response) => {
+router.post('/m/:endpointId', (request, response) => {
 
     //todo redirect to url
     response.sendStatus(200);
@@ -150,85 +140,11 @@ function storeMessage(payload, websiteConfig, formConfig, userId, requestHost, r
     });
 
 
-    emailMessage(payload, websiteConfig, formConfig);
-
-}
-
-function emailMessage(payload, websiteConfig, formConfig) {
-    fs.readFile(path.resolve(__dirname,'./../email/inlined.html'), 'utf8', (err, template) => {
-
-
-        console.log("Template loaded Successfully");
-
-
-
-        let entries = [];
-
-        for (let key in payload)
-            if (Object.prototype.hasOwnProperty.call(payload, key))
-                entries.push({key: key, value: payload[key]});
-
-        let emailData = {
-            'alias': websiteConfig.alias,
-            'formAlias': formConfig.alias,
-            'entries': entries,
-            'websiteurl': websiteConfig.url,
-            'unsubscribeUrl': ""
-
-        };
-        let rendered = Mustache.render(template, emailData);
-
-
-        sendEmail(rendered, websiteConfig)
-    });
+    sendgridUtils.sendMessage(payload, websiteConfig, formConfig);
 
 }
 
 
-function sendEmail(html, websiteConfig) {
-
-
-    console.log('\n\n\n ------------ Sending Email -----------');
-
-    if (websiteConfig.contacts === undefined) {
-        console.error('_ No contacts defined for this website');
-        return;
-    }
-
-    //todo multiple emails
-    let email = objToArray(websiteConfig.contacts)[0].email;
-    const mailOptions = {
-        from: "So Static",
-        to: email
-    };
-
-    // The user subscribed to the newsletter.
-    mailOptions.subject = 'New submission  - ' + websiteConfig.alias;
-    mailOptions.html = html;
-
-
-    return mailtransport.sendMail(mailOptions).then(() => {
-        console.log('\n\n\n\n************ EMAIL SENT SUCCESSFULLY *********');
-        console.log(email);
-        console.log('\n\n\n');
-    }).catch((resolve, reject) => {
-        console.error('\n\n **** EMAIL FAILED TO SEND ***');
-        console.log(resolve);
-        console.log(reject);
-        console.log("***************************");
-
-    });
-
-
-}
-
-
-function objToArray(obj) {
-    return Object.keys(obj).map(function (key) {
-        obj[key]['key'] = key;
-        return obj[key];
-    });
-}
 
 function incrementFormMessageCount(userId, websiteId, formId, valid) {
     let ref = firebaseDB.ref('/users/' + userId + '/websites/' + websiteId + '/forms/' + formId);

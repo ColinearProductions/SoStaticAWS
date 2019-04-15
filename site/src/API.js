@@ -69,6 +69,21 @@ function getWebsitesById(id, callback) {
 
 function addWebsite(website, callback) {
 
+
+
+    let data = JSON.stringify(website);
+    axios.post(`${SERVER}/websites`,data,{
+        headers:{
+            'Content-Type': 'application/json',
+        }
+    }).then((response) => {
+        console.log(response);
+        callback(response.data);
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+
     let uid = firebase.auth().currentUser.uid;
     firebase.database().ref(`/users/${uid}/websites`).push(website).then(callback);
 }

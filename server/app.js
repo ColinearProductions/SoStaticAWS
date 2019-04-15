@@ -4,6 +4,7 @@ let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 let indexRouter = require('./routes/index');
+let websitesRouter = require('./routes/websites')
 let mockRouter = require('./routes/mock');
 
 
@@ -28,6 +29,10 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/mock', mockRouter);
+app.use('/websites', websitesRouter);
+
+
+
 
 const port = process.env.APP_PORT;
 

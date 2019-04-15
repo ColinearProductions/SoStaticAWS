@@ -27,20 +27,16 @@
 
 
     firebase.auth().onAuthStateChanged(function (user) {
-
-
         if (user) {
-            store.commit('setLoggedInState', true);
-            store.commit('setUser', user);
 
-            console.log('Logged in', user);
-
+            //will generate a new token
             firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-                store.commit('setUserToken', idToken);
-
-            }).catch(function(error) {
-
-            });
+                let tmp = {
+                  user:user,
+                  token:idToken
+                };
+                store.commit('setUserData', tmp);
+            }).catch(error=> console.err(error));
 
 
 
@@ -48,6 +44,7 @@
 
                 console.log('Websites count', snapshot.length);
                 if (snapshot.length < 1) {
+                    // if user has no websites, push him to the initial website setup page
                     router.push('/setup');
                 } else {
                     store.commit('setInitialData', snapshot);
@@ -105,9 +102,11 @@
             },
             setUser(state, payload) {
                 state.user = payload;
-                console.log("USER JUST GOT SET");
+
             },
-            setUserToken(state,token){
+            setUserData(state,token){
+              state.user = user;
+              state.isLoggedIn = true;
               state.userToken = token;
 
             },
