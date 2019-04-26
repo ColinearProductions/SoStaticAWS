@@ -4,13 +4,18 @@
         <v-layout row wrap justify-center>
             <v-flex xl8 md10 xs12 class="pa-2">
                 <v-card>
+                    <v-progress-linear
 
-                    <v-layout row justify-center>
+                            :active="loading"
+                            :indeterminate="true"
+                    ></v-progress-linear>
+                    <v-layout row justify-center >
                         <v-flex xl10 md10 xs12 class="pa-2">
 
 
 
                             <v-card-text class="pa-4">
+
 
                                 <v-form v-model="formValidModel" ref="form" @submit.prevent="">
 
@@ -147,6 +152,7 @@
 <script>
     /* eslint-disable */
 
+
     export default {
         name: "Settings",
         data: function () {
@@ -154,7 +160,7 @@
 
                 websiteDetailsModel: {},
                 websiteModelChangePending: false,
-                formValidModel:false,
+                formValidModel:false
 
             }
         },
@@ -239,6 +245,8 @@
                 this.websiteModelChangePending = this.isWebsiteChangePending
             },
             'currentWebsite': function(){
+
+                this.loading = false;
                 this.websiteDetailsModel =  this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
                 this.websiteModelChangePending = false;
@@ -255,6 +263,9 @@
             },
             currentWebsiteClone(){
                 return  JSON.parse(JSON.stringify( this.$store.getters.currentWebsiteClone));
+            },
+            loading(){
+                return this.$store.getters.isDataLoading;
             }
         },
         beforeMount: function () {

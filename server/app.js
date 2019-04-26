@@ -3,9 +3,9 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let cors = require('cors');
 let bodyParser = require('body-parser');
-let indexRouter = require('./routes/index');
-let websitesRouter = require('./routes/websites')
-let mockRouter = require('./routes/mock');
+let indexRouter = require('./routes/index.js');
+//let websitesRouter = require('./routes/websites.js');
+let mockRouter = require('./routes/mock.js');
 
 
 
@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/mock', mockRouter);
-app.use('/websites', websitesRouter);
+//app.use('/websites', websitesRouter);
 
 
 

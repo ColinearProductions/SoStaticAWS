@@ -21,9 +21,10 @@ let  config = {
 firebase.initializeApp(config);
 
 
-function logout() {
+function logout(callback) {
     firebase.auth().signOut().then(function () {
         console.log('Signed Out');
+        callback()
     }, function (error) {
         console.error('Sign Out Error', error);
     });
@@ -77,7 +78,6 @@ function addWebsite(website, callback) {
             'Content-Type': 'application/json',
         }
     }).then((response) => {
-        console.log(response);
         callback(response.data);
     }).catch(function (error) {
         console.log(error);

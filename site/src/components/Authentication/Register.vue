@@ -45,9 +45,7 @@
         methods: {
             onSubmit: function () {
                 let that = this;
-                this.$store.commit('setLoaderVisibility', true);
                 api.register(this.form_model.displayName, this.form_model.username, this.form_model.password, () => {}, (error_code, error_message) => {
-                    that.$store.commit('setLoaderVisibility', false);
                     console.log(error_code, error_message);
                 })
             }

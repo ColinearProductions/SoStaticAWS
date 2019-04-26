@@ -53,10 +53,7 @@
                     }
                 ]
             }
-        },
-        mounted: function () {
-            this.$store.commit('setLoaderVisibility', false)
-        },
+        }
     }
 
 

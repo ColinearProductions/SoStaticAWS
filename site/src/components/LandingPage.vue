@@ -18,7 +18,7 @@
                 <v-btn outline @click="logout">
                     Logout
                 </v-btn>
-                <v-btn outline :to="{name:'Settings'}">
+                <v-btn outline @click="goToDashboard">
                     Go to dashboard
                 </v-btn>
             </div>
@@ -113,11 +113,11 @@
                     <v-flex md4 xs12 class="pa-2">
                         <v-card class="pa-2">
 
-                            <v-card-media
+                            <v-img
                                     src="images/Photoshop/form.png"
                                     height="250px"
                                     contain
-                            ></v-card-media>
+                            ></v-img>
                             <v-card-title style="min-height:170px;" primary-title>
                                 <div>
                                     <h3 class="headline mb-0">Point your form to the generated link</h3>
@@ -131,11 +131,11 @@
                     <v-flex md4 xs12 class="pa-2">
                         <v-card class="pa-2">
 
-                            <v-card-media
+                            <v-img
                                     src="images/Photoshop/server.png"
                                     height="250px"
                                     contain
-                            ></v-card-media>
+                            ></v-img>
                             <v-card-title primary-title style="min-height:170px;">
                                 <div>
                                     <h3 class="headline mb-0">Let us provide you the backend</h3>
@@ -150,11 +150,11 @@
                     <v-flex md4 xs12 class="pa-2">
                         <v-card class="pa-2">
 
-                            <v-card-media
+                            <v-img
                                     src="images/Photoshop/email.png"
                                     height="250px"
                                     contain
-                            ></v-card-media>
+                            ></v-img>
                             <v-card-title primary-title class="justify-center" style="min-height:170px;">
                                 <div>
                                     <h3 class="headline mb-0 ">Read the emails</h3>
@@ -198,7 +198,7 @@
 
                 <v-flex md6 class=" pa-3">
                     <h5 class="headline">Simple recaptcha validation</h5>
-                    <h6 class="subheading">With just a checkbox, you can also integrate spam filtering using
+                    <h6 class="subheading">With just a checkbox, you can also integrate spam filtering on the server side using
                         Google's recaptcha for free. </h6>
                 </v-flex>
 
@@ -228,11 +228,11 @@
 
                             <v-flex xs12 class="text-lg-center">
                                 <h3 class="display-1 " style="width:100%">Free</h3>
-                                <v-card-media
+                                <v-img
                                         src="images/Photoshop/server.png"
                                         height="200px"
                                         contain
-                                ></v-card-media>
+                                ></v-img>
 
                                 <h3 class="display-1 font-weight-thin " style="width:100%">$0/Mo</h3>
                                 <v-divider></v-divider>
@@ -253,11 +253,11 @@
 
                             <v-flex xs12 class="text-lg-center">
                                 <h3 class="display-1 " style="width:100%">Freelancer</h3>
-                                <v-card-media
+                                <v-img
                                         src="images/Photoshop/server.png"
                                         height="200px"
                                         contain
-                                ></v-card-media>
+                                ></v-img>
 
                                 <h3 class="display-1 font-weight-thin " style="width:100%">$5/Mo/Websitte</h3>
                                 <v-divider></v-divider>
@@ -278,11 +278,11 @@
 
                             <v-flex xs12 class="text-lg-center">
                                 <h3 class="display-1 " style="width:100%">Small Business</h3>
-                                <v-card-media
+                                <v-img
                                         src="images/Photoshop/server.png"
                                         height="200px"
                                         contain
-                                ></v-card-media>
+                                ></v-img>
 
                                 <h3 class="display-1 font-weight-thin " style="width:100%">$30 / Websitte</h3>
                                 <v-divider></v-divider>
@@ -353,6 +353,7 @@
             }
         },
         mounted: function () {
+            //called only for the initial page load
             this.$store.commit('setLoaderVisibility', false)
         },
         computed: {
@@ -374,8 +375,23 @@
         },
         methods: {
             logout: function () {
-                this.$store.commit('setLoaderVisibility', false);
                 api.logout();
+
+            },
+            goToDashboard: function(){
+
+                console.log(this.$store.getters.currentWebsite);
+                if(this.$store.getters.currentWebsite.key===""){
+                    this.$router.push('/setup');
+                }else{
+                    this.$router.push({
+                        name:'Settings',
+                        params:{
+                            website_index:0
+                        }
+                    })
+                }
+
 
             }
         }

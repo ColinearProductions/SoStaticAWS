@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config ./bin/www"
+    "start": "node -r dotenv/config app"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

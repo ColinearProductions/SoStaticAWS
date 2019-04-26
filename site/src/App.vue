@@ -27,91 +27,112 @@
 
 
     firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
+        if (user !== null) {
+            onLoggedIn(user)
 
-            //will generate a new token
-            firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-                let tmp = {
-                  user:user,
-                  token:idToken
-                };
-                store.commit('setUserData', tmp);
-            }).catch(error=> console.err(error));
-
-
-
-            api.getWebsitesOfUser((snapshot) => {
-
-                console.log('Websites count', snapshot.length);
-                if (snapshot.length < 1) {
-                    // if user has no websites, push him to the initial website setup page
-                    router.push('/setup');
-                } else {
-                    store.commit('setInitialData', snapshot);
-                }
-
-                store.commit('setLoaderVisibility', false)
-
-            });
         } else {
             //user logged out
             store.commit('setLoggedInState', false);
             router.push('/');
-            store.commit('setLoaderVisibility', false)
 
         }
     });
 
 
+    function onLoggedIn(user) {
+
+        //will generate a new token, true=force refresh
+        firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+            let tmp = {
+                user: user,
+                token: idToken
+            };
+            store.commit('setUserData', tmp);
+        }).catch(error => console.error(error));
+
+
+        api.getWebsitesOfUser((snapshot) => {
+
+            console.log('Websites count', snapshot.length);
+
+
+            let websiteIndex = parseInt(router.currentRoute.params.website_index);
+            if (isNaN(websiteIndex) || websiteIndex + 1 > snapshot.length)
+                websiteIndex = 0;
+
+            if (router.currentRoute.path !== '/') {
+                router.push(
+                    {
+                        params: {
+                            'website_index': websiteIndex
+                        }
+                    });
+                if (snapshot.length < 1)
+                    router.push('/setup');
+            }
+
+            let payload = {
+                websiteIndex,
+                websites: snapshot,
+
+            };
+            store.commit('setInitialData', payload);
+
+
+        });
+    }
+
+
     const store = new Vuex.Store({
         state: {
-            currentWebsite: '0',
-            loaderVisible: true,
+            currentWebsite: 0,
+            loaderVisible: false,
             isLoggedIn: false,
             isCreateWebsiteDialogVisible: false,
             snackbarVisible: false,
             snackbarText: '',
             websitesData: [{
-                "alias": "Loading",
+                "alias": "",
                 "contacts": [],
                 "httpsOnly": true,
                 "owner": "",
                 "recaptcha": false,
-                "secret": "recaptcha secret",
-                "sitekey": "recaptcha sitekey",
-                "url": "loading.com",
+                "secret": "",
+                "sitekey": "",
+                "url": "",
                 "key": "",
                 "messagesCount": 128,
                 "formsPercentage": 34,
                 "messagesPercentage": 7,
                 "forms": {}
             }],
+            isInitialDataLoading: true,
             pendingModification: false,
             user: null,
-            userToken:null
+            userToken: null
 
         },
         mutations: {
             setInitialData(state, payload) {
-                state.websitesData = payload
+                console.log('Setting initial data');
+                console.log(payload);
+                state.currentWebsite = payload.websiteIndex;
+                state.websitesData = payload.websites;
+                state.isInitialDataLoading = false;
             },
             setLoggedInState(state, payload) {
                 state.isLoggedIn = payload;
                 if (payload === false)
                     state.user = null;
             },
-            setUser(state, payload) {
-                state.user = payload;
+            setUserData(state, payload) {
 
-            },
-            setUserData(state,token){
-              state.user = user;
-              state.isLoggedIn = true;
-              state.userToken = token;
-
+                state.isLoggedIn = true;
+                state.userToken = payload.token;
+                state.user = payload.user;
             },
             updateCurrentWebsite(state, payload) {
-                console.log(state, payload);
+
                 state.currentWebsite = payload;
             },
             addWebsite(state, website) {
@@ -124,14 +145,12 @@
                 state.pendingModification = pendingModification;
             },
             setLoaderVisibility(state, visible) {
-               state.loaderVisible = visible;
-
+                state.loaderVisible = visible;
             },
             updateWebsiteData(state, website) {
                 for (let i = 0; i < state.websitesData.length; i++) {
                     let w = state.websitesData[i];
-                    console.log('Update Website Data');
-                    console.log(website, w, website.key === w.key);
+
                     if (website.key === w.key) {
                         Vue.set(state.websitesData, i, website);
                     }
@@ -144,12 +163,10 @@
                 state.isCreateWebsiteDialogVisible = visiblility
             },
             updateFormById(state, payload) {
-                console.log("Trying to update local version of form", payload);
                 let newAlias = payload.alias;
                 let recaptcha = payload.recaptcha;
                 let formId = payload.form_id;
 
-                console.log(state.websitesData[state.currentWebsite].forms[formId]);
                 state.websitesData[state.currentWebsite].forms[formId].alias = newAlias;
                 state.websitesData[state.currentWebsite].forms[formId].recaptcha = recaptcha;
                 state.loaderVisible = false;
@@ -157,11 +174,8 @@
 
             },
             removeForm(state, formId) {
-                console.log("REMOVED FORM");
                 Vue.delete(state.websitesData[state.currentWebsite].forms, formId);
                 delete state.websitesData[state.currentWebsite].forms[formId];
-
-
 
 
                 state.loaderVisible = false;
@@ -181,14 +195,18 @@
         },
         getters: {
             currentWebsiteClone: function (state) {
-                console.log(state.websitesData[state.currentWebsite]);
+                console.log("THIIIIIIIIIIIIS", state.currentWebsite);
                 return JSON.parse(JSON.stringify(state.websitesData[state.currentWebsite]));
             },
             currentWebsite: function (state) {
+                console.log(state);
                 return state.websitesData[state.currentWebsite];
             },
             getPendingModification(state) {
                 return state.pendingModification;
+            },
+            isDataLoading(state) {
+                return state.isInitialDataLoading;
             },
             getLoaderVisible(state) {
                 return state.loaderVisible;
@@ -208,22 +226,22 @@
             getUser(state) {
                 console.log("TRYING TO GET USER");
                 return state.user;
+            },
+            getWebsitesCount(state) {
+                return state.websitesData.length;
             }
 
 
         },
         actions: {
             createWebsite(context, website) {
-                context.commit('setLoaderVisibility', true);
                 console.log(website);
                 website.forms = {};
                 api.addWebsite(website, function (snapshot) {
                     console.log(snapshot);
                     let newWebsiteKey = snapshot.key;
                     api.getWebsitesById(newWebsiteKey, function (snapshot) {
-                        console.log("api.getWebsitesById(newWebsiteKey, function(snapshot)", snapshot);
                         context.commit('addWebsite', snapshot);
-                        context.commit('setLoaderVisibility', false);
                         router.push('/app/settings');
                         context.commit('showSnackbar', 'Form ' + website.alias + ' created successfully');
                         context.commit('setCreateWebsiteDialogVisibility', false);
@@ -232,14 +250,11 @@
                 })
             },
             addFormToWebsite(context, form) {
-                context.commit('setLoaderVisibility', true);
                 let current_website_key = context.getters.currentWebsite.key;
 
                 api.addFormToWebsite(current_website_key, form, function (snapshot) {
-                    console.log(snapshot);
 
                     api.getWebsitesById(current_website_key, function (snapshot) {
-                        console.log(snapshot);
                         context.commit('updateWebsiteData', snapshot);
                         context.commit('showSnackbar', 'Form ' + form.alias + ' created successfully');
 
@@ -248,7 +263,6 @@
                 })
             },
             updateWebsite(context, website) {
-                context.commit('setLoaderVisibility', true);
                 api.updateWebsite(website, () => {
 
                     context.commit('updateWebsiteData', JSON.parse(JSON.stringify(website)));
@@ -258,7 +272,6 @@
 
             },
             updateForm(context, data) {
-                context.commit('setLoaderVisibility', true);
                 let updateData = {alias: data.alias, recaptcha: data.recaptcha};
 
                 let form_key = data.form_id;
@@ -270,7 +283,6 @@
                 });
             },
             deleteForm(context, formId) {
-                context.commit('setLoaderVisibility', true);
                 let websiteId = context.getters.currentWebsite.key;
                 api.deleteForm(websiteId, formId, () => {
                     context.commit('removeForm', formId);
@@ -284,7 +296,7 @@
 
     router.beforeEach((to, from, next) => {
         if (store.getters.getPendingModification) {
-            if(!store.getters.getIsLoggedIn) {
+            if (!store.getters.getIsLoggedIn) {
                 next();
                 return;
             }

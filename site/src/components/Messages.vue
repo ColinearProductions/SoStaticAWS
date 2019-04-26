@@ -328,7 +328,6 @@
             },
             loadMessages: function () {
                 let that = this;
-                this.$store.commit('setLoaderVisibility', true);
 
                 let startDate = moment(this.startDatePicker.date).valueOf();
                 let endDate = moment(this.endDatePicker.date).add(24, 'hours').valueOf();
@@ -351,7 +350,6 @@
                         message.properties = Object.keys(message.payload);
                         return message;
                     });
-                    that.$store.commit('setLoaderVisibility', false);
 
                 });
             }

@@ -45,6 +45,8 @@
     import Forms from "./Forms"
     import CreateWebsiteDialog from "./TinyComponents/CreateWebsiteDialog";
     import * as api from '../API';
+    import Messages from "./Messages";
+    import Settings from "./Settings";
 
 
     export default {
@@ -59,9 +61,9 @@
                 drawer: null,
                 items: [
 
-                    {icon: 'assignment', text: 'Forms', to: "/app/forms"},
-                    {icon: 'insert_comment', text: 'Messages', to: "/app/messages"},
-                    {icon: 'settings', text: 'Settings', to:"/app/settings"},
+                    {icon: 'assignment', text: 'Forms', to: Forms},
+                    {icon: 'insert_comment', text: 'Messages', to: Messages},
+                    {icon: 'settings', text: 'Settings', to:Settings},
                     {icon: 'code', text: 'Documentation'},
                     {icon: 'person', text: 'Account'},
                     {icon: 'home', text: 'Home', to:"/"},
@@ -79,13 +81,6 @@
         },
         props: {
             source: String
-        },
-        watch:{
-            '$route': function(to, from){
-                console.log(to);
-                console.log(from);
-
-            }
         },
         methods:{
             logout: function(){

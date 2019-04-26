@@ -2,6 +2,7 @@
 
 
     <v-layout row wrap>
+
         <v-container v-if="formsCount<1" bg fill-height grid-list-md text-xs-center>
             <v-layout row wrap align-center>
                 <v-flex>
@@ -194,6 +195,9 @@
                     return objToArray(this.currentWebsite.forms).length;
                 else
                     return 0;
+            },
+            loading(){
+                return this.$store.getters.isDataLoading;
             }
 
         }

@@ -154,12 +154,11 @@
                 this.current_step -= 1;
             },
             submit: function () {
-                this.$store.commit('setLoaderVisibility', true);
                 this.website.contacts.push({alias: this.contact_alias, email: this.contact_email});
                 this.$store.dispatch("createWebsite", this.website);
             },
             logout: function(){
-                api.logout();
+                api.logout(()=>this.$router.push("/"));
             }
         },
         computed: {

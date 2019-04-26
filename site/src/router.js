@@ -21,20 +21,20 @@ let router = new Router({
     routes: [
 
         {
-            path: '/app',
+            path: '/app/:website_index/',
             name: 'Home',
             component: Layout,
             children: [{
 
-                path: '/app/forms',
+                path: 'forms',
                 name: 'Forms',
                 component: Forms
             }, {
-                path: '/app/settings/:website_index',
+                path: 'settings',
                 name: 'Settings',
                 component: Settings
             }, {
-                path: '/app/messages',
+                path: 'messages',
                 name: 'Messages',
                 component: Messages
             }

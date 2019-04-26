@@ -47,15 +47,11 @@
         },
         methods:{
             onSubmit:function(){
-                this.$store.commit('setLoaderVisibility', true);
-                let that = this;
                 api.login(this.form_model.username, this.form_model.password,function(){
                     router.push('/app/settings');
-                    that.$store.commit('setLoaderVisibility', false);
 
                 }, function(error){
                     console.log(error);
-                    that.$store.commit('setLoaderVisibility', false);
 
                 })
             }
