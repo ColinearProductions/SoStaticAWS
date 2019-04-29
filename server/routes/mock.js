@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const mongoDbProvider = require('../db');
 
+const sendgridUtils = require('../sendgrid');
 
 const testUserId = "PPlkcvs0O5bC4TGZY4MeXt1xCqJ2";
 const testWebsiteId = "-LVDjHbwZtz-REzso7qH";
@@ -19,6 +20,10 @@ router.get('/messages', (req, res, next) => {
     })
 });
 
+router.get('/mail',(req,res,next)=>{
+        sendgridUtils.email('becheru.razvan@gmail.com');
+        res.send('OK');
+});
 
 router.post('/message',(req,res)=>{
 

@@ -51,6 +51,19 @@ const sendMessage = function(payload, websiteConfig, formConfig){
 
 };
 
+function email(to){
+    const msg = {
+        to: to,
+        from: 'sostatic.xyz@gmail.com',
+        subject: 'This is a test email',
+        html: '<h1>This is a test email!!!</h1>',
+    };
+    sendgridClient.send(msg)
+        .then(()=>console.log("ON Send email succesfull"))
+        .catch(error=>console.error(error));
+
+}
+
 function objToArray(obj) {
     return Object.keys(obj).map(function (key) {
         obj[key]['key'] = key;
@@ -64,5 +77,5 @@ function objToArray(obj) {
 
 
 module.exports ={
-    sendMessage
+    sendMessage,email
 };
