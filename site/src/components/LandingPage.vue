@@ -1,92 +1,99 @@
 <template>
-    <v-app style="background: white">
+    <v-app class="landing-bg" style=";background-position: top 0 right 0;background-repeat:no-repeat;
+        background-size: 100vh auto; background-color: white"
+           :style="{'background-image':$vuetify.breakpoint.xs?'':'url(\'images/1st_ex.png\')'}">
 
-        <v-toolbar color="transparent" class="elevation-0 hidden-sm-and-down " dark absolute app>
-            <v-toolbar-title>SoStatic</v-toolbar-title>
-            <v-spacer></v-spacer>
+        <!--  <v-toolbar color="transparent" class="elevation-0 hidden-sm-and-down " absolute app>
+              <v-toolbar-title>SoStatic</v-toolbar-title>
+              <v-spacer></v-spacer>
 
-            <v-btn flat>
-                Pricing
-            </v-btn>
+              <v-btn flat>
+                  Pricing
+              </v-btn>
 
-            <v-btn flat>
-                Documentation
-            </v-btn>
+              <v-btn flat>
+                  Documentation
+              </v-btn>
 
-            <div v-if="isLoggedIn">
+              <div v-if="isLoggedIn">
 
-                <v-btn outline @click="logout">
-                    Logout
-                </v-btn>
-                <v-btn outline @click="goToDashboard">
-                    Go to dashboard
-                </v-btn>
-            </div>
+                  <v-btn outline @click="logout">
+                      Logout
+                  </v-btn>
+                  <v-btn outline @click="goToDashboard">
+                      Go to dashboard
+                  </v-btn>
+              </div>
 
-            <div v-else>
-                <v-btn outline :to="{name:'Login'}">
-                    Login
-                </v-btn>
-                <v-btn outline :to="{name:'Register'}">
-                    Sign Up
-                </v-btn>
-            </div>
-
-
-        </v-toolbar>
-        <v-toolbar color="transparent" class="elevation-0 hidden-md-and-up" dark absolute app>
-            <v-toolbar-title>SoStatic</v-toolbar-title>
-            <v-spacer></v-spacer>
-
-            <v-menu bottom left>
-                <v-btn slot="activator" dark icon>
-                    <v-icon>more_vert</v-icon>
-                </v-btn>
-
-                <v-list>
-                    <v-list-tile v-for="(item, i) in menuItems" :key="i" :to="item.to">
-                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                    </v-list-tile>
-                </v-list>
-            </v-menu>
+              <div v-else>
+                  <v-btn outline :to="{name:'Login'}">
+                      Login
+                  </v-btn>
+                  <v-btn outline :to="{name:'Register'}">
+                      Sign Up
+                  </v-btn>
+              </div>
 
 
-        </v-toolbar>
-
-        <section style="    background: linear-gradient(180deg,#74309d 0,#5f62b8);width:100%;height:100vh;">
-
-            <v-container fill-height>
-                <v-layout row wrap align-center>
-                    <v-flex style="z-index:2">
-                        <div class="text-xs-center ">
-                            <h1 class="display-3  font-weight-regular" style="color:white">
-                                Form processing backend for static websites</h1>
-                            <h1 class="headline font-weight-regular " style="color:white"> with email forwarding</h1>
+          </v-toolbar>
+  -->
+        <section style=" width:100%;height:100vh" :style="{'height':$vuetify.breakpoint.xs?'':'100vh'}" :class="{'mt-5':$vuetify.breakpoint.xs}">
 
 
-                        </div>
-                        <div class="text-xs-center my-4">
-                            <v-btn large class="text--primary" :to="{name:'Register'}">Get started</v-btn>
-                            <v-btn outline dark large>Documentation</v-btn>
+            <v-layout class="pa-4" row wrap align-center :fill-height="$vuetify.breakpoint.mdAndUp"
+                      :class="{'pl-5': $vuetify.breakpoint.mdAndUp,'ml-5': $vuetify.breakpoint.mdAndUp,'text-xs-center':$vuetify.breakpoint.xs}">
+                <v-flex style="z-index:2 ">
+                    <div>
+                        <h1 class="display-4 deep-purple--text font-weight-bold"
+                            :class="{'display-2': $vuetify.breakpoint.xs}">
+                            SoStatic</h1>
 
-                        </div>
-                        <v-card color="grey lighten-5" class="white--text"
-                                style="max-width:800px;margin-left:auto;margin-right:auto">
+
+                        <h1 class="display-3 deep-purple--text font-weight-regular"
+                            :class="{'headline': $vuetify.breakpoint.xs}">
+                            Form backend for static websites</h1>
+                        <h1 class="headline font-weight-regular deep-purple--text "
+                            :class="{'subheading': $vuetify.breakpoint.xs}"> with email forwarding</h1>
+
+
+                    </div>
+                    <div class=" my-4">
+
+
+
+                            <v-btn large outline color="primary" @click="goToDashboard" v-if="isLoggedIn">
+                                Go to dashboard
+                            </v-btn>
+                        <template  v-else>
+
+
+                            <v-btn  large color="primary" :to="{name:'Register'}">Register</v-btn>
+                            <v-btn  large color="primary" :to="{name:'Login'}">Login</v-btn>
+                        </template>
+
+
+                        <v-btn outline color="primary" large>Documentation</v-btn>
+
+                        <v-card color="blue-grey darken-4" class="white--text mt-3 hidden-sm-and-down"
+                                style="max-width: 500px"
+                        >
 
 
                             <v-card-title primary-title class="pa-0">
 
                                 <pre v-highlightjs="code" style="margin-left:auto;margin-right:auto">
-                                    <code class="html subheading font-weight-regular pa-0"
+                                    <code class="html text-xs-left subheading font-weight-regular pa-0 mt-3"
+                                          :class="{'caption': $vuetify.breakpoint.xs}"
                                           style="background-color: transparent;box-shadow:none"></code>
                                 </pre>
 
                             </v-card-title>
 
                         </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+                    </div>
+                </v-flex>
+            </v-layout>
+
         </section>
 
         <!--
@@ -95,21 +102,8 @@
         </section>
         -->
 
-        <div style="position:absolute;width:100%;height:100vh;z-index:1" class="hidden-sm-and-down">
 
-            <v-container>
-                <v-layout row wrap>
-                    <v-flex>
-
-
-                    </v-flex>
-                </v-layout>
-            </v-container>
-
-        </div>
-
-
-        <v-container class="my-5">
+        <v-container :class="{'my-5':$vuetify.breakpoint.mdAndUp}">
 
 
             <v-layout row wrap>
@@ -218,7 +212,8 @@
                         <v-flex md9>
 
                             <h5 class="headline font-weight-bold">Very quick setup</h5>
-                            <h6 class="subheading">Adding SoStatic to your website is as easy as replacing the <b>Action</b> parameter on your form</h6>
+                            <h6 class="subheading">Adding SoStatic to your website is as easy as replacing the
+                                <b>Action</b> parameter on your form</h6>
                         </v-flex>
                     </v-layout>
 
@@ -237,7 +232,8 @@
                         <v-flex md9>
 
                             <h5 class="headline font-weight-bold">Changes without redeployment</h5>
-                            <h6 class="subheading">You can change the behaviour of your form processing without needing to redeploy your website</h6>
+                            <h6 class="subheading">You can change the behaviour of your form processing without needing
+                                to redeploy your website</h6>
                         </v-flex>
                     </v-layout>
 
@@ -247,107 +243,112 @@
 
             </v-layout>
 
+
+            <v-layout row wrap>
+
+                <v-layout row wrap class="text-xs-center">
+                    <v-flex xs12 text-xs-center class="my-5">
+                        <h2 class="display-3 fnt font-weight-bold"> Pricing</h2>
+                    </v-flex>
+
+                    <v-flex md4 xs12 class="pa-2">
+                        <v-card class="pa-2" >
+
+
+                            <v-flex xs12 class="text-lg-center">
+
+                                <v-img class="my-4"
+                                       src="images/landing/price_free.png"
+                                       height="100px"
+                                       contain
+                                ></v-img>
+                                <h3 class="display-1 mb-4" style="width:100%">Free</h3>
+                                <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
+                                    style="width:100%">0$</h3>
+                                <p class="subheading mb-2"><b>1</b> Website</p>
+                                <p class="subheading mb-2"><b>1</b> Form</p>
+                                <p class="subheading mb-2"><b>100</b> Messages per Month</p>
+                                <p class="subheading mb-2"><b>1</b> Contact</p>
+
+                                <v-btn large outline color="primary">Signup for free</v-btn>
+                            </v-flex>
+
+                        </v-card>
+                    </v-flex>
+                    <v-flex md4 xs12 class="pa-2">
+                        <v-card class="pa-2">
+
+
+                            <v-flex xs12 class="text-lg-center">
+                                <v-img class="my-4"
+                                       src="images/landing/price_freelancer.png"
+                                       height="100px"
+                                       contain
+                                ></v-img>
+                                <h3 class="display-1 mb-4" style="width:100%">Freelancer</h3>
+
+                                <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
+                                    style="width:100%">$5/month/site</h3>
+                                <p class="subheading mb-2"><b>Unlimited</b> Websites </p>
+                                <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
+                                <p class="subheading mb-2"><b>1000</b> Messages / Month / Website</p>
+                                <p class="subheading mb-2"><b>1</b> Contact / Website</p>
+                                <v-btn large outline color="primary">Signup </v-btn>
+
+                            </v-flex>
+
+                        </v-card>
+                    </v-flex>
+                    <v-flex md4 xs12 class="pa-2">
+                        <v-card class="pa-2">
+
+
+                            <v-flex xs12 class="text-lg-center">
+                                <v-img class="my-4"
+                                       src="images/landing/price_business.png"
+                                       height="100px"
+                                       contain
+                                ></v-img>
+                                <h3 class="display-1 " style="width:100%">Small business</h3>
+
+                                <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
+                                    style="width:100%">$30/month/site</h3>
+                                <p class="subheading mb-2"><b>Unlimited</b> Website</p>
+                                <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
+                                <p class="subheading mb-2"><b>Unlimited</b> Messages</p>
+                                <p class="subheading mb-2"><b>Unlimited</b> Contacts</p>
+                                <v-btn large outline color="primary">Signup </v-btn>
+
+                            </v-flex>
+
+                        </v-card>
+                    </v-flex>
+
+                    <v-flex md12 class="pa-2">
+                        <h5 class="text--secondary">* If these plans are not appropriate for your needs, it means
+                            that this is not the recommended solution for you.
+                            If you still want to outsource this task, please consider contacting us at
+                            inquiry@sostatic.xyz to discuss a custom solution for your needs</h5>
+                    </v-flex>
+
+                    <v-flex xs12 class="mt-5 mb-5 text--secondary text-lg-center">
+                        <v-btn large class="btn btn--large primary " :to="{name:'Register'}">Get started</v-btn>
+
+                    </v-flex>
+
+                </v-layout>
+            </v-layout>
         </v-container>
 
-        <div class="grey lighten-4">
-            <v-container text-xs-center>
-                <v-layout row wrap>
-
-                    <v-layout row wrap>
-                        <v-flex xs12 text-xs-center class="my-5">
-                            <h2 class="display-3 fnt font-weight-bold"> Pricing</h2>
-                        </v-flex>
-
-                        <v-flex md4 xs12 class="pa-2">
-                            <v-card class="pa-2">
-
-
-                                <v-flex xs12 class="text-lg-center">
-
-                                    <v-img class="my-4"
-                                           src="images/landing/price_free.png"
-                                           height="100px"
-                                           contain
-                                    ></v-img>
-                                    <h3 class="display-1 mb-4" style="width:100%">Free</h3>
-                                    <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
-                                        style="width:100%">0$</h3>
-                                    <p class="subheading mb-2"><b>1</b> Website</p>
-                                    <p class="subheading mb-2"><b>1</b> Form</p>
-                                    <p class="subheading mb-2"><b>100</b> Messages per Month</p>
-                                    <p class="subheading mb-2"><b>1</b> Contact</p>
-                                </v-flex>
-
-                            </v-card>
-                        </v-flex>
-                        <v-flex md4 xs12 class="pa-2">
-                            <v-card class="pa-2">
-
-
-                                <v-flex xs12 class="text-lg-center">
-                                    <v-img class="my-4"
-                                           src="images/landing/price_freelancer.png"
-                                           height="100px"
-                                           contain
-                                    ></v-img>
-                                    <h3 class="display-1 mb-4" style="width:100%">Freelancer</h3>
-
-                                    <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
-                                        style="width:100%">$5/month/site</h3>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Websites </p>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
-                                    <p class="subheading mb-2"><b>1000</b> Messages / Month / Website</p>
-                                    <p class="subheading mb-2"><b>1</b> Contact / Website</p>
-                                </v-flex>
-
-                            </v-card>
-                        </v-flex>
-                        <v-flex md4 xs12 class="pa-2">
-                            <v-card class="pa-2">
-
-
-                                <v-flex xs12 class="text-lg-center">
-                                    <v-img class="my-4"
-                                           src="images/landing/price_business.png"
-                                           height="100px"
-                                           contain
-                                    ></v-img>
-                                    <h3 class="display-1 " style="width:100%">Small business</h3>
-
-                                    <h3 class="display-1 my-4 font-weight-bold deep-purple--text text--lighten-2"
-                                        style="width:100%">$30/month/site</h3>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Website</p>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Messages</p>
-                                    <p class="subheading mb-2"><b>Unlimited</b> Contacts</p>
-                                </v-flex>
-
-                            </v-card>
-                        </v-flex>
-
-                        <v-flex md12 class="pa-2">
-                            <h5 class="text--secondary">* If these plans are not appropriate for your needs, it means
-                                that this is not the recommended solution for you.
-                                If you still want to outsource this task, please consider contacting us at
-                                inquiry@sostatic.xyz to discuss a custom solution for your needs</h5>
-                        </v-flex>
-
-                        <v-flex xs12 class="mt-5 mb-5 text--secondary text-lg-center">
-                            <v-btn large class="btn btn--large primary " :to="{name:'Register'}">Get started</v-btn>
-
-                        </v-flex>
-
-                    </v-layout>
-                </v-layout>
-            </v-container>
-        </div>
 
         <!--<section style="width: 100%; height:10vh;box-shadow: rgba(0, 0, 0, 0.3) 0 2px 1px -1px"></section> -->
 
 
+        <!--
         <v-footer color="primary" app absolute>
             <span class="white--text">&copy; 2017</span>
         </v-footer>
+        -->
     </v-app>
 </template>
 
@@ -388,14 +389,11 @@
                 return this.$store.getters.getIsLoggedIn;
             },
             code: function () {
-                return `<form action="https://sostatic.xyz/api/{YOUR_KEY}" method="POST">
-    <label for="name">Name</label>
-    <input type="text" name="name">
-    <label for="email">Email </label>
-    <input type="text" name="email">
-    <label for="message"> Message </label>
-    <textarea name="message" placeholder="Your message"></textarea>
-    <input type="submit" value="Submit">
+                return `<form action="https://ssttc.xyz/{YOUR_KEY}">
+            <input name="name">
+            <input name="email">
+            <textarea name="message"></textarea>
+            <input type="submit" value="Submit">
 </form>`;
             }
 
@@ -432,6 +430,10 @@
 
     .fnt {
         font-family: 'Staatliches', cursive;
+    }
+
+    * {
+        font-family: 'Rubik' !important;
     }
 
 </style>

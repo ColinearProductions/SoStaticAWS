@@ -326,6 +326,11 @@
                 s: store
             }
         },
+        computed:{
+            vtf:function () {
+                return this.$vuetify
+            }
+        },
         store
     }
 </script>
