@@ -48,7 +48,7 @@
         methods:{
             onSubmit:function(){
                 api.login(this.form_model.username, this.form_model.password,function(){
-                    router.push('/app/settings');
+                    router.push('/app/0/settings');
 
                 }, function(error){
                     console.log(error);

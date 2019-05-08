@@ -37,7 +37,8 @@
 
           </v-toolbar>
   -->
-        <section style=" width:100%;height:100vh" :style="{'height':$vuetify.breakpoint.xs?'':'100vh'}" :class="{'mt-5':$vuetify.breakpoint.xs}">
+        <section style=" width:100%;height:100vh" :style="{'height':$vuetify.breakpoint.xs?'':'100vh'}"
+                 :class="{'mt-5':$vuetify.breakpoint.xs}">
 
 
             <v-layout class="pa-4" row wrap align-center :fill-height="$vuetify.breakpoint.mdAndUp"
@@ -60,15 +61,14 @@
                     <div class=" my-4">
 
 
+                        <v-btn large outline color="primary" @click="goToDashboard" v-if="isLoggedIn">
+                            Go to dashboard
+                        </v-btn>
+                        <template v-else>
 
-                            <v-btn large outline color="primary" @click="goToDashboard" v-if="isLoggedIn">
-                                Go to dashboard
-                            </v-btn>
-                        <template  v-else>
 
-
-                            <v-btn  large color="primary" :to="{name:'Register'}">Register</v-btn>
-                            <v-btn  large color="primary" :to="{name:'Login'}">Login</v-btn>
+                            <v-btn large color="primary" :to="{name:'Register'}">Register</v-btn>
+                            <v-btn large color="primary" :to="{name:'Login'}">Login</v-btn>
                         </template>
 
 
@@ -103,7 +103,7 @@
         -->
 
 
-        <v-container :class="{'my-5':$vuetify.breakpoint.mdAndUp}">
+        <v-container :class="{'mt-5':$vuetify.breakpoint.mdAndUp}" style="z-index:10;">
 
 
             <v-layout row wrap>
@@ -239,6 +239,46 @@
 
 
                 </v-flex>
+                <v-flex md6 class=" px-2 py-4">
+                    <v-layout row wrap align-center>
+
+                        <v-flex md3>
+                            <v-img
+                                    src="images/landing/european-union.png"
+                                    height="70px"
+                                    contain
+                            ></v-img>
+                        </v-flex>
+                        <v-flex md9>
+
+                            <h5 class="headline font-weight-bold">GDPR compliant</h5>
+                            <h6 class="subheading">We implement all the required mechanism to be compliant with GDPR and
+                                will guide you through adding them to your website as well</h6>
+                        </v-flex>
+                    </v-layout>
+
+
+                </v-flex>
+                <v-flex md6 class=" px-2 py-4">
+                    <v-layout row wrap align-center>
+
+                        <v-flex md3>
+                            <v-img
+                                    src="images/landing/ssl.png"
+                                    height="70px"
+                                    contain
+                            ></v-img>
+                        </v-flex>
+                        <v-flex md9>
+
+                            <h5 class="headline font-weight-bold">Secure</h5>
+                            <h6 class="subheading">All communication can be done through SSL just by adding an 's' to
+                                the link we provide ;)</h6>
+                        </v-flex>
+                    </v-layout>
+
+
+                </v-flex>
 
 
             </v-layout>
@@ -252,7 +292,7 @@
                     </v-flex>
 
                     <v-flex md4 xs12 class="pa-2">
-                        <v-card class="pa-2" >
+                        <v-card class="pa-2">
 
 
                             <v-flex xs12 class="text-lg-center">
@@ -293,7 +333,7 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>1000</b> Messages / Month / Website</p>
                                 <p class="subheading mb-2"><b>1</b> Contact / Website</p>
-                                <v-btn large outline color="primary">Signup </v-btn>
+                                <v-btn large outline color="primary">Signup</v-btn>
 
                             </v-flex>
 
@@ -317,7 +357,7 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Messages</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Contacts</p>
-                                <v-btn large outline color="primary">Signup </v-btn>
+                                <v-btn large outline color="primary">Signup</v-btn>
 
                             </v-flex>
 
@@ -331,19 +371,38 @@
                             inquiry@sostatic.xyz to discuss a custom solution for your needs</h5>
                     </v-flex>
 
-                    <v-flex xs12 class="mt-5 mb-5 text--secondary text-lg-center">
-                        <v-btn large class="btn btn--large primary " :to="{name:'Register'}">Get started</v-btn>
 
-                    </v-flex>
 
                 </v-layout>
             </v-layout>
         </v-container>
 
 
-        <!--<section style="width: 100%; height:10vh;box-shadow: rgba(0, 0, 0, 0.3) 0 2px 1px -1px"></section> -->
+        <v-layout>
+            <v-flex xs12>
+
+                <v-container>
+                    <v-layout row wrap>
+                        <v-flex md6 sm6 xs12 class="text-xs-center text-sm-left">
+                            <h1>So Static</h1>
+                            <h4> <a class="pr-2">Plans </a><a class="px-2">Sign Up </a><a class="px-2">Login </a> <a class="px-2">Contact</a></h4>
+
+                        </v-flex>
+                        <v-flex md6 sm6 xs12 class="text-xs-center text-sm-right  text-lg-right">
+                            <h4 class="deep-purple--text">© 2019 So Static </h4>
+                            <h4><a>Terms of Service</a> | <a> Privacy Policy</a></h4>
+                            <h4>Get in touch at<a> contact@sostatic.xyz</a> </h4>
+
+                        </v-flex>
+                    </v-layout>
 
 
+
+                </v-container>
+
+
+            </v-flex>
+        </v-layout>
         <!--
         <v-footer color="primary" app absolute>
             <span class="white--text">&copy; 2017</span>

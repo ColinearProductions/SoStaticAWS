@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const requestPromise = require('request-promise');
 const admin = require('firebase-admin');
-const serviceAccount = require('../firebase_pkey.json');
+
 
 
 const recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/siteverify";
@@ -12,11 +12,6 @@ const sendgridUtils = require('../sendgrid');
 
 const mongoDbProvider = require('../db');
 
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://sostatic-aws.firebaseio.com"
-});
 
 let firebaseDB = admin.database();
 

@@ -43,6 +43,7 @@
 
         //will generate a new token, true=force refresh
         firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+            console.log(idToken);
             let tmp = {
                 user: user,
                 token: idToken
@@ -229,6 +230,9 @@
             },
             getWebsitesCount(state) {
                 return state.websitesData.length;
+            },
+            getIdToken(state){
+                return state.userToken
             }
 
 

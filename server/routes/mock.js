@@ -12,6 +12,10 @@ const testForm2 = "-LVDkGsACAqvcnrVgbPB";
 const destinationEmail = "becheru.razvan@gmail.com";
 
 
+
+const admin = require('firebase-admin');
+
+
 router.get('/messages', (req, res, next) => {
 
     mongoDbProvider.getDb().collection('messages').find().toArray(function (err, result) {
@@ -20,8 +24,19 @@ router.get('/messages', (req, res, next) => {
     })
 });
 
+
+
+
+
+router.post('/auth',(req,res,next)=>{
+
+    console.log('AUTHENTICATED', res.token.uid);
+    res.send('ok');
+});
+
 router.get('/mail',(req,res,next)=>{
         sendgridUtils.email('becheru.razvan@gmail.com');
+
         res.send('OK');
 });
 

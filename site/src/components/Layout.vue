@@ -32,6 +32,9 @@
         <v-content>
             <v-container fluid  grid-list-xl fill-height
             >
+                <v-btn @click="mockAuth">
+                    AUTH
+                </v-btn>
                 <router-view ></router-view>
             </v-container>
         </v-content>
@@ -48,6 +51,7 @@
     import Messages from "./Messages";
     import Settings from "./Settings";
 
+    const axios = require('axios');
 
     export default {
         components: {
@@ -85,6 +89,15 @@
         methods:{
             logout: function(){
                 api.logout();
+            },
+            mockAuth: function () {
+                let token = this.$store.getters.getIdToken;
+                axios.post('http://localhost/mock/auth',{idToken:token}).then((response) => {
+                    alert(response.data)
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
             }
         }
 
