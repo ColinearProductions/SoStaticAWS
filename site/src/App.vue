@@ -10,16 +10,17 @@
 
 <script>
     /* eslint-disable */
-    import MSnackBar from "./components/TinyComponents/MSnackBar";
+    import MSnackBar from './components/TinyComponents/MSnackBar';
 
     import Layout from './components/Layout.vue'
     import Loader from './components/TinyComponents/Loader'
     import LandingPage from './components/LandingPage'
     import Vue from 'vue'
-    import Vuex from "vuex";
+    import Vuex from 'vuex';
 
     import * as api from './API';
     import firebase from 'firebase';
+    import axios from 'axios';
 
     Vue.use(Vuex);
 
@@ -49,6 +50,13 @@
                 token: idToken
             };
             store.commit('setUserData', tmp);
+
+            axios.interceptors.request.use(function (config) {
+                config.headers.Authorization =  "Bearer "+idToken;
+                return config;
+            });
+
+
         }).catch(error => console.error(error));
 
 

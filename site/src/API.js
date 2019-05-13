@@ -2,8 +2,7 @@
 /* eslint-disable */
 import firebase from 'firebase'
 
-
-const axios = require('axios');
+import axios from 'axios';
 
 
 const SERVER = process.env.NODE_ENV==='development'?'http://localhost':'https://ssttc.xyz';
@@ -138,7 +137,9 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,it
     console.log("pulling messages");
 
 
-    axios.get(`${SERVER}/list`,
+
+
+    axios.get(`${SERVER}/messages/list`,
         {
             params: {
                 start: start_date,

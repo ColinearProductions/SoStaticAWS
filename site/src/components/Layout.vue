@@ -91,8 +91,7 @@
                 api.logout();
             },
             mockAuth: function () {
-                let token = this.$store.getters.getIdToken;
-                axios.post('http://localhost/mock/auth',{idToken:token}).then((response) => {
+                axios.post('http://localhost/mock/auth',{}).then((response) => {
                     alert(response.data)
                 }).catch(function (error) {
                     console.log(error);

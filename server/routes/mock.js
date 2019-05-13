@@ -11,9 +11,9 @@ const testForm1 = "-LVDk7W1oAukb19E4Z6n";
 const testForm2 = "-LVDkGsACAqvcnrVgbPB";
 const destinationEmail = "becheru.razvan@gmail.com";
 
+const authMiddleware = require('../authMiddleware');
 
-
-const admin = require('firebase-admin');
+router.use(authMiddleware);
 
 
 router.get('/messages', (req, res, next) => {

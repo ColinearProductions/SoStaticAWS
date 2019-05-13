@@ -14,7 +14,8 @@ admin.initializeApp({
     databaseURL: "https://sostatic-aws.firebaseio.com"
 });
 
-const indexRouter = require('./routes/index.js');
+const messagesRouter = require('./routes/messages.js');
+const endpointRouter = require('./routes/endpoint.js');
 const mockRouter = require('./routes/mock.js');
 
 app.use(logger('dev'));
@@ -24,23 +25,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-//this function will be called before every http request. Must be added as a middleware before mounting the routers
-app.use((req,res,next)=>{
-    console.log(req.body);
-    let idToken = req.body.idToken;
-    admin.auth().verifyIdToken(idToken)
-        .then(function(decodedToken) {
-            console.log('Successfully validated token');
-            res.token = decodedToken;
-            next();
-        }).catch(function(error) {
-        console.error('ERROR:',error);
-        res.send('Authentication error')
-    });
-});
 
 
-app.use('/', indexRouter);
+app.use('/messages', messagesRouter);
+app.use('/m', endpointRouter);
 app.use('/mock', mockRouter);
 
 

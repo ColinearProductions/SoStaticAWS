@@ -310,7 +310,7 @@
                                 <p class="subheading mb-2"><b>100</b> Messages per Month</p>
                                 <p class="subheading mb-2"><b>1</b> Contact</p>
 
-                                <v-btn large outline color="primary">Signup for free</v-btn>
+                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up for free</v-btn>
                             </v-flex>
 
                         </v-card>
@@ -333,7 +333,7 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>1000</b> Messages / Month / Website</p>
                                 <p class="subheading mb-2"><b>1</b> Contact / Website</p>
-                                <v-btn large outline color="primary">Signup</v-btn>
+                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up</v-btn>
 
                             </v-flex>
 
@@ -357,7 +357,7 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Messages</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Contacts</p>
-                                <v-btn large outline color="primary">Signup</v-btn>
+                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up</v-btn>
 
                             </v-flex>
 
@@ -372,7 +372,6 @@
                     </v-flex>
 
 
-
                 </v-layout>
             </v-layout>
         </v-container>
@@ -385,17 +384,21 @@
                     <v-layout row wrap>
                         <v-flex md6 sm6 xs12 class="text-xs-center text-sm-left">
                             <h1>So Static</h1>
-                            <h4> <a class="pr-2">Plans </a><a class="px-2">Sign Up </a><a class="px-2">Login </a> <a class="px-2">Contact</a></h4>
+                            <h4>
+                                <a class="pr-2">Plans </a>
+                                <a class="px-2" :to="{name:'Register'}">Sign Up </a>
+                                <a class="px-2" :to="{name:'Login'}">Login </a>
+                                <a class="px-2">Contact</a>
+                            </h4>
 
                         </v-flex>
                         <v-flex md6 sm6 xs12 class="text-xs-center text-sm-right  text-lg-right">
                             <h4 class="deep-purple--text">© 2019 So Static </h4>
                             <h4><a>Terms of Service</a> | <a> Privacy Policy</a></h4>
-                            <h4>Get in touch at<a> contact@sostatic.xyz</a> </h4>
+                            <h4>Get in touch at<a> contact@sostatic.xyz</a></h4>
 
                         </v-flex>
                     </v-layout>
-
 
 
                 </v-container>
