@@ -448,7 +448,7 @@
         },
         computed: {
             isLoggedIn: function () {
-                return this.$store.getters.getIsLoggedIn;
+                return this.$store.getters.isLoggedIn;
             },
             code: function () {
                 return `<form action="https://ssttc.xyz/{YOUR_KEY}">

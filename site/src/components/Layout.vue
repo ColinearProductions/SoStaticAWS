@@ -30,9 +30,8 @@
             </v-btn>
         </v-toolbar>
         <v-content>
-            <v-container fluid  grid-list-xl fill-height
-            >
-                <v-btn @click="mockAuth">
+            <v-container fluid  grid-list-xl fill-height>
+                <v-btn @click="mockAuth" style="display:none">
                     AUTH
                 </v-btn>
                 <router-view ></router-view>
@@ -78,13 +77,10 @@
         },
         computed:{
             welcomeMessage(){
-                if( this.$store.state.user === null)
-                    return "";
-                return "Welcome back, " + this.$store.state.user.displayName ;
+                if(this.$store.getters.getUser === null)
+                    return ""
+                return "Welcome back, " +  this.$store.getters.getUser.displayName ;
             }
-        },
-        props: {
-            source: String
         },
         methods:{
             logout: function(){

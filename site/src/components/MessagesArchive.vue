@@ -91,7 +91,7 @@
 
         </v-flex>
 
-        
+
     </v-layout>
 
 
@@ -160,8 +160,8 @@
             onDownloadPressed: function () {
 
 
-                api.pullMessages(this.currentWebsite.key, this.selectedForm, this.startDatePicker.date, this.endDatePicker.date, this.onlyValidCheckbox, function (res) {
-                    download(JSON.stringify(res, null, "\t"), 'messages.json', 'text/plain');
+                api.pullMessages(this.currentWebsite.key, this.selectedForm, this.startDatePicker.date, this.endDatePicker.date, this.onlyValidCheckbox).then(response => {
+                    download(JSON.stringify(response.data, null, "\t"), 'messages.json', 'text/plain');
                 });
 
 

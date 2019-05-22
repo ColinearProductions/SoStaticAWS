@@ -1,14 +1,13 @@
-
 /* eslint-disable */
 import firebase from 'firebase'
 
 import axios from 'axios';
 
 
-const SERVER = process.env.NODE_ENV==='development'?'http://localhost':'https://ssttc.xyz';
+const SERVER = process.env.NODE_ENV === 'development' ? 'http://localhost' : 'https://ssttc.xyz';
 
 
-let  config = {
+let config = {
     apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
     authDomain: "sostatic-aws.firebaseapp.com",
     databaseURL: "https://sostatic-aws.firebaseio.com",
@@ -70,10 +69,9 @@ function getWebsitesById(id, callback) {
 function addWebsite(website, callback) {
 
 
-
     let data = JSON.stringify(website);
-    axios.post(`${SERVER}/websites`,data,{
-        headers:{
+    axios.post(`${SERVER}/websites`, data, {
+        headers: {
             'Content-Type': 'application/json',
         }
     }).then((response) => {
@@ -133,13 +131,10 @@ function updateWebsite(update_data, callback) {
 }
 
 
-function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,items_per_page, callback) {
-    console.log("pulling messages");
+function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page, callback) {
 
 
-
-
-    axios.get(`${SERVER}/messages/list`,
+    return axios.get(`${SERVER}/messages/list`,
         {
             params: {
                 start: start_date,
@@ -147,15 +142,11 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid,page,it
                 only_valid: onlyValid,
                 form_id: formId,
                 website_id: websiteId,
-                page:page,
-                items_per_page:items_per_page
+                page: page,
+                items_per_page: items_per_page
             }
-        }).then((response) => {
-        console.log(response);
-        callback(response.data);
-    }).catch(function (error) {
-        console.log(error);
-    });
+        }
+    );
 
 }
 

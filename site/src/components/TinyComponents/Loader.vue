@@ -3,7 +3,6 @@
         <v-container fill-height>
             <v-layout row wrap align-center>
                 <v-flex class="text-xs-center justify-center">
-                   <!-- <v-progress-circular :size="140" :width="15" indeterminate color="deep-purple"></v-progress-circular> -->
 
                     <v-layout align-center justify-center row fill-height>
                     <ring-loader :loading="true" :color="color" :size="size"></ring-loader>
@@ -27,7 +26,9 @@
             RingLoader
         },
         computed:{
-            visible:function(){return this.$store.getters.getLoaderVisible},
+            visible:function(){
+                return this.$store.getters.getLoaderVisible
+            },
             color:()=>"#673AB7",
             size:()=>"100px"
 

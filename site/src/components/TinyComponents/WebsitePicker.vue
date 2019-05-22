@@ -31,7 +31,7 @@
 
 
                     <v-list>
-                        <v-list-tile v-for="(website,index) in state.websitesData" :key="index"
+                        <v-list-tile v-for="(website,index) in websites" :key="index"
                                      @click="changeWebsite(index)">
                             <v-list-tile-title>{{ website.alias }}</v-list-tile-title>
                         </v-list-tile>
@@ -64,8 +64,8 @@
     export default {
         name: "WebsitePicker",
         computed: {
-            state() {
-                return this.$store.state;
+            websites(){
+                return this.$store.getters.websites;
             },
             currentWebsite(){
                 return this.$store.getters.currentWebsite;

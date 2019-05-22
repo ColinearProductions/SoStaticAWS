@@ -91,8 +91,13 @@
                 </v-card>
 
             </v-flex>
-            <v-card class="pa-3 px-5">
-                <v-layout row wrap>
+            <v-card>
+                <v-progress-linear
+
+                        :active="loading"
+                        :indeterminate="true"
+                ></v-progress-linear>
+                <v-layout row wrap  class="pa-3 px-5">
                     <v-flex xs12>
                         <v-flex xs12 class="ma-0 pa-0">
                             <div class="text-xs-center grey--text">
@@ -127,9 +132,12 @@
 
                                     </v-list-tile-content>
                                     <v-list-tile-action>
-                                        <v-list-tile-action-text v-bind:class="{'white--text':message.highlight}">{{message.card.time}}</v-list-tile-action-text>
+                                        <v-list-tile-action-text v-bind:class="{'white--text':message.highlight}">
+                                            {{message.card.time}}
+                                        </v-list-tile-action-text>
                                     </v-list-tile-action>
-                                    <v-icon v-bind:class="{'white--text':message.highlight,'grey--text':!message.highlight}">{{message.highlight?'expand_less':'expand_more'}}
+                                    <v-icon v-bind:class="{'white--text':message.highlight,'grey--text':!message.highlight}">
+                                        {{message.highlight?'expand_less':'expand_more'}}
                                     </v-icon>
 
 
@@ -275,6 +283,7 @@
                 page_length: 5,
                 items_per_page: 10,
                 items_count: 0,
+                loading:false
 
 
             }
@@ -297,10 +306,12 @@
 
                 return res;
 
-            }
-            ,
+            },
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
+            },
+            isDataLoading: function(){ //todo maybe replace these store getters with the ...method
+               return this.$store.getters.isDataLoading;
             }
 
         }
@@ -333,30 +344,35 @@
                 let endDate = moment(this.endDatePicker.date).add(24, 'hours').valueOf();
 
 
-                api.pullMessages(this.currentWebsite.key, this.selectedForm, startDate, endDate, this.onlyValidCheckbox, this.page, this.items_per_page, function (res) {
-                    console.log(res);
+                api.pullMessages(this.currentWebsite.key, this.selectedForm, startDate, endDate, this.onlyValidCheckbox, this.page, this.items_per_page)
+                    .then(function (response) {
+                        let res = response.data;
 
-                    that.items_count = res.count;
-                    that.page_length = Math.ceil(res.count / that.items_per_page);
+                        that.items_count = res.count;
+                        that.page_length = Math.ceil(res.count / that.items_per_page);
 
-                    that.messages = res.messages.map((message) => {
-                        let payload = message.payload;
-                        message.highlight = false;
-                        message.card = {
-                            title: payload[Object.keys(payload)[0]],
-                            subtitle: payload[Object.keys(payload)[1]],
-                            time: moment.unix(message.timestamp / 1000).format("LL")
-                        };
-                        message.properties = Object.keys(message.payload);
-                        return message;
-                    });
+                        that.messages = res.messages.map((message) => {
+                            let payload = message.payload;
+                            message.highlight = false;
+                            message.card = {
+                                title: payload[Object.keys(payload)[0]],
+                                subtitle: payload[Object.keys(payload)[1]],
+                                time: moment.unix(message.timestamp / 1000).format("LL")
+                            };
+                            message.properties = Object.keys(message.payload);
+                            return message;
+                        });
 
-                });
+                    }).then(()=>this.loading = false);
             }
         },
         mounted: function () {
             //if website has loaded
-            this.loadMessages();
+            if(!this.isDataLoading)
+                this.loadMessages();
+            else
+                this.loading = true;
+
         },
         watch: {
             'currentWebsite': function () {
@@ -366,6 +382,10 @@
             'page': function () {
                 this.loadMessages();
 
+            },
+            isDataLoading: function(){
+
+                    this.loadMessages();
             }
         }
     }
