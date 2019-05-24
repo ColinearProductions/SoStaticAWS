@@ -15,8 +15,6 @@
     import Layout from './components/Layout.vue'
     import Loader from './components/TinyComponents/Loader'
     import LandingPage from './components/LandingPage'
-    import Vue from 'vue'
-    import Vuex from 'vuex';
 
     import * as api from './API';
     import firebase from 'firebase';
@@ -53,43 +51,43 @@
             store.commit('setUserData', tmp);
 
             //add auth header to all requests
+            console.log("STORING TOKEN:",idToken);
             axios.defaults.headers.common['Authorization'] =  "Bearer " + idToken;
 
+            api.getWebsitesOfUser().then(response => {
+
+                let websitesCount = response.data.length;
+                let websiteIndex = parseInt(router.currentRoute.params.website_index);
+
+                if (isNaN(websiteIndex) || websiteIndex + 1 > websitesCount)
+                    websiteIndex = 0;
+
+                if (router.currentRoute.path !== '/') {
+                    router.push({
+                        params: {
+                            'website_index': websiteIndex
+                        }
+                    });
+                    if (websitesCount < 1)
+                        router.push('/setup');
+                }
+
+                let payload = {
+                    websiteIndex,
+                    websites: response.data,
+
+                };
+                store.commit('setInitialData', payload);
+
+
+            });
 
 
 
         }).catch(error => console.error(error));
 
 
-        api.getWebsitesOfUser((snapshot) => {
 
-            console.log('Websites count', snapshot.length);
-
-
-            let websiteIndex = parseInt(router.currentRoute.params.website_index);
-            if (isNaN(websiteIndex) || websiteIndex + 1 > snapshot.length)
-                websiteIndex = 0;
-
-            if (router.currentRoute.path !== '/') {
-                router.push(
-                    {
-                        params: {
-                            'website_index': websiteIndex
-                        }
-                    });
-                if (snapshot.length < 1)
-                    router.push('/setup');
-            }
-
-            let payload = {
-                websiteIndex,
-                websites: snapshot,
-
-            };
-            store.commit('setInitialData', payload);
-
-
-        });
     }
 
 
@@ -115,7 +113,6 @@
     });
 
 
-    console.log(store);
 
     export default {
         name: 'app',

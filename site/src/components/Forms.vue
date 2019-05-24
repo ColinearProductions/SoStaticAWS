@@ -15,7 +15,7 @@
         </v-container>
 
 
-        <FormCard v-for="form in currentWebsite.forms" :key="form.key" v-bind:form="form"
+        <FormCard v-for="form in currentWebsiteIndex.forms" :key="form.key" v-bind:form="form"
                   v-on:onEditFormClicked="onEditFormClicked"></FormCard>
 
         <v-btn fab bottom right color="primary" dark fixed @click="onCreateFormClicked">
@@ -41,7 +41,7 @@
                                 ></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-switch label="Use ReCAPTCHA" :disabled="!currentWebsite.recaptcha"
+                                <v-switch label="Use ReCAPTCHA" :disabled="!currentWebsiteIndex.recaptcha"
                                           v-model="dialogModel.useRecaptcha"
                                 ></v-switch>
                             </v-flex>
@@ -113,10 +113,10 @@
             uniqueFormName: function (v) {
                 let res = true;
 
-                if (this.currentWebsite.forms === undefined)
+                if (this.currentWebsiteIndex.forms === undefined)
                     return true;
 
-                Object.values(this.currentWebsite.forms).forEach((form) => {
+                Object.values(this.currentWebsiteIndex.forms).forEach((form) => {
                     // if the form didnt change name
                     if (this.dialogModel.formToBeUpdated !== null && this.dialogModel.formToBeUpdated.alias === v)
                         return true;
@@ -152,11 +152,11 @@
                 this.dialogModel.visible = false;
             },
             onCreateFormClicked: function () {
-                PUB = this.currentWebsite;
+                PUB = this.currentWebsiteIndex;
                 this.dialogModel = {
                     visible: true,
                     useRecaptcha: false,
-                    title: "Add form to " + this.currentWebsite.alias,
+                    title: "Add form to " + this.currentWebsiteIndex.alias,
                     confirmButton: "Create",
                     aliasField: "",
                     update: false,
@@ -187,12 +187,12 @@
             }
         },
         computed: {
-            currentWebsite: function () {
-                return this.$store.getters.currentWebsite;
+            currentWebsiteIndex: function () {
+                return this.$store.getters.currentWebsiteIndex;
             },
             formsCount: function () {
-                if (this.currentWebsite.forms !== undefined && this.currentWebsite.forms !== null)
-                    return objToArray(this.currentWebsite.forms).length;
+                if (this.currentWebsiteIndex.forms !== undefined && this.currentWebsiteIndex.forms !== null)
+                    return objToArray(this.currentWebsiteIndex.forms).length;
                 else
                     return 0;
             },

@@ -51,11 +51,22 @@ function login(user, pass, onSuccessCallback, onErrorCallback) {
     });
 }
 
-function getWebsitesOfUser(callback) {
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites').once('value').then(function (snapshot) {
-        callback(snapshotToArray(snapshot));
-    })
+
+
+function getWebsitesOfUser() {
+    return axios.get(`${SERVER}/websites`);
 }
+
+function updateWebsite(websiteData) {
+
+
+    let websiteId = websiteData._id;
+
+
+    return axios.post(`${SERVER}/websites/${websiteId}`, websiteData);
+
+}
+
 
 function getWebsitesById(id, callback) {
     firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + id).once('value').then(function (snapshot) {
@@ -66,23 +77,8 @@ function getWebsitesById(id, callback) {
 }
 
 
-function addWebsite(website, callback) {
-
-
-    let data = JSON.stringify(website);
-    axios.post(`${SERVER}/websites`, data, {
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }).then((response) => {
-        callback(response.data);
-    }).catch(function (error) {
-        console.log(error);
-    });
-
-
-    let uid = firebase.auth().currentUser.uid;
-    firebase.database().ref(`/users/${uid}/websites`).push(website).then(callback);
+function createWebsite(website) {
+    return axios.post(`${SERVER}/websites`, website)
 }
 
 
@@ -126,12 +122,9 @@ function deleteForm(websieId, formId, callback) {
 }
 
 
-function updateWebsite(update_data, callback) {
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + update_data.key).set(update_data).then(callback);
-}
 
 
-function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page, callback) {
+function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page) {
 
 
     return axios.get(`${SERVER}/messages/list`,
@@ -155,7 +148,7 @@ export {
     login,
     register,
     getWebsitesOfUser,
-    addWebsite,
+    createWebsite,
     logout,
     getWebsitesById,
     addFormToWebsite,

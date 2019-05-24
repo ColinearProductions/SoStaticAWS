@@ -287,10 +287,39 @@
             <v-layout row wrap>
 
                 <v-layout row wrap class="text-xs-center">
-                    <v-flex xs12 text-xs-center class="my-5">
+                    <v-flex xs12 text-xs-center class="mb-2 mt-5">
                         <h2 class="display-3 fnt font-weight-bold"> Pricing</h2>
                     </v-flex>
 
+                    <v-flex md12 class=" px-2 py-2" align-center>
+
+
+                        <h5 class="headline font-weight-bold py-2">Free for up to 100 valid messages / month</h5>
+                        <h6 class="subheading">
+                            We understand that most small websites wont get more than a few contact messages per month.
+                            <br>
+                            We offer our service for free for websites that receive less than 100 valid messages per
+                            month.
+                            <br>
+                            A message is considered valid if the recaptcha was succesfully filled. Spam messages will
+                            not count towards your quota.
+                        </h6>
+
+                        <h5 class="headline font-weight-bold pt-5">What if you get over 100 valid messages per
+                            month?</h5>
+                        <h6 class="subheading py-2">
+                            The messages will not be lost, but they will no longer be forwarded to your email, they will
+                            only be accessible via our platform.
+                            <br>
+                            If you find value in having all messages forwarded, we can setup a recuring payment method
+                            for 5$ / month for unlimited messages per month.
+                        </h6>
+
+
+                    </v-flex>
+
+
+                    <!--
                     <v-flex md4 xs12 class="pa-2">
                         <v-card class="pa-2">
 
@@ -307,10 +336,10 @@
                                     style="width:100%">0$</h3>
                                 <p class="subheading mb-2"><b>1</b> Website</p>
                                 <p class="subheading mb-2"><b>1</b> Form</p>
-                                <p class="subheading mb-2"><b>100</b> Messages per Month</p>
+                                <p class="subheading mb-2"><b>100</b> Valid messages per Month</p>
                                 <p class="subheading mb-2"><b>1</b> Contact</p>
 
-                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up for free</v-btn>
+                                <v-btn large outline color="primary" :to="{name:'Register'}">Sign up for free</v-btn>
                             </v-flex>
 
                         </v-card>
@@ -333,7 +362,7 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>1000</b> Messages / Month / Website</p>
                                 <p class="subheading mb-2"><b>1</b> Contact / Website</p>
-                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up</v-btn>
+                                <v-btn large outline color="primary" :to="{name:'Register'}">Sign up</v-btn>
 
                             </v-flex>
 
@@ -357,12 +386,13 @@
                                 <p class="subheading mb-2"><b>Unlimited</b> Forms</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Messages</p>
                                 <p class="subheading mb-2"><b>Unlimited</b> Contacts</p>
-                                <v-btn large outline color="primary"  :to="{name:'Register'}">Sign up</v-btn>
+                                <v-btn large outline color="primary" :to="{name:'Register'}">Sign up</v-btn>
 
                             </v-flex>
 
                         </v-card>
                     </v-flex>
+
 
                     <v-flex md12 class="pa-2">
                         <h5 class="text--secondary">* If these plans are not appropriate for your needs, it means
@@ -370,7 +400,7 @@
                             If you still want to outsource this task, please consider contacting us at
                             inquiry@sostatic.xyz to discuss a custom solution for your needs</h5>
                     </v-flex>
-
+  -->
 
                 </v-layout>
             </v-layout>
@@ -467,8 +497,8 @@
             },
             goToDashboard: function () {
 
-                console.log(this.$store.getters.currentWebsite);
-                if (this.$store.getters.currentWebsite.key === "") {
+                console.log(this.$store.getters.currentWebsiteIndex);
+                if (this.$store.getters.currentWebsiteIndex.key === "") {
                     this.$router.push('/setup');
                 } else {
                     this.$router.push({

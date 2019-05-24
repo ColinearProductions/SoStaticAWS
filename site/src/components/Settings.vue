@@ -160,7 +160,7 @@
 
                 websiteDetailsModel: {},
                 websiteModelChangePending: false,
-                formValidModel:false
+                formValidModel:false,
 
             }
         },
@@ -174,7 +174,7 @@
                 this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
                 let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'url', 'contacts'];
-                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props,['alias','email']);
+                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsiteIndex, props,['alias','email']);
 
                 this.websiteModelChangePending = isChanged;
                 this.$store.commit("setPendingModification", isChanged);
@@ -244,9 +244,8 @@
             'isWebsiteChangePending': function () {
                 this.websiteModelChangePending = this.isWebsiteChangePending
             },
-            'currentWebsite': function(){
+            'currentWebsiteIndex': function(){
 
-                this.loading = false;
                 this.websiteDetailsModel =  this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
                 this.websiteModelChangePending = false;
@@ -258,8 +257,8 @@
             isWebsiteChangePending() {
                 return this.$store.getters.getPendingModification;
             },
-            currentWebsite(){
-                return this.$store.getters.currentWebsite;
+            currentWebsiteIndex(){
+                return this.$store.getters.currentWebsiteIndex;
             },
             currentWebsiteClone(){
                 return  JSON.parse(JSON.stringify( this.$store.getters.currentWebsiteClone));

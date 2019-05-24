@@ -48,7 +48,12 @@
         methods:{
             onSubmit:function(){
                 api.login(this.form_model.username, this.form_model.password,function(){
-                    router.push('/app/0/settings');
+                    router.push({
+                        name:'Settings',
+                        params: {
+                            'website_index':0
+                        }
+                    });
 
                 }, function(error){
                     console.log(error);

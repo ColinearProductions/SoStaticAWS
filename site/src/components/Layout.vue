@@ -37,7 +37,7 @@
                 <router-view ></router-view>
             </v-container>
         </v-content>
-        <CreateWebsiteDialog></CreateWebsiteDialog>
+        <CreateWebsiteDialog v-if="isCreateWebsiteDialogVisible"></CreateWebsiteDialog>
     </v-app>
 </template>
 
@@ -64,10 +64,9 @@
                 drawer: null,
                 items: [
 
-                    {icon: 'assignment', text: 'Forms', to: Forms},
-                    {icon: 'insert_comment', text: 'Messages', to: Messages},
-                    {icon: 'settings', text: 'Settings', to:Settings},
-                    {icon: 'code', text: 'Documentation'},
+                    {icon: 'assignment', text: 'Forms', to: 'forms'},
+                    {icon: 'insert_comment', text: 'Messages', to: 'messages'},
+                    {icon: 'settings', text: 'Settings', to:'settings'},
                     {icon: 'person', text: 'Account'},
                     {icon: 'home', text: 'Home', to:"/"},
 
@@ -78,8 +77,11 @@
         computed:{
             welcomeMessage(){
                 if(this.$store.getters.getUser === null)
-                    return ""
+                    return "";
                 return "Welcome back, " +  this.$store.getters.getUser.displayName ;
+            },
+            isCreateWebsiteDialogVisible(){
+                return this.$store.getters.getIsCreateWebsiteDialogVisible;
             }
         },
         methods:{

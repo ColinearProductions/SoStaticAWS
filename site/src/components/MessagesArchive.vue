@@ -134,13 +134,13 @@
         ,
         computed: {
             listOfForms: function () {
-                console.log('*******', this.currentWebsite.forms);
+                console.log('*******', this.currentWebsiteIndex.forms);
                 let res = [];
                 res.push({'id': -1, 'alias': 'All'});
 
-                if (this.currentWebsite.forms === undefined)
+                if (this.currentWebsiteIndex.forms === undefined)
                     return res;
-                let formsList = Object.values(this.currentWebsite.forms);
+                let formsList = Object.values(this.currentWebsiteIndex.forms);
 
                 for (let i = 0; i < formsList.length; i++) {
                     res.push({'id': formsList[i].key, 'alias': formsList[i].alias})
@@ -151,8 +151,8 @@
 
             }
             ,
-            currentWebsite: function () {
-                return this.$store.getters.currentWebsite;
+            currentWebsiteIndex: function () {
+                return this.$store.getters.currentWebsiteIndex;
             }
         }
         ,
@@ -160,7 +160,7 @@
             onDownloadPressed: function () {
 
 
-                api.pullMessages(this.currentWebsite.key, this.selectedForm, this.startDatePicker.date, this.endDatePicker.date, this.onlyValidCheckbox).then(response => {
+                api.pullMessages(this.currentWebsiteIndex.key, this.selectedForm, this.startDatePicker.date, this.endDatePicker.date, this.onlyValidCheckbox).then(response => {
                     download(JSON.stringify(response.data, null, "\t"), 'messages.json', 'text/plain');
                 });
 

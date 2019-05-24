@@ -96,8 +96,8 @@
                 return `<script src="https://www.google.com/recaptcha/api.js" async defer><script>`;
 
             },
-            currentWebsite: function () {
-                return this.$store.getters.currentWebsite;
+            currentWebsiteIndex: function () {
+                return this.$store.getters.currentWebsiteIndex;
             },
             sourceCode: function () {
                 let url =`${SERVER}/${this.form.endpoint}`;
@@ -106,7 +106,7 @@
                 let recaptchaCode='';
 
                 if(this.form.recaptcha) {
-                    recaptchaSiteKey = this.currentWebsite.sitekey;
+                    recaptchaSiteKey = this.currentWebsiteIndex.sitekey;
                     recaptchaCode = `<div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}"></div>`;
                 }
 

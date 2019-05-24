@@ -9,16 +9,16 @@
             <v-layout flex align-center justify-center>
 
 
-                <v-menu offset-y>
+                <v-menu offset-y style="width:100%">
 
                     <div style="width:100%" slot="activator">
 
 
                         <p class="subheading text-lg-center deep-purple--text ">
-                            {{currentWebsite.alias}}</p>
+                            {{currentWebsiteIndex.alias}}</p>
                         <v-icon id="arrow_drop_down">arrow_drop_down</v-icon>
                         <p class="caption text-lg-center  deep-purple--text text--lighten-2">
-                            {{currentWebsite.url}}</p>
+                            {{currentWebsiteIndex.url}}</p>
 
                         <p class="subheading text-lg-center deep-purple--text " v-if="loading">
                             loading...</p>
@@ -67,27 +67,27 @@
             websites(){
                 return this.$store.getters.websites;
             },
-            currentWebsite(){
-                return this.$store.getters.currentWebsite;
+            currentWebsiteIndex(){
+                return this.$store.getters.currentWebsiteIndex;
             },
             loading(){
                 return this.$store.getters.isDataLoading;
             }
         },
         methods: {
-            changeWebsite: function (website) {
+            changeWebsite: function (websiteIndex) {
                 let isChangePending = this.$store.getters.getPendingModification;
                 if (isChangePending) {
                     if (confirm("There is a change pending, are you sure you want to switch the website?")) {
-                        this.$store.commit('updateCurrentWebsite', website);
+                        this.$store.commit('updateCurrentWebsiteIndex', websiteIndex);
                     }
                 } else {
-                    this.$store.commit('updateCurrentWebsite', website)
+                    this.$store.commit('updateCurrentWebsiteIndex', websiteIndex)
                 }
 
                 this.$router.push({
                     params: {
-                        'website_index': website
+                        'website_index': websiteIndex
                     }
                 })
 
