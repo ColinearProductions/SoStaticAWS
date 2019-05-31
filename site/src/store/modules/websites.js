@@ -36,7 +36,7 @@ const mutations = {
     },
     addWebsite: (state, website) => {
         state.websitesData.push(website);
-        state.currentWebsiteIndex = state.websitesData.length-1;
+        state.currentWebsiteIndex = state.websitesData.length - 1;
     },
     updateWebsiteData: (state, website) => {
         for (let i = 0; i < state.websitesData.length; i++) {
@@ -74,7 +74,7 @@ const getters = {
     currentWebsiteClone: (state) => {
         return JSON.parse(JSON.stringify(state.websitesData[state.currentWebsiteIndex]));
     },
-    currentWebsiteIndex: (state) => {
+    currentWebsite: (state) => {
         return state.websitesData[state.currentWebsiteIndex];
     },
     isDataLoading: (state) => {
@@ -90,13 +90,13 @@ const getters = {
 const actions = {
     createWebsite: (context, website) => {
         console.log(website);
-        website.forms = {};
+
         api.createWebsite(website).then(response => {
 
             context.commit('addWebsite', response.data);
 
             router.push({
-                name:'Settings',
+                name: 'Settings',
                 params: {
                     'website_index': context.state.currentWebsiteIndex
                 }
@@ -108,27 +108,28 @@ const actions = {
             context.commit('setCreateWebsiteDialogVisibility', false);
 
 
-        }).catch((reason)=>{
+        }).catch((reason) => {
 
             console.log(reason);
         })
     },
     addFormToWebsite: (context, form) => {
-        let current_website_key = context.getters.currentWebsiteIndex.key;
+        let current_website_key = context.getters.currentWebsiteClone._id;
 
-        api.addFormToWebsite(current_website_key, form, function () {
+        api.addFormToWebsite(current_website_key, form)
+            .then(response => {
 
-            api.getWebsitesById(current_website_key, function (snapshot) {
-                context.commit('updateWebsiteData', snapshot);
-                context.commit('showSnackbar', 'Form ' + form.alias + ' created successfully');
+                    context.commit('updateWebsiteData', response.data);
+                    context.commit('showSnackbar', 'Form ' + form.alias + ' created successfully');
+
+                }
+            );
 
 
-            })
-        })
     },
     updateWebsite: (context, website) => {
 
-        api.updateWebsite(website).then( () => {
+        api.updateWebsite(website).then(() => {
             context.commit('updateWebsiteData', website);
             context.commit('setPendingModification', false);
             context.commit('showSnackbar', 'Update website ' + website.alias + ' successful');
@@ -139,10 +140,12 @@ const actions = {
         let updateData = {alias: data.alias, recaptcha: data.recaptcha};
 
         let form_key = data.form_id;
-        let current_website_key = context.getters.currentWebsiteIndex.key;
+        let current_website_key = context.getters.currentWebsiteClone._id;
 
-        api.updateForm(current_website_key, form_key, updateData, function () {
-            context.commit('updateFormById', data);
+        api.updateForm(current_website_key, form_key, updateData).then(response => {
+            context.commit('updateWebsiteData', response.data);
+            context.commit('showSnackbar', 'Update form successful');
+
 
         });
     },

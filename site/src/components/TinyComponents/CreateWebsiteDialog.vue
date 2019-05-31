@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="visible" width="800px">
+    <v-dialog v-model="visible" width="800px" persistent>
         <v-card>
             <v-progress-linear v-if="loading" height="3" class="mt-1"></v-progress-linear>
 
@@ -91,6 +91,12 @@
                 formValidModel: false,
                 visible: true,
                 loading:false
+
+            }
+        },
+        watch:{
+            visible: function(){
+                this.$store.commit("setCreateWebsiteDialogVisibility", this.visible);
 
             }
         },

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mongoDbProvider = require('../db');
+const mongoDbProvider = require('../database/db');
 
 
 

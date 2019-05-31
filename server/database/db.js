@@ -2,18 +2,23 @@
 
 
 let mongoDB;
-let MongoClient = require('mongodb').MongoClient;
-
+let mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 let db_url = process.env.DB_ADDRESS;
 
 
 function initDb(onSuccess){
     //db is mapped in hosts to localhost. in docker to the network shared with the mongo container
-    MongoClient.connect('mongodb://'+db_url+'/sostatic', { useNewUrlParser: true }, function (err, client) {
-        if (err) throw err;
-        mongoDB = client.db('sostatic');
+
+    mongoose.connect('mongodb://'+db_url+'/sostatic', {useNewUrlParser: true});
+    mongoDB = mongoose.connection;
+    mongoDB.on('error', console.error.bind(console, 'connection error:'));
+    mongoDB.once('open', ()=> {
         onSuccess(mongoDB)
     });
+
+
+
 }
 
 

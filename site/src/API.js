@@ -52,10 +52,14 @@ function login(user, pass, onSuccessCallback, onErrorCallback) {
 }
 
 
-
 function getWebsitesOfUser() {
     return axios.get(`${SERVER}/websites`);
 }
+
+function createWebsite(website) {
+    return axios.post(`${SERVER}/websites`, website)
+}
+
 
 function updateWebsite(websiteData) {
 
@@ -68,49 +72,21 @@ function updateWebsite(websiteData) {
 }
 
 
-function getWebsitesById(id, callback) {
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + id).once('value').then(function (snapshot) {
-        let website = snapshot.val();
-        website.key = snapshot.key;
-        callback(website);
-    })
-}
-
-
-function createWebsite(website) {
-    return axios.post(`${SERVER}/websites`, website)
-}
-
-
-function addFormToWebsite(website_id, form, callback) {
-    form.added_on = firebase.database.ServerValue.TIMESTAMP;
+function addFormToWebsite(website_id, form) {
+    form.added_on = 0;
     form.message_count = 0;
     form.spam_count = 0;
+    form.endpoint = 0;
 
-    //don't worry if the keys are very similar.
+    return axios.post(`${SERVER}/websites/${website_id}/forms`, form)
 
-    let futureFormRef = firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + website_id + "/forms").push();
-    form.key = futureFormRef.key;
-
-    let endpointData = {form: form.key, website: website_id, user: firebase.auth().currentUser.uid};
-    let futureEndpointRef = firebase.database().ref('/endpoints').push();
-
-    form.endpoint = futureEndpointRef.key;
-
-    futureFormRef.set(form).then((snapshot) => {
-        futureEndpointRef.set(endpointData).then(console.log);
-        callback(snapshot);
-    });
-
-    // let res = firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/websites/'+website_id+"/forms").push(form).then(callback);
 }
 
-function updateForm(websiteId, form_key, update_data, callback) {
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + websiteId + "/forms/" + form_key)
-        .update(update_data).then(function () {
+function updateForm(websiteId, form_key, update_data) {
 
-        callback();
-    });
+    return axios.post(`${SERVER}/websites/${websiteId}/forms/${form_key}`, update_data);
+
+
 }
 
 function deleteForm(websieId, formId, callback) {
@@ -120,8 +96,6 @@ function deleteForm(websieId, formId, callback) {
         console.error(reason);
     })
 }
-
-
 
 
 function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page) {
@@ -150,7 +124,6 @@ export {
     getWebsitesOfUser,
     createWebsite,
     logout,
-    getWebsitesById,
     addFormToWebsite,
     updateForm,
     deleteForm,

@@ -10,7 +10,7 @@ const recaptchaValidationURL = "https://recaptcha.google.com/recaptcha/api/sitev
 const sendgridUtils = require('../sendgrid');
 
 
-const mongoDbProvider = require('../db');
+const mongoDbProvider = require('../database/db');
 
 
 let firebaseDB = admin.database();

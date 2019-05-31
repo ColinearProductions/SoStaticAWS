@@ -15,10 +15,10 @@
 
 
                         <p class="subheading text-lg-center deep-purple--text ">
-                            {{currentWebsiteIndex.alias}}</p>
+                            {{currentWebsite.alias}}</p>
                         <v-icon id="arrow_drop_down">arrow_drop_down</v-icon>
                         <p class="caption text-lg-center  deep-purple--text text--lighten-2">
-                            {{currentWebsiteIndex.url}}</p>
+                            {{currentWebsite.url}}</p>
 
                         <p class="subheading text-lg-center deep-purple--text " v-if="loading">
                             loading...</p>
@@ -67,8 +67,8 @@
             websites(){
                 return this.$store.getters.websites;
             },
-            currentWebsiteIndex(){
-                return this.$store.getters.currentWebsiteIndex;
+            currentWebsite(){
+                return this.$store.getters.currentWebsite;
             },
             loading(){
                 return this.$store.getters.isDataLoading;

@@ -17,7 +17,6 @@ let middleware = (req, res, next) => {
 
     admin.auth().verifyIdToken(idToken)
         .then(function (decodedToken) {
-            console.log('Successfully validated token');
             req.token = decodedToken;
             next();
         })

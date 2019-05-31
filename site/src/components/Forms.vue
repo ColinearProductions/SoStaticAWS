@@ -15,7 +15,7 @@
         </v-container>
 
 
-        <FormCard v-for="form in currentWebsiteIndex.forms" :key="form.key" v-bind:form="form"
+        <FormCard v-for="form in currentWebsiteClone.forms" :key="form._id" v-bind:form="form"
                   v-on:onEditFormClicked="onEditFormClicked"></FormCard>
 
         <v-btn fab bottom right color="primary" dark fixed @click="onCreateFormClicked">
@@ -41,7 +41,7 @@
                                 ></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-switch label="Use ReCAPTCHA" :disabled="!currentWebsiteIndex.recaptcha"
+                                <v-switch label="Use ReCAPTCHA" :disabled="!currentWebsiteClone.recaptcha"
                                           v-model="dialogModel.useRecaptcha"
                                 ></v-switch>
                             </v-flex>
@@ -113,10 +113,10 @@
             uniqueFormName: function (v) {
                 let res = true;
 
-                if (this.currentWebsiteIndex.forms === undefined)
+                if (this.currentWebsiteClone.forms === undefined)
                     return true;
 
-                Object.values(this.currentWebsiteIndex.forms).forEach((form) => {
+                Object.values(this.currentWebsiteClone.forms).forEach((form) => {
                     // if the form didnt change name
                     if (this.dialogModel.formToBeUpdated !== null && this.dialogModel.formToBeUpdated.alias === v)
                         return true;
@@ -152,11 +152,11 @@
                 this.dialogModel.visible = false;
             },
             onCreateFormClicked: function () {
-                PUB = this.currentWebsiteIndex;
+                PUB = this.currentWebsiteClone;
                 this.dialogModel = {
                     visible: true,
                     useRecaptcha: false,
-                    title: "Add form to " + this.currentWebsiteIndex.alias,
+                    title: "Add form to " + this.currentWebsiteClone.alias,
                     confirmButton: "Create",
                     aliasField: "",
                     update: false,
@@ -172,7 +172,7 @@
                     confirmButton: "Confirm",
                     aliasField: form.alias,
                     update: true,
-                    formToBeUpdatedId: form.key,
+                    formToBeUpdatedId: form._id,
                     formToBeUpdated: form
                 }
             },
@@ -187,12 +187,12 @@
             }
         },
         computed: {
-            currentWebsiteIndex: function () {
-                return this.$store.getters.currentWebsiteIndex;
+            currentWebsiteClone: function () {
+                return this.$store.getters.currentWebsiteClone;
             },
             formsCount: function () {
-                if (this.currentWebsiteIndex.forms !== undefined && this.currentWebsiteIndex.forms !== null)
-                    return objToArray(this.currentWebsiteIndex.forms).length;
+                if (this.currentWebsiteClone.forms !== undefined && this.currentWebsiteClone.forms !== null)
+                    return objToArray(this.currentWebsiteClone.forms).length;
                 else
                     return 0;
             },
@@ -206,30 +206,12 @@
     }
 
 
-    function snapshotToArray(snapshot) {
-        let returnArr = [];
 
-        console.log(typeof snapshot);
-
-        snapshot.forEach(function (childSnapshot) {
-            let item = childSnapshot.val();
-            item.key = childSnapshot.key;
-
-
-            returnArr.push(item);
-        });
-
-        return returnArr;
-    }
 
 </script>
 
 <style scoped>
-    @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
 
-    .bold {
-        font-weight: bold !important;
-    }
 
 
 </style>

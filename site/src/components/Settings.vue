@@ -174,7 +174,7 @@
                 this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
                 let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'url', 'contacts'];
-                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsiteIndex, props,['alias','email']);
+                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props,['alias','email']);
 
                 this.websiteModelChangePending = isChanged;
                 this.$store.commit("setPendingModification", isChanged);
@@ -244,7 +244,7 @@
             'isWebsiteChangePending': function () {
                 this.websiteModelChangePending = this.isWebsiteChangePending
             },
-            'currentWebsiteIndex': function(){
+            'currentWebsite': function(){
 
                 this.websiteDetailsModel =  this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
@@ -257,8 +257,8 @@
             isWebsiteChangePending() {
                 return this.$store.getters.getPendingModification;
             },
-            currentWebsiteIndex(){
-                return this.$store.getters.currentWebsiteIndex;
+            currentWebsite(){
+                return this.$store.getters.currentWebsite;
             },
             currentWebsiteClone(){
                 return  JSON.parse(JSON.stringify( this.$store.getters.currentWebsiteClone));
