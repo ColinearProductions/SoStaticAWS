@@ -1,13 +1,25 @@
 <template>
-    <v-flex xs12 sm6 md6 lg4 >
+    <v-flex xs12 sm6 md6 lg4>
         <v-dialog v-model="dialog.visible" width="60%" max-width="1000px">
             <v-card class=" grey lighten-5 pl-4 pt-4 pr-4">
-                <pre v-highlightjs="recaptchaScriptRefString" v-if="this.form.recaptcha"><code class="html subheading font-weight-regular"></code></pre>
+
+
+                <v-card color="blue-grey darken-4" class="white--text mt-3"  v-if="this.form.recaptcha">
+                <pre v-highlightjs="recaptchaScriptRefString"><code style="background-color: transparent;box-shadow:none"
+                          class="html subheading font-weight-regular"></code></pre>
+                </v-card>
+
+
                 <v-card-actions v-if="this.form.recaptcha">
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="onCopyRecaptchaRefClicked">Copy</v-btn>
                 </v-card-actions>
-                <pre v-highlightjs="sourceCode"><code class="html subheading font-weight-regular"></code></pre>
+
+                <v-card color="blue-grey darken-4" class="white--text mt-3">
+
+                <pre v-highlightjs="sourceCode"><code style="background-color: transparent;box-shadow:none"
+                                                      class="html subheading font-weight-regular"></code></pre>
+                </v-card>
                 <v-card-actions>
                     <v-btn flat color="primary" @click="dialog.visible = false">Close</v-btn>
                     <v-spacer></v-spacer>
@@ -56,7 +68,7 @@
             <v-card-actions>
                 <v-btn flat color="primary" @click="goToDemo">Demo</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn  flat color="primary" @click="editForm">Edit</v-btn>
+                <v-btn flat color="primary" @click="editForm">Edit</v-btn>
             </v-card-actions>
 
         </v-card>
@@ -68,6 +80,7 @@
 <script>
     import moment from 'moment'
     import * as api from '../API';
+
     const SERVER = api.SERVER;
 
 
@@ -90,36 +103,33 @@
                 return moment(this.form.added_on).format("YYYY-MM-DD HH:mm");
             },
             shortEndpoint: function () {
-                return `${SERVER}/${this.form.endpoint}`
+                return `${SERVER}/${this.form._id}`
             },
             recaptchaScriptRefString: function () {
                 return `<script src="https://www.google.com/recaptcha/api.js" async defer><script>`;
 
             },
-            currentWebsiteIndex: function () {
-                return this.$store.getters.currentWebsiteIndex;
+            currentWebsite: function () {
+                return this.$store.getters.currentWebsite;
             },
             sourceCode: function () {
-                let url =`${SERVER}/${this.form.endpoint}`;
+                let url = `${SERVER}/${this.form.endpoint}`;
 
-                let recaptchaSiteKey='';
-                let recaptchaCode='';
+                let recaptchaSiteKey = '';
+                let recaptchaCode = '';
 
-                if(this.form.recaptcha) {
-                    recaptchaSiteKey = this.currentWebsiteIndex.sitekey;
+                if (this.form.recaptcha) {
+                    recaptchaSiteKey = this.currentWebsite.sitekey;
                     recaptchaCode = `<div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}"></div>`;
                 }
 
-                return `<form action="${ url } " method="POST">
-                    <label for="name">Name</label>
-                    <input type="text" name="name">
-                    <label for="email">Email  </label>
-                    <input type="text" name="email">
-                    <label for="message"> Message </label>
-                    <textarea name="message" placeholder="Your message"></textarea>
-                    ${recaptchaCode}
-                    <input type="submit" value="Submit">
-                </form>`;
+                return `<form action="${url} " method="POST">
+        <input type="text" name="name">
+        <input type="text" name="email">
+        <textarea name="message" placeholder="Your message"></textarea>
+        ${recaptchaCode}
+        <input type="submit" value="Submit">
+    </form>`;
             }
         },
         methods: {
@@ -133,17 +143,17 @@
             onGenerateBoilerplateClicked: function () {
                 this.dialog.visible = true;
             },
-            onCopyRecaptchaRefClicked: function(){
+            onCopyRecaptchaRefClicked: function () {
                 this.$store.commit("showSnackbar", "Recaptcha reference copied to clipboard");
 
                 this.copyToClipboard(this.recaptchaScriptRefString);
             },
-            onCopyFormCodeClicked: function(){
+            onCopyFormCodeClicked: function () {
                 this.$store.commit("showSnackbar", "Boilerplate code copied to clipboard");
 
                 this.copyToClipboard(this.sourceCode);
             },
-            copyToClipboard(text){
+            copyToClipboard(text) {
                 const el = document.createElement('textarea');
                 el.value = text;
                 document.body.appendChild(el);
@@ -152,8 +162,8 @@
                 document.body.removeChild(el);
 
             },
-            goToDemo: function(){
-                this.$router.push({ name: 'DemoForm', params: { endpoint: this.form.endpoint } })
+            goToDemo: function () {
+                this.$router.push({name: 'DemoForm', params: {endpoint: this.form._id}})
             }
         }
     }

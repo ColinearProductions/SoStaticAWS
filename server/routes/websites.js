@@ -1,7 +1,7 @@
+const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
 const express = require('express');
 const router = express.Router();
-const mongoDbProvider = require('../database/db');
 
 const authMiddleware = require('../authMiddleware');
 
@@ -15,6 +15,10 @@ router.post('/', (req, res) => {
 
     let payload = req.body;
     payload.owner = req.token.uid;
+    payload.recaptcha=false;
+    payload.secret='';
+    payload.sitekey='';
+    payload.message_count=0;
 
     let website = Models.Website(payload);
 
@@ -85,6 +89,9 @@ router.post('/:websiteid/forms/', (req, res) => {
     let websiteId = req.params.websiteid;
     let payload = req.body;
 
+    payload.message_count = 0;
+    payload.spam_count = 0;
+    payload._id = mongoose.Types.ObjectId();
 
     let query = {
         _id: ObjectID(websiteId),
@@ -111,15 +118,13 @@ router.post('/:websiteid/forms/', (req, res) => {
 
 //todo delete form by setting its active field to false
 
+//update form
 router.post('/:websiteid/forms/:formId', (req, res, next) => {
     let uid = req.token.uid;
     let websiteId = req.params.websiteid;
     let formId = req.params.formId;
     let payload = req.body;
     payload._id = ObjectID(formId);
-
-
-
 
 
     let query = {
@@ -146,6 +151,7 @@ router.post('/:websiteid/forms/:formId', (req, res, next) => {
 
 
 });
+
 
 
 module.exports = router;

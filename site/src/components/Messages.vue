@@ -291,13 +291,13 @@
         ,
         computed: {
             listOfForms: function () {
-                console.log('*******', this.currentWebsiteIndex.forms);
+                console.log('*******', this.currentWebsite.forms);
                 let res = [];
                 res.push({'id': -1, 'alias': 'All'});
 
-                if (this.currentWebsiteIndex.forms === undefined)
+                if (this.currentWebsite.forms === undefined)
                     return res;
-                let formsList = Object.values(this.currentWebsiteIndex.forms);
+                let formsList = Object.values(this.currentWebsite.forms);
 
                 for (let i = 0; i < formsList.length; i++) {
                     res.push({'id': formsList[i].key, 'alias': formsList[i].alias})
@@ -307,8 +307,8 @@
                 return res;
 
             },
-            currentWebsiteIndex: function () {
-                return this.$store.getters.currentWebsiteIndex;
+            currentWebsite: function () {
+                return this.$store.getters.currentWebsite;
             },
             isDataLoading: function(){ //todo maybe replace these store getters with the ...method
                return this.$store.getters.isDataLoading;
@@ -344,7 +344,7 @@
                 let endDate = moment(this.endDatePicker.date).add(24, 'hours').valueOf();
 
 
-                api.pullMessages(this.currentWebsiteIndex.key, this.selectedForm, startDate, endDate, this.onlyValidCheckbox, this.page, this.items_per_page)
+                api.pullMessages(this.currentWebsite._id, this.selectedForm, startDate, endDate, this.onlyValidCheckbox, this.page, this.items_per_page)
                     .then(function (response) {
                         let res = response.data;
 

@@ -4,10 +4,8 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 let formSchema = new mongoose.Schema({
     alias: String,
     recaptcha: Boolean,
-    added_on: Date,
-    messages_count: Number,
+    message_count: Number,
     spam_count: Number,
-    endpoint: String,
 
 });
 
@@ -23,14 +21,16 @@ let websiteSchema = new mongoose.Schema({
         }
     ],
     owner: String,
-    forms: [
-        formSchema
-    ]
+    forms:[formSchema],
+    recaptcha:Boolean,
+    secret:String,
+    sitekey:String,
+    messageCount:Number,
+
 });
 
-websiteSchema.query.byIdAndOwner = function(id,owner){
-  return this.where({owner:owner,_id:id})
-};
+
+
 
 let Website = mongoose.model('Website', websiteSchema);
 

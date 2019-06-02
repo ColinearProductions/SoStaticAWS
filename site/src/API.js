@@ -73,10 +73,7 @@ function updateWebsite(websiteData) {
 
 
 function addFormToWebsite(website_id, form) {
-    form.added_on = 0;
-    form.message_count = 0;
-    form.spam_count = 0;
-    form.endpoint = 0;
+
 
     return axios.post(`${SERVER}/websites/${website_id}/forms`, form)
 

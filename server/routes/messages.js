@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoDbProvider = require('../database/db');
 
-
+const ObjectID = require('mongodb').ObjectID;
 
 
 const authMiddleware = require('../authMiddleware');
@@ -18,7 +18,6 @@ router.get('/list', (req, res) => {
 
     let start =  parseInt(req.query.start, 10);
     let end = parseInt(req.query.end, 10);
-    let onlyValid = req.query.only_valid === 'true';
     let formId = req.query.form_id;
     let websiteId = req.query.website_id;
     let itemsPerPage = parseInt(req.query.items_per_page);
@@ -32,17 +31,21 @@ router.get('/list', (req, res) => {
         }
     };
 
-    if (onlyValid)
-        query.valid = false; //todo implementation on client
+    query={};
+    query.valid = true; //todo implementation on client
 
     if (formId !== '-1') //todo or null
         query.form_id = formId;
 
     if (websiteId !== '-1')
-        query.website_id = websiteId;
+        query.website_id = ObjectID(websiteId);
 
+
+    console.log(query);
 
     let countCursor = mongoDbProvider.getDb().collection('messages').find(query);
+
+
     countCursor.count().then((count)=> {
         console.log("COUNT", count);
 

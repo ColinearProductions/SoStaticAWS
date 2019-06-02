@@ -1,4 +1,3 @@
-
 <template>
     <v-container grid-list-md text-xs-center>
         <v-layout row wrap justify-center>
@@ -9,9 +8,8 @@
                             :active="loading"
                             :indeterminate="true"
                     ></v-progress-linear>
-                    <v-layout row justify-center >
+                    <v-layout row justify-center>
                         <v-flex xl10 md10 xs12 class="pa-2">
-
 
 
                             <v-card-text class="pa-4">
@@ -22,7 +20,7 @@
                                     <div style="width:100%; text-align:left">
                                         <span class="display-1 deep-purple--text bold">Website details</span><br>
                                     </div>
-                                    <v-divider class=" mb-2"></v-divider >
+                                    <v-divider class=" mb-2"></v-divider>
                                     <div style="width:100%; text-align:left" class="mb-4">
                                         <span class="body-1 grey--text text--lighten-1">   Information about this website</span><br>
 
@@ -50,7 +48,8 @@
                                                 v-on:change="onWebsiteModelChanged"
                                     ></v-checkbox>
 
-                                    <v-switch label="Use ReCAPTCHA" v-model="websiteDetailsModel.recaptcha"
+                                    <v-switch :label="recaptchaSwitchLabel" v-model="websiteDetailsModel.recaptcha"
+                                              :disabled="recaptchaLocked"
                                               v-on:change="onWebsiteModelChanged"
                                     ></v-switch>
 
@@ -79,7 +78,7 @@
                                     <div style="width:100%; text-align:left" class="mt-4">
                                         <span class="display-1 deep-purple--text bold">Contacts</span><br>
                                     </div>
-                                    <v-divider class=" mb-2"></v-divider >
+                                    <v-divider class=" mb-2"></v-divider>
 
                                     <div style="width:100%; text-align:left" class="pb-3">
                                         <span class="body-1 grey--text text--lighten-1">Enter email addresses where you want the messages to be forwarded to</span><br>
@@ -107,7 +106,8 @@
                                         </v-flex>
 
                                         <v-flex xs1 class="pt-3">
-                                            <v-btn color="primary lighten-1" fab small  dark v-on:click="removeContact(index)"  v-if="index!==0">
+                                            <v-btn color="primary lighten-1" fab small dark
+                                                   v-on:click="removeContact(index)" v-if="index!==0">
                                                 <v-icon>delete_outline</v-icon>
                                             </v-btn>
                                         </v-flex>
@@ -142,7 +142,6 @@
             </v-flex>
 
 
-
         </v-layout>
     </v-container>
 
@@ -160,7 +159,7 @@
 
                 websiteDetailsModel: {},
                 websiteModelChangePending: false,
-                formValidModel:false,
+                formValidModel: false,
 
             }
         },
@@ -174,7 +173,7 @@
                 this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
                 let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'url', 'contacts'];
-                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props,['alias','email']);
+                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props, ['alias', 'email']);
 
                 this.websiteModelChangePending = isChanged;
                 this.$store.commit("setPendingModification", isChanged);
@@ -183,56 +182,56 @@
             onSavePressed: function () {
                 this.$refs.form.validate();
 
-                if(this.formValidModel)
+                if (this.formValidModel)
                     this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
 
 
             },
-            removeContact: function(index){
-              this.websiteDetailsModel.contacts.splice(index,1);
-              this.onWebsiteModelChanged();
+            removeContact: function (index) {
+                this.websiteDetailsModel.contacts.splice(index, 1);
+                this.onWebsiteModelChanged();
             },
             //RULES
-            min3: v=> {
-                if(v===undefined)
+            min3: v => {
+                if (v === undefined)
                     return true;
                 return v.length >= 3 || 'Field must have more than 3 characters'
             },
-            listOfLinks: function(value){
-                if(value===undefined)
+            listOfLinks: function (value) {
+                if (value === undefined)
                     return true;
                 let urls = value.split(',');
                 let valid = true;
-                for(let idx in urls){
+                for (let idx in urls) {
                     let url = urls[idx].trim();
-                    if(url.length<1)
+                    if (url.length < 1)
                         continue;
-                    if(url==='localhost' || url==='127.0.0.1')
+                    if (url === 'localhost' || url === '127.0.0.1')
                         valid = valid && true;
-                    else{
+                    else {
                         let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
-                        if(!urlValid)
-                            return url+' is not a valid domain name';
+                        if (!urlValid)
+                            return url + ' is not a valid domain name';
                         valid = valid && urlValid;
 
                     }
                 }
                 return valid || 'Not all urls are valid'
             },
-            email: function(value) {
+            email: function (value) {
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-                if(value===undefined)
+                if (value === undefined)
                     return true;
 
-                if(value.length<1)
+                if (value.length < 1)
                     return true;
 
                 return re.test(value.toLowerCase()) || 'Email invalid'
             },
-            requiredIf: function(value){
-                if(this.websiteDetailsModel.recaptcha)
-                    return !(value===undefined || value === null || value==='') || "This field is required";
+            requiredIf: function (value) {
+                if (this.websiteDetailsModel.recaptcha)
+                    return !(value === undefined || value === null || value === '') || "This field is required";
                 else
                     return true;
             }
@@ -244,9 +243,9 @@
             'isWebsiteChangePending': function () {
                 this.websiteModelChangePending = this.isWebsiteChangePending
             },
-            'currentWebsite': function(){
+            'currentWebsite': function () {
 
-                this.websiteDetailsModel =  this.$store.getters.currentWebsiteClone;
+                this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
                 this.websiteModelChangePending = false;
                 this.$store.commit("setPendingModification", false);
@@ -257,14 +256,32 @@
             isWebsiteChangePending() {
                 return this.$store.getters.getPendingModification;
             },
-            currentWebsite(){
+            currentWebsite() {
                 return this.$store.getters.currentWebsite;
             },
-            currentWebsiteClone(){
-                return  JSON.parse(JSON.stringify( this.$store.getters.currentWebsiteClone));
+            currentWebsiteClone() {
+                return JSON.parse(JSON.stringify(this.$store.getters.currentWebsiteClone));
             },
-            loading(){
+            loading() {
                 return this.$store.getters.isDataLoading;
+            },
+            recaptchaLocked() {
+                if (!this.websiteDetailsModel.recaptcha) //if recaptcha is not yet enabled there is no reason to lock it.
+                    return false;
+                else {
+
+                    return this.countFormsUsingRecaptcha > 0;
+                }
+            },
+            countFormsUsingRecaptcha() {
+                return this.websiteDetailsModel.forms.filter(form => form.recaptcha).length;
+            },
+            recaptchaSwitchLabel(){
+                if(this.recaptchaLocked){
+                    return `Use ReCAPTCHA - ${this.countFormsUsingRecaptcha} forms are using ReCaptcha`
+                }else{
+                    return `Use ReCAPTCHA `
+                }
             }
         },
         beforeMount: function () {
@@ -286,27 +303,27 @@
             // If values of same property are not equal,
             // objects are not equivalent
 
-            if(Array.isArray(a[propName])){
+            if (Array.isArray(a[propName])) {
 
-                if(a[propName].length !== b[propName].length){
+                if (a[propName].length !== b[propName].length) {
                     console.log("Not equivalent because", propName, 'has a different length');
                     return false;
                 }
-                for(let i=0;i<a[propName].length;i++){
+                for (let i = 0; i < a[propName].length; i++) {
                     let result = true;
-                    subprops.forEach((subprop)=>{
-                        if(a[propName][i][subprop]!==b[propName][i][subprop]){
-                            console.log("Not equivalent because", propName,'[',i,']',a[propName][i][subprop],b[propName][i][subprop] );
-                            result=result && false;
+                    subprops.forEach((subprop) => {
+                        if (a[propName][i][subprop] !== b[propName][i][subprop]) {
+                            console.log("Not equivalent because", propName, '[', i, ']', a[propName][i][subprop], b[propName][i][subprop]);
+                            result = result && false;
                         }
                     });
 
-                    if(result===false)
+                    if (result === false)
                         return false;
 
                 }
 
-            }else if (a[propName] !== b[propName]) {
+            } else if (a[propName] !== b[propName]) {
                 console.log("Not equivalent because", propName, a[propName], b[propName]);
                 return false;
             }

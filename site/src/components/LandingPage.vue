@@ -452,24 +452,7 @@
         name: "LandingPage",
         data: function () {
             return {
-                menuItems: [
-                    {
-                        title: "Login",
-                        to: "/auth/login"
-                    },
-                    {
-                        title: "Register",
-                        to: "/auth/register"
-                    },
-                    {
-                        title: "Documentation",
-                        to: "/Login"
-                    },
-                    {
-                        title: "Pricing",
-                        to: "/Login"
-                    },
-                ]
+
             }
         },
         mounted: function () {
@@ -497,8 +480,8 @@
             },
             goToDashboard: function () {
 
-                console.log(this.$store.getters.currentWebsiteIndex);
-                if (this.$store.getters.currentWebsiteIndex.key === "") {
+                console.log(this.$store.getters.currentWebsite);
+                if (this.$store.getters.currentWebsite._id === "") {
                     this.$router.push('/setup');
                 } else {
                     this.$router.push({
