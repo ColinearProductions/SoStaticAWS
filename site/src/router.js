@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Forms from './components/Forms'
 import Settings from './components/Settings'
+import Account from './components/Account'
 import Layout from './components/Layout'
 import Setup from './components/Setup'
 import LandingPage from './components/LandingPage'
@@ -33,6 +34,10 @@ let router = new Router({
                 path: 'settings',
                 name: 'Settings',
                 component: Settings
+            },{
+                path: 'account',
+                name: 'Account',
+                component: Account
             }, {
                 path: 'messages',
                 name: 'Messages',

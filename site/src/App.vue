@@ -43,44 +43,19 @@
 
         //will generate a new token, true=force refresh
         firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
-            console.log(idToken);
             let tmp = {
                 user: user,
                 token: idToken
             };
             store.commit('setUserData', tmp);
 
-            //add auth header to all requests
-            console.log("STORING TOKEN:",idToken);
+
             axios.defaults.headers.common['Authorization'] =  "Bearer " + idToken;
 
-            api.getWebsitesOfUser().then(response => {
-
-                let websitesCount = response.data.length;
-                let websiteIndex = parseInt(router.currentRoute.params.website_index);
-
-                if (isNaN(websiteIndex) || websiteIndex + 1 > websitesCount)
-                    websiteIndex = 0;
-
-                if (router.currentRoute.path !== '/') {
-                    router.push({
-                        params: {
-                            'website_index': websiteIndex
-                        }
-                    });
-                    if (websitesCount < 1)
-                        router.push('/setup');
-                }
-
-                let payload = {
-                    websiteIndex,
-                    websites: response.data,
-
-                };
-                store.commit('setInitialData', payload);
+            store.dispatch('init');
+            store.dispatch('updateDeletionPending');
 
 
-            });
 
 
 

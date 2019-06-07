@@ -17,6 +17,7 @@ admin.initializeApp({
 const messagesRouter = require('./routes/messages.js');
 const endpointRouter = require('./routes/endpoint.js');
 const websitesRouter = require('./routes/websites.js');
+const usersRouter = require('./routes/users.js');
 const mockRouter = require('./routes/mock.js');
 
 app.use(logger('dev'));
@@ -32,6 +33,7 @@ app.use('/messages', messagesRouter);
 app.use('/m', endpointRouter);
 app.use('/mock', mockRouter);
 app.use('/websites', websitesRouter);
+app.use('/users', usersRouter);
 
 
 

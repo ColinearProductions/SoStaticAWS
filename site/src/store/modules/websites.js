@@ -59,11 +59,18 @@ const mutations = {
     },
 
     removeForm: (state, formId) => {
-        Vue.delete(state.websitesData[state.currentWebsiteIndex].forms, formId);
-        delete state.websitesData[state.currentWebsiteIndex].forms[formId];
 
 
-        state.loaderVisible = false;
+        let forms =  state.websitesData[state.currentWebsiteIndex].forms;
+        console.log("Removing forms");
+        console.log(forms);
+
+        let formIndex = forms.findIndex(form=>form._id===formId);
+        console.log('target index', formIndex);
+
+        forms.splice(formIndex,1)
+
+
 
 
     },
@@ -83,11 +90,44 @@ const getters = {
     websites: (state) => {
         return state.websitesData;
     },
+    currentWebsiteIndex: (state)=>{
+        return state.currentWebsiteIndex;
+    }
 
 
 };
 
 const actions = {
+    init: (context) => {
+        api.getWebsitesOfUser().then(response => {
+
+            let websitesCount = response.data.length;
+            let websiteIndex = parseInt(router.currentRoute.params.website_index);
+
+            if (isNaN(websiteIndex) || websiteIndex + 1 > websitesCount)
+                websiteIndex = 0;
+
+            if (router.currentRoute.path !== '/') {
+                router.push({
+                    params: {
+                        'website_index': websiteIndex
+                    }
+                });
+                if (websitesCount < 1)
+                    router.push('/setup');
+            }
+
+            let payload = {
+                websiteIndex,
+                websites: response.data,
+
+            };
+            context.commit('setInitialData', payload);
+
+
+        });
+
+    },
     createWebsite: (context, website) => {
         console.log(website);
 
@@ -111,6 +151,19 @@ const actions = {
         }).catch((reason) => {
 
             console.log(reason);
+        })
+    },
+    deleteWebsite: (context, websiteId) => {
+        context.commit('setLoaderVisibility', true);
+
+        api.deleteWebsite(websiteId)
+            .then(result => {
+
+                context.dispatch('init', null, {root: true});
+                context.commit('showSnackbar', 'Website successfully deleted. All data associated with the website has been deleted from our servers');
+                context.commit('setLoaderVisibility', false);
+            }).catch(error => {
+            console.log(error);
         })
     },
     addFormToWebsite: (context, form) => {
@@ -150,10 +203,17 @@ const actions = {
         });
     },
     deleteForm: (context, formId) => {
-        let websiteId = context.getters.currentWebsiteIndex.key;
-        api.deleteForm(websiteId, formId, () => {
-            context.commit('removeForm', formId);
 
+
+        let websiteId = context.getters.currentWebsite._id;
+
+        console.log(context.getters.currentWebsite._id);
+        console.log(formId);
+
+
+
+        api.deleteForm(websiteId, formId).then(() => {
+            context.commit('removeForm', formId);
         })
     }
 };

@@ -1,3 +1,5 @@
+import * as api from "../../API";
+
 const state = {
     loaderVisible: false,
     isLoggedIn: false,
@@ -6,7 +8,11 @@ const state = {
     snackbarText: '',
     pendingModification: false,
     user: null,
-    userToken: null
+    userToken: null,
+    deletion: {
+        pending: false,
+        timestamp: null,
+    }
 };
 
 const mutations = {
@@ -42,6 +48,13 @@ const mutations = {
     hideSnackbar(state) {
         state.snackbarText = '';
         state.snackbarVisible = false;
+    },
+    setDeletionPending(state, value) {
+
+        state.deletion.pending = value.pending;
+        state.deletion.timestamp = value.timestamp;
+
+
     }
 };
 
@@ -66,20 +79,55 @@ const getters = {
         return state.snackbarText;
     },
     getUser(state) {
-        console.log("TRYING TO GET USER");
         return state.user;
     },
 
     getIdToken(state) {
         return state.userToken
+    },
+    getDeletionPending(state) {
+        return state.deletion.pending
+    },
+    getDeletionTimeout(state) {
+        return state.deletion.timestamp
     }
 
 };
 
+
 const actions = {
 
-};
+    updateDeletionPending: (context) => {
+        api.getDeletionPending()
+            .then(result => {
+                context.commit('setDeletionPending', {pending: true, timestamp: result.data.timestamp});
+                context.commit('showSnackbar','Your account is pending deletion.')
+            }).catch(error => {
+            if (error.response.status === 404)
+                context.commit('setDeletionPending', {pending: false, timestamp: null});
 
+        })
+    },
+    cancelDeletion:(context)=>{
+        api.cancelDeletion()
+            .then(result => {
+                context.commit("showSnackbar", "Account deletion countdown has been stopped");
+                context.commit('setDeletionPending', {pending: false, timestamp: null});
+            }).catch(error => {
+            console.log(error);
+        });
+    },
+    beginDeletion:(context)=>{
+        api.deleteAccount()
+            .then(result => {
+                context.commit("showSnackbar", "Countdown towards account deletion has started");
+                context.commit('setDeletionPending', {pending: true, timestamp: result.data.timestamp});
+
+            }).catch(error => {
+            console.log(error);
+        })
+    }
+};
 
 
 export default {

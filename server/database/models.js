@@ -1,5 +1,12 @@
+
+
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId;
+
+let deletionTaskSchema = new mongoose.Schema({
+   uid:String,
+   timestamp:Number
+});
 
 let formSchema = new mongoose.Schema({
     alias: String,
@@ -33,7 +40,8 @@ let websiteSchema = new mongoose.Schema({
 
 
 let Website = mongoose.model('Website', websiteSchema);
+let DeletionTask = mongoose.model('DeletionTask', deletionTaskSchema);
 
 module.exports = {
-    Website
+    Website,DeletionTask
 };

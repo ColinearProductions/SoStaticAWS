@@ -63,6 +63,33 @@ router.post('/:websiteid', (req, res) => {
 
 });
 
+//update website
+router.delete('/:websiteid', (req, res) => {
+
+    let websiteId = req.params.websiteid;
+    let uid = req.token.uid;
+
+
+
+    let query = {
+        _id: ObjectID(websiteId),
+        owner: uid
+    };
+
+
+    Models.Website.findOneAndDelete(query).then(doc => {
+
+        console.log(doc);
+        res.status(200).send(doc);
+
+    }).catch(error => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+
+
+});
+
 router.get('/', (req, res) => {
     let uid = req.token.uid;
 
@@ -149,6 +176,38 @@ router.post('/:websiteid/forms/:formId', (req, res, next) => {
         res.sendStatus(500);
     })
 
+
+});
+
+//update form
+router.delete('/:websiteid/forms/:formId', (req, res, next) => {
+    let uid = req.token.uid;
+    let websiteId = req.params.websiteid;
+    let formId = req.params.formId;
+
+
+
+    let query = {
+        owner: uid,
+        _id: ObjectID(websiteId)
+    };
+
+    Models.Website.findOneAndUpdate(query,
+        {
+            $pull: {
+                forms: {
+                    _id:ObjectID(formId)
+                }
+            }
+        },
+        {new: true}
+    ).then(doc => {
+        console.log(doc);
+        res.status(200).send(doc);
+    }).catch(error => {
+        console.error(error);
+        res.sendStatus(500);
+    })
 
 });
 

@@ -27,7 +27,7 @@ Vue.use(Vuetify, {
 
 Vue.use(VueHighlightJS);
 Vue.use(VeeValidate);
-Vue.use(VuetifyConfirm,{  icon: 'warning'});
+Vue.use(VuetifyConfirm,{  color: 'red', width:700});
 
 
 Vue.config.productionTip = false;

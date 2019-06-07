@@ -60,6 +60,9 @@ function createWebsite(website) {
     return axios.post(`${SERVER}/websites`, website)
 }
 
+function deleteWebsite(websiteid){
+    return axios.delete(`${SERVER}/websites/${websiteid}`)
+}
 
 function updateWebsite(websiteData) {
 
@@ -86,12 +89,20 @@ function updateForm(websiteId, form_key, update_data) {
 
 }
 
-function deleteForm(websieId, formId, callback) {
-    firebase.database().ref('/users/' + firebase.auth().currentUser.uid + '/websites/' + websieId + '/forms/' + formId).remove().then(() => {
-        callback();
-    }).catch((reason) => {
-        console.error(reason);
-    })
+function deleteForm(websieId, formId) {
+    return axios.delete(`${SERVER}/websites/${websieId}/forms/${formId}`);
+
+}
+
+function deleteAccount(){
+    return axios.post(`${SERVER}/users/deletion_task`)
+}
+
+function getDeletionPending(){
+    return axios.get(`${SERVER}/users/deletion_task`)
+}
+function cancelDeletion(){
+    return axios.delete(`${SERVER}/users/deletion_task`)
 }
 
 
@@ -126,6 +137,10 @@ export {
     deleteForm,
     updateWebsite,
     pullMessages,
+    deleteAccount,
+    getDeletionPending,
+    cancelDeletion,
+    deleteWebsite,
     SERVER
 }
 

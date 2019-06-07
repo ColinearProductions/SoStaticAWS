@@ -131,6 +131,9 @@
 
                     <v-divider></v-divider>
                     <v-card-actions>
+                        <v-btn flat color="red"  @click="onDeleteWebsiteClicked">
+                            Delete Website
+                        </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn flat color="primary" v-bind:disabled="!websiteModelChangePending" @click="onSavePressed">
                             Save
@@ -150,6 +153,7 @@
 
 <script>
     /* eslint-disable */
+    import * as api from '../API';
 
 
     export default {
@@ -178,6 +182,17 @@
                 this.websiteModelChangePending = isChanged;
                 this.$store.commit("setPendingModification", isChanged);
 
+            },
+            onDeleteWebsiteClicked: function(){
+                this.$confirm(
+                    `This action is irreversible and will result in the permanent loss of all the messages archived for this website and all your settings. <br>
+                     This action will take effect immediately`,{ title: 'Are you sure you want to delete this website?' }).then(res => {
+                    if (res) {
+                        this.$store.dispatch("deleteWebsite", this.websiteDetailsModel._id);
+
+                    }
+
+                })
             },
             onSavePressed: function () {
                 this.$refs.form.validate();

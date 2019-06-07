@@ -5,15 +5,19 @@
             <v-list dense>
                 <WebsitePicker v-on:addWebsitePressed="createWebsiteDialogModel.visible=true"></WebsitePicker>
                 <template v-for="item in items">
-                    <v-list-tile :key="item.text" :to="item.to">
-                        <v-list-tile-action class="px-3">
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title class="bold">
-                                {{ item.text }}
-                            </v-list-tile-title>
-                        </v-list-tile-content>
+
+
+                    <v-list-tile :key="item.text" :to="item.to" :color="(deletionPending && item.text==='Account')?'red':''">
+
+
+                            <v-list-tile-action class="px-3">
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title class="bold">
+                                    {{ item.text }}
+                                </v-list-tile-title>
+                            </v-list-tile-content>
                     </v-list-tile>
                 </template>
             </v-list>
@@ -30,7 +34,7 @@
             </v-btn>
         </v-toolbar>
         <v-content>
-            <v-container fluid  grid-list-xl fill-height>
+            <v-container fluid  grid-list-xl >
                 <v-btn @click="mockAuth" style="display:none">
                     AUTH
                 </v-btn>
@@ -67,7 +71,7 @@
                     {icon: 'assignment', text: 'Forms', to: 'forms'},
                     {icon: 'insert_comment', text: 'Messages', to: 'messages'},
                     {icon: 'settings', text: 'Settings', to:'settings'},
-                    {icon: 'person', text: 'Account'},
+                    {icon: 'person', text: 'Account', to:'account'},
                     {icon: 'home', text: 'Home', to:"/"},
 
                 ]
@@ -82,6 +86,9 @@
             },
             isCreateWebsiteDialogVisible(){
                 return this.$store.getters.getIsCreateWebsiteDialogVisible;
+            },
+            deletionPending(){
+                return this.$store.getters.getDeletionPending;
             }
         },
         methods:{

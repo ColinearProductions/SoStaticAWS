@@ -7,7 +7,7 @@
         <v-text-field label="Display name" v-model="form_model.displayName"></v-text-field>
         <v-text-field label="E-mail" v-model="form_model.username"></v-text-field>
         <v-text-field label="Password" v-model="form_model.password" type="password"></v-text-field>
-        <v-checkbox label="Register to our newsletter"></v-checkbox>
+
 
         <v-btn color="deep-purple lighten-1 ma-0" dark @click="onSubmit">
             Register

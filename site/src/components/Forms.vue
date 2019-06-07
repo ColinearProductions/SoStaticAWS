@@ -98,10 +98,6 @@
                     formToBeUpdatedId: '',
                     formToBeUpdated: null
                 },
-                deleteFormDialog: {
-                    visible: false,
-                    //todo
-                },
                 formValidModel: false
 
             }
@@ -176,14 +172,10 @@
                     formToBeUpdated: form
                 }
             },
-            deleteForm: function (form) {
+            deleteForm: function () {
                 let formId = this.dialogModel.formToBeUpdatedId;
-
-
                 this.$store.dispatch('deleteForm', formId);
                 this.dialogModel.visible = false;
-
-
             }
         },
         computed: {
