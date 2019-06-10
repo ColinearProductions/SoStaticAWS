@@ -16,7 +16,6 @@
     import Loader from './components/TinyComponents/Loader'
     import LandingPage from './components/LandingPage'
 
-    import * as api from './API';
     import firebase from 'firebase';
     import axios from 'axios';
 

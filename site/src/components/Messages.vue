@@ -1,8 +1,5 @@
 <template>
-
     <v-layout row wrap>
-
-
         <v-flex xs8 offset-md2>
             <v-flex xs12 class="pa-0 pb-3">
                 <v-card class="px-4">
@@ -15,7 +12,6 @@
                                         item-value="id"
                                         v-model="selectedForm"
                                         label="Form"
-
                                 ></v-select>
                             </v-flex>
                             <v-flex md3 d-flex>
@@ -78,7 +74,6 @@
                                     </v-date-picker>
                                 </v-menu>
                             </v-flex>
-
                             <v-flex md5 d-flex class="mt-2">
                                 <v-btn dark color="primary lighten-1" @click="loadMessages">
                                     <v-icon dark class="pr-2">cloud_download</v-icon>
@@ -89,15 +84,13 @@
                         </v-layout>
                     </v-flex>
                 </v-card>
-
             </v-flex>
             <v-card>
                 <v-progress-linear
-
                         :active="loading"
                         :indeterminate="true"
                 ></v-progress-linear>
-                <v-layout row wrap  class="pa-3 px-5">
+                <v-layout row wrap class="pa-3 px-5">
                     <v-flex xs12>
                         <v-flex xs12 class="ma-0 pa-0">
                             <div class="text-xs-center grey--text">
@@ -111,9 +104,7 @@
                                               :total-visible="7"
                                 ></v-pagination>
                             </div>
-
                         </v-flex>
-
                         <v-list>
                             <v-card v-for="(message,index) in messages" :key="index" flat class="my-2 mb-3"
                                     :color="message.highlight?'deep-purple lighten-1':''"
@@ -122,8 +113,6 @@
                                     style="border:1px solid rgb(230, 230, 230)">
                                 <v-list-tile @click="highlightMessage(message)"
                                              v-bind:class="{'v-list__tile--highlighted':message.highlight}">
-
-
                                     <v-list-tile-content>
                                         <v-list-tile-title v-text="message.card.title"
                                                            v-bind:class="{'white--text':message.highlight}"></v-list-tile-title>
@@ -139,16 +128,11 @@
                                     <v-icon v-bind:class="{'white--text':message.highlight,'grey--text':!message.highlight}">
                                         {{message.highlight?'expand_less':'expand_more'}}
                                     </v-icon>
-
-
                                 </v-list-tile>
-
                                 <v-card class=" pt-3 pb-2" flat v-if="message.highlight">
-
                                     <v-flex xs12 class="pa-3">
                                         <v-layout row v-for="(property,index) in message.properties" :key="index" wrap
                                                   class="py-1">
-
                                             <v-flex xs2 class="py-0">
                                                 <p class="text-capitalize  mb-1 grey--text ">{{property}}:</p>
                                             </v-flex>
@@ -157,7 +141,6 @@
                                                     <v-flex xs-6>
                                                         <p class="align-end  mb-1  subheading">
                                                             {{message.payload[property]}}
-
                                                         </p>
                                                     </v-flex>
                                                     <v-flex xs-6 class="text-xs-right">
@@ -170,54 +153,34 @@
                                                             </v-btn>
                                                         </a>
                                                     </v-flex>
-
-
                                                 </v-layout>
                                                 <template v-else>
                                                     <p class="align-end  mb-1  subheading">
                                                         {{message.payload[property]}}
-
                                                     </p>
                                                 </template>
-
-
                                             </v-flex>
-
                                             <v-flex xs112 class="py-0">
                                                 <v-divider></v-divider>
                                             </v-flex>
-
                                         </v-layout>
-
                                         <v-layout class="pl-3 mt-2" wrap>
                                             <v-flex xs12 class="pa-0">
-
                                                 <p class="grey--text  ma-0"> Submitted from <a
                                                         :href="message.source_page">{{message.source_page}} </a></p>
-
-
                                             </v-flex>
                                             <v-flex xs12 class="pa-0">
                                                 <p class="grey--text  ma-0">Sent to: <span
                                                         v-for="(target,index) in message.sent_to" :key="index"> {{target.alias}} at <a
                                                         href="#"> {{target.email}}</a></span></p>
-
                                             </v-flex>
                                             <v-flex xs12 class="pa-0 text-xs-right">
-
                                                 <v-btn flat class="my-0">delete</v-btn>
                                                 <v-btn flat class="my-0">resend</v-btn>
                                             </v-flex>
-
                                         </v-layout>
-
-
                                     </v-flex>
-
-
                                 </v-card>
-
-
                             </v-card>
                         </v-list>
                         <v-flex xs12 class="ma-0 pa-0">
@@ -228,30 +191,21 @@
                                               :total-visible="7"
                                 ></v-pagination>
                             </div>
-
                         </v-flex>
-
-
                     </v-flex>
-
-
                 </v-layout>
             </v-card>
         </v-flex>
     </v-layout>
-
-
 </template>
 
 <script>
-    /* eslint-disable */
+
     import moment from 'moment'
     import * as api from '../API';
 
-
     export default {
         name: "Messages",
-
         data: function () {
             return {
                 messages: [],
@@ -272,23 +226,13 @@
                 },
                 selectedForm: -1,
                 onlyValidCheckbox: true,
-                items: [
-                    {title: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg'},
-                    {title: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg'},
-                    {title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg'},
-                    {title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg'},
-
-                ],
                 page: 1,
                 page_length: 5,
                 items_per_page: 10,
                 items_count: 0,
-                loading:false
-
-
+                loading: false
             }
-        }
-        ,
+        },
         computed: {
             listOfForms: function () {
                 console.log('*******', this.currentWebsite.forms);
@@ -302,21 +246,15 @@
                 for (let i = 0; i < formsList.length; i++) {
                     res.push({'id': formsList[i].key, 'alias': formsList[i].alias})
                 }
-
-
                 return res;
-
             },
             currentWebsite: function () {
                 return this.$store.getters.currentWebsite;
             },
-            isDataLoading: function(){ //todo maybe replace these store getters with the ...method
-               return this.$store.getters.isDataLoading;
+            isDataLoading: function () { //todo maybe replace these store getters with the ...method
+                return this.$store.getters.isDataLoading;
             }
-
-        }
-        //todo add hook into firebase messages, and show new messages in real-time
-        ,
+        },
         methods: {
             mailto: function (email) {
                 return 'mailto:' + email;
@@ -325,9 +263,7 @@
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(payload.toLowerCase())
             },
-
             highlightMessage: function (message) {
-
                 if (message.highlight) {
                     message.highlight = false;
                     return;
@@ -339,18 +275,13 @@
             },
             loadMessages: function () {
                 let that = this;
-
                 let startDate = moment(this.startDatePicker.date).valueOf();
                 let endDate = moment(this.endDatePicker.date).add(24, 'hours').valueOf();
-
-
                 api.pullMessages(this.currentWebsite._id, this.selectedForm, startDate, endDate, this.onlyValidCheckbox, this.page, this.items_per_page)
                     .then(function (response) {
                         let res = response.data;
-
                         that.items_count = res.count;
                         that.page_length = Math.ceil(res.count / that.items_per_page);
-
                         that.messages = res.messages.map((message) => {
                             let payload = message.payload;
                             message.highlight = false;
@@ -362,17 +293,14 @@
                             message.properties = Object.keys(message.payload);
                             return message;
                         });
-
-                    }).then(()=>this.loading = false);
+                    }).then(() => this.loading = false);
             }
         },
         mounted: function () {
-            //if website has loaded
-            if(!this.isDataLoading)
+            if (!this.isDataLoading)
                 this.loadMessages();
             else
                 this.loading = true;
-
         },
         watch: {
             'currentWebsiteIndex': function () {
@@ -381,18 +309,14 @@
             },
             'page': function () {
                 this.loadMessages();
-
             },
-            isDataLoading: function(){
-
-                    this.loadMessages();
+            isDataLoading: function () {
+                this.loadMessages();
             }
         }
     }
 
 
 </script>
-
 <style scoped>
-
 </style>

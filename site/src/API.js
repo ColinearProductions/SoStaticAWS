@@ -1,10 +1,7 @@
-/* eslint-disable */
+
 import firebase from 'firebase'
-
 import axios from 'axios';
-
-
-const SERVER = process.env.NODE_ENV === 'development' ? 'http://localhost' : 'https://ssttc.xyz';
+const SERVER = process.env.NODE_ENV === 'development' ? 'http://34.65.200.188:12345' : 'http://34.65.200.188:12345';
 
 
 let config = {
@@ -35,7 +32,6 @@ function register(displayName, email, password, onSuccessCallback, onErrorCallba
         user.updateProfile({
             displayName: '' + displayName
         }).then(() => onSuccessCallback())
-
     }).catch(function (error) {
         onErrorCallback(error.code, error.message);
     });
@@ -65,33 +61,20 @@ function deleteWebsite(websiteid){
 }
 
 function updateWebsite(websiteData) {
-
-
-    let websiteId = websiteData._id;
-
-
-    return axios.post(`${SERVER}/websites/${websiteId}`, websiteData);
-
+    return axios.post(`${SERVER}/websites/${ websiteData._id}`, websiteData);
 }
 
 
 function addFormToWebsite(website_id, form) {
-
-
     return axios.post(`${SERVER}/websites/${website_id}/forms`, form)
-
 }
 
 function updateForm(websiteId, form_key, update_data) {
-
     return axios.post(`${SERVER}/websites/${websiteId}/forms/${form_key}`, update_data);
-
-
 }
 
 function deleteForm(websieId, formId) {
     return axios.delete(`${SERVER}/websites/${websieId}/forms/${formId}`);
-
 }
 
 function deleteAccount(){
@@ -105,10 +88,7 @@ function cancelDeletion(){
     return axios.delete(`${SERVER}/users/deletion_task`)
 }
 
-
 function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page) {
-
-
     return axios.get(`${SERVER}/messages/list`,
         {
             params: {
@@ -122,9 +102,7 @@ function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, 
             }
         }
     );
-
 }
-
 
 export {
     login,
@@ -142,21 +120,4 @@ export {
     cancelDeletion,
     deleteWebsite,
     SERVER
-}
-
-
-function snapshotToArray(snapshot) {
-    let returnArr = [];
-
-    console.log(typeof snapshot);
-
-    snapshot.forEach(function (childSnapshot) {
-        let item = childSnapshot.val();
-        item.key = childSnapshot.key;
-
-
-        returnArr.push(item);
-    });
-
-    return returnArr;
 }
