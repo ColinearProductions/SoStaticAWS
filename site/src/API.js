@@ -1,8 +1,8 @@
 
 import firebase from 'firebase'
 import axios from 'axios';
-const SERVER = process.env.NODE_ENV === 'development' ? 'http://34.65.200.188:12345' : 'http://34.65.200.188:12345';
-
+const SERVER = process.env.NODE_ENV === 'development' ? 'http://localhost:12345' : 'https://ssttc.xyz';
+axios.defaults.baseURL = SERVER;
 
 let config = {
     apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
@@ -12,6 +12,8 @@ let config = {
     storageBucket: "",
     messagingSenderId: "1045757408696"
 };
+
+
 
 firebase.initializeApp(config);
 
@@ -49,47 +51,47 @@ function login(user, pass, onSuccessCallback, onErrorCallback) {
 
 
 function getWebsitesOfUser() {
-    return axios.get(`${SERVER}/websites`);
+    return axios.get(`/api/websites`);
 }
 
 function createWebsite(website) {
-    return axios.post(`${SERVER}/websites`, website)
+    return axios.post(`/api/websites`, website)
 }
 
 function deleteWebsite(websiteid){
-    return axios.delete(`${SERVER}/websites/${websiteid}`)
+    return axios.delete(`/api/websites/${websiteid}`)
 }
 
 function updateWebsite(websiteData) {
-    return axios.post(`${SERVER}/websites/${ websiteData._id}`, websiteData);
+    return axios.post(`/api/websites/${ websiteData._id}`, websiteData);
 }
 
 
 function addFormToWebsite(website_id, form) {
-    return axios.post(`${SERVER}/websites/${website_id}/forms`, form)
+    return axios.post(`/api/websites/${website_id}/forms`, form)
 }
 
 function updateForm(websiteId, form_key, update_data) {
-    return axios.post(`${SERVER}/websites/${websiteId}/forms/${form_key}`, update_data);
+    return axios.post(`/api/websites/${websiteId}/forms/${form_key}`, update_data);
 }
 
 function deleteForm(websieId, formId) {
-    return axios.delete(`${SERVER}/websites/${websieId}/forms/${formId}`);
+    return axios.delete(`/api/websites/${websieId}/forms/${formId}`);
 }
 
 function deleteAccount(){
-    return axios.post(`${SERVER}/users/deletion_task`)
+    return axios.post(`/api/users/deletion_task`)
 }
 
 function getDeletionPending(){
-    return axios.get(`${SERVER}/users/deletion_task`)
+    return axios.get(`/api/users/deletion_task`)
 }
 function cancelDeletion(){
-    return axios.delete(`${SERVER}/users/deletion_task`)
+    return axios.delete(`/api/users/deletion_task`)
 }
 
 function pullMessages(websiteId, formId, start_date, end_date, onlyValid, page, items_per_page) {
-    return axios.get(`${SERVER}/messages/list`,
+    return axios.get(`/api/messages/list`,
         {
             params: {
                 start: start_date,

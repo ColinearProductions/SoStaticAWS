@@ -29,11 +29,11 @@ app.use(cookieParser());
 
 
 
-app.use('/messages', messagesRouter);
-app.use('/m', endpointRouter);
-app.use('/mock', mockRouter);
-app.use('/websites', websitesRouter);
-app.use('/users', usersRouter);
+app.use('/api/messages', messagesRouter);
+app.use('/', endpointRouter);
+app.use('/api/mock', mockRouter);
+app.use('/api/websites', websitesRouter);
+app.use('/api/users', usersRouter);
 
 
 
