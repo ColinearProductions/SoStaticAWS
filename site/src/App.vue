@@ -31,8 +31,19 @@
 
         } else {
             //user logged out
+
             store.commit('setLoggedInState', false);
-            router.push('/');
+
+            let noAuthNeeded = ['Login', 'Register', 'Recover', 'Unsubscribe'];
+
+            if (noAuthNeeded.find(x => router.currentRoute.name === x)) {
+                alert(router.currentRoute.name);
+            }else{
+                router.push('/');
+
+            }
+
+
 
         }
     });
@@ -49,17 +60,13 @@
             store.commit('setUserData', tmp);
 
 
-            axios.defaults.headers.common['Authorization'] =  "Bearer " + idToken;
+            axios.defaults.headers.common['Authorization'] = "Bearer " + idToken;
 
             store.dispatch('init');
             store.dispatch('updateDeletionPending');
 
 
-
-
-
         }).catch(error => console.error(error));
-
 
 
     }
@@ -87,7 +94,6 @@
     });
 
 
-
     export default {
         name: 'app',
         components: {
@@ -99,7 +105,7 @@
                 s: store
             }
         },
-        store:store
+        store: store
     }
 </script>
 

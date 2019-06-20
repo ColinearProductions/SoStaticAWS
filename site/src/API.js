@@ -28,27 +28,21 @@ function logout(callback) {
 }
 
 
-function register(displayName, email, password, onSuccessCallback, onErrorCallback) {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-        let user = firebase.auth().currentUser;
-        user.updateProfile({
-            displayName: '' + displayName
-        }).then(() => onSuccessCallback())
-    }).catch(function (error) {
-        onErrorCallback(error.code, error.message);
-    });
+function register( email, password) {
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
 
-function login(user, pass, onSuccessCallback, onErrorCallback) {
-    firebase.auth().signInWithEmailAndPassword(user, pass).then(function () {
-        onSuccessCallback();
-    }).catch(function (error) {
-        console.log('Login error', error);
-        onErrorCallback(error)
-    });
+function login(user, pass) {
+
+
+    return firebase.auth().signInWithEmailAndPassword(user, pass)
 }
 
+
+function sendRecoveryEmail(email){
+    return  firebase.auth().sendPasswordResetEmail(email)
+}
 
 function getWebsitesOfUser() {
     return axios.get(`/api/websites`);
@@ -121,5 +115,6 @@ export {
     getDeletionPending,
     cancelDeletion,
     deleteWebsite,
+    sendRecoveryEmail,
     SERVER
 }

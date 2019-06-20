@@ -1,7 +1,6 @@
 .idea
 firebase_pkey.json
-/functions/node_modules/
 /site/node_modules/
-/server/.env
+*.env
 /server/node_modules/
 /site/dist/

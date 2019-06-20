@@ -12,9 +12,16 @@ import Register from './components/Authentication/Register'
 import Recover from './components/Authentication/Recover'
 import Messages from './components/Messages'
 import DemoForm from "./components/DemoForm";
+import Unsubscribe from "./components/Unsubscribe";
 
 
 Vue.use(Router);
+
+
+
+
+
+
 
 
 let router = new Router({
@@ -25,11 +32,13 @@ let router = new Router({
             path: '/app/:website_index/',
             name: 'Home',
             component: Layout,
-            children: [{
+
+            children: [
+                {
 
                 path: 'forms',
                 name: 'Forms',
-                component: Forms
+                component: Forms,
             }, {
                 path: 'settings',
                 name: 'Settings',
@@ -83,6 +92,11 @@ let router = new Router({
             path:'/app/demo/:endpoint',
             name:'DemoForm',
             component:DemoForm
+        },
+        {
+            path:'/unsubscribe/:unsubscribeUrl',
+            name:'Unsubscribe',
+            component:Unsubscribe
         }
 
     ]

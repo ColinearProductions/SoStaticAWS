@@ -1,46 +1,13 @@
 <template>
-    <v-app class="landing-bg" style=";background-position: top 0 right 0;background-repeat:no-repeat;
-        background-size: 100vh auto; background-color: white"
-           :style="{'background-image':$vuetify.breakpoint.xs?'':'url(\'images/1st_ex.png\')'}">
+    <v-app style="background-color: white">
 
-        <!--  <v-toolbar color="transparent" class="elevation-0 hidden-sm-and-down " absolute app>
-              <v-toolbar-title>SoStatic</v-toolbar-title>
-              <v-spacer></v-spacer>
-
-              <v-btn flat>
-                  Pricing
-              </v-btn>
-
-              <v-btn flat>
-                  Documentation
-              </v-btn>
-
-              <div v-if="isLoggedIn">
-
-                  <v-btn outline @click="logout">
-                      Logout
-                  </v-btn>
-                  <v-btn outline @click="goToDashboard">
-                      Go to dashboard
-                  </v-btn>
-              </div>
-
-              <div v-else>
-                  <v-btn outline :to="{name:'Login'}">
-                      Login
-                  </v-btn>
-                  <v-btn outline :to="{name:'Register'}">
-                      Sign Up
-                  </v-btn>
-              </div>
+        <div id="pixis" class="landing-bg" style="position:absolute;background-position: top 0 right 0;background-repeat:no-repeat;
+        background-size: 100vh auto; background-color: white; z-index:1; height:100vh; width:100vw">
+        </div>
 
 
-          </v-toolbar>
-  -->
         <section style=" width:100%;height:100vh" :style="{'height':$vuetify.breakpoint.xs?'':'100vh'}"
                  :class="{'mt-5':$vuetify.breakpoint.xs}">
-
-
             <v-layout class="pa-4" row wrap align-center :fill-height="$vuetify.breakpoint.mdAndUp"
                       :class="{'pl-5': $vuetify.breakpoint.mdAndUp,'ml-5': $vuetify.breakpoint.mdAndUp,'text-xs-center':$vuetify.breakpoint.xs}">
                 <v-flex style="z-index:2 ">
@@ -61,9 +28,13 @@
                     <div class=" my-4">
 
 
-                        <v-btn large outline color="primary" @click="goToDashboard" v-if="isLoggedIn">
-                            Go to dashboard
-                        </v-btn>
+                        <template  v-if="isLoggedIn">
+                            <v-btn large outline color="primary" @click="goToDashboard">
+                                Go to dashboard
+                            </v-btn>
+                            <v-btn large outline color="primary" @click="logout">Logout</v-btn>
+                        </template>
+
                         <template v-else>
 
 
@@ -72,11 +43,9 @@
                         </template>
 
 
-                        <v-btn outline color="primary" large>Documentation</v-btn>
 
                         <v-card color="blue-grey darken-4" class="white--text mt-3 hidden-sm-and-down"
-                                style="max-width: 500px"
-                        >
+                                style="max-width: 500px">
 
 
                             <v-card-title primary-title class="pa-0">
@@ -110,7 +79,7 @@
 
 
                 <v-flex xs12 text-xs-center class="mb-5">
-                    <h2 class=" display-3 fnt font-weight-bold"> Features</h2>
+                    <h2 class=" display-3  font-weight-bold"> Features</h2>
                     <!--<h3 class="title text--secondary pt-4"> This is the simplest solution for form submission on static
                   websites hosted on github or firebase </h3>  -->
                 </v-flex>
@@ -288,7 +257,7 @@
 
                 <v-layout row wrap class="text-xs-center">
                     <v-flex xs12 text-xs-center class="mb-2 mt-5">
-                        <h2 class="display-3 fnt font-weight-bold"> Pricing</h2>
+                        <h2 class="display-3  font-weight-bold"> Pricing</h2>
                     </v-flex>
 
                     <v-flex md12 class=" px-2 py-2" align-center>
@@ -415,9 +384,13 @@
                         <v-flex md6 sm6 xs12 class="text-xs-center text-sm-left">
                             <h1>So Static</h1>
                             <h4>
-                                <a class="pr-2">Plans </a>
-                                <a class="px-2" :to="{name:'Register'}">Sign Up </a>
-                                <a class="px-2" :to="{name:'Login'}">Login </a>
+
+                                <router-link :to="{name:'Register'}">
+                                    <a class="pr-2">Sign Up </a>
+                                </router-link>
+                                <router-link :to="{name:'Login'}">
+                                    <a class="px-2">Login </a>
+                                </router-link>
                                 <a class="px-2">Contact</a>
                             </h4>
 
@@ -447,6 +420,15 @@
 <script>
 
     import * as api from '../API';
+    import * as PIXI from 'pixi.js'
+    import * as Ease from 'pixi-ease'
+
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
     export default {
         name: "LandingPage",
@@ -457,7 +439,73 @@
         },
         mounted: function () {
             //called only for the initial page load
-            this.$store.commit('setLoaderVisibility', false)
+            this.$store.commit('setLoaderVisibility', false);
+
+            const app =new PIXI.Application({width:window.innerWidth,height:window.innerHeight*1.5,
+                // backgroundColor: 0xcccccc
+                transparent: true
+            });
+            document.getElementById('pixis').appendChild(app.view);
+
+            const animationlist = new Ease.list();
+
+
+            /*
+
+                       let d1 = PIXI.Texture.from('dot1.png');
+                       let d2 = PIXI.Texture.from('dot2.png');
+
+
+                       for(let i=0;i<4;i++){
+                           let db1 = app.stage.addChild(new PIXI.Sprite(d1));
+                           let db2 = app.stage.addChild(new PIXI.Sprite(d2));
+
+
+
+                           let x1=getRandomInt(900,window.innerWidth);
+                           let x2 =getRandomInt(900,window.innerWidth);
+                           let y1 =getRandomInt(0,window.innerHeight);
+                           let y2 = getRandomInt(0,window.innerHeight);
+
+                           db1.position.set(x1,y1);
+                           db2.position.set(x2,y2);
+
+
+
+                       }
+
+
+                       let t1 = PIXI.Texture.from('Layer 10.png');
+                       let t2 = PIXI.Texture.from('Layer 11.png');
+
+                       let b1 = app.stage.addChild(new PIXI.Sprite(t1));
+                       let b2 = app.stage.addChild(new PIXI.Sprite(t2));
+                       b1.position.set(700,-100);
+                       b2.position.set(1200,200); */
+
+            for(let i=6;i>=0;i--){
+
+                let texture = PIXI.Texture.from(`${i+1}.png`);
+                let blob = app.stage.addChild(new PIXI.Sprite(texture));
+                blob.position.set(1000,-100);
+
+                animationlist.add(new Ease.to(blob,{x:930+i*10,y:-100},10000,{reverse:true,repeat:true,ease:'easeInOutSine'}))
+            }
+
+            window.addEventListener('resize', resize);
+
+            // Resize function window
+            function resize() {
+                // Resize the renderer
+                app.renderer.resize(window.innerWidth, window.innerHeight);
+
+                // You can use the 'screen' property as the renderer visible
+                // area, this is more useful than view.width/height because
+                // it handles resolution
+            }
+
+
+
         },
         computed: {
             isLoggedIn: function () {
@@ -503,11 +551,10 @@
         text-decoration: none;
     }
 
-    .fnt {
-        font-family: 'Staatliches', cursive;
-    }
-
     * {
+        font-family: 'Rubik' !important;
+    }
+    h1,h2,h3,h4,h5,h6,div,a {
         font-family: 'Rubik' !important;
     }
 

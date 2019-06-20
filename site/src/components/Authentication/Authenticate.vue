@@ -8,6 +8,8 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12 sm8 md4>
                         <v-card md-12 raised>
+                            <v-progress-linear :active="loading" :indeterminate="true"></v-progress-linear>
+
                             <v-btn color="primary" dark absolute bottom right fab
                                    :to="{name:'Landing Page'}">
                                 <v-icon>home</v-icon>
@@ -17,7 +19,7 @@
                                 <v-card flat color="grey lighten-5" style="height:100%">
                                     <v-layout align-center justify-center>
                                         <v-flex xs12 sm12 md12>
-                                            <router-view>
+                                            <router-view v-on:changeLoading ="changeLoading">
 
                                             </router-view>
                                         </v-flex>
@@ -40,6 +42,7 @@
         data: function () {
             return {
                 tab: 1,
+                loading:false,
                 menuItems: [
                     {
                         title: 'Login',
@@ -52,6 +55,11 @@
                         to: '/login'
                     }
                 ]
+            }
+        },
+        methods:{
+            changeLoading: function(state){
+                this.loading = state;
             }
         }
     }

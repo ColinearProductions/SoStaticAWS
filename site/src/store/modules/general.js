@@ -53,8 +53,6 @@ const mutations = {
 
         state.deletion.pending = value.pending;
         state.deletion.timestamp = value.timestamp;
-
-
     }
 };
 

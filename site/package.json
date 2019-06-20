@@ -21,7 +21,10 @@
     "vuex": "^3.0.1",
     "zipcelx": "^1.4.2",
     "dotenv": "^7.0.0",
-    "moment-duration-format": "^2.3.2"
+    "moment-duration-format": "^2.3.2",
+    "pixi.js": "^5.0.4",
+    "pixi-ease": "^1.3.0"
+
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",

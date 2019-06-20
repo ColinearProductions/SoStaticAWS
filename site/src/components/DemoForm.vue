@@ -54,7 +54,7 @@
         name: "DemoForm",
         computed:{
             endpoint:function(){
-                return  `/${this.$route.params.endpoint}`
+                return  `${SERVER}/${this.$route.params.endpoint}`
             }
         }
     }
