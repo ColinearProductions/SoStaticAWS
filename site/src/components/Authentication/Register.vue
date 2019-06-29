@@ -9,7 +9,7 @@
         </p>
         <v-text-field label="Display name" v-model="displayName" :rules="displayNameRules"></v-text-field>
         <v-text-field label="E-mail" v-model="username" :rules="emailRules"></v-text-field>
-        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules"></v-text-field>
+        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-2"></v-text-field>
 
 
         <v-btn color="deep-purple lighten-1 ma-0" dark @click="onSubmit">
@@ -59,8 +59,8 @@
                 ],
                 passwordRules: [
                     v => !!v || 'Password is required',
-                    v => /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(v) ||
-                        'Password must have at least 8 characters: 1 upper case letter, 1 lower case letter and 1 special character or number'
+                    v => v.length<8 ||
+                        'Password must have at least 8 characters'
                 ],
                 error:''
 

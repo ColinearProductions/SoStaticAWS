@@ -34,6 +34,9 @@
                                             v-on:keyup="onWebsiteModelChanged"
                                             :rules="[min3]" required
                                     ></v-text-field>
+
+
+
                                     <v-text-field
                                             prepend-icon="assignment"
                                             label="Website Urls (Separated by commas)"
@@ -138,6 +141,9 @@
                         <v-btn flat color="primary" v-bind:disabled="!websiteModelChangePending" @click="onSavePressed">
                             Save
                         </v-btn>
+                        <v-btn flat color="primary" @click="apply">
+                            Apply
+                        </v-btn>
 
                     </v-card-actions>
                 </v-card>
@@ -153,8 +159,22 @@
 
 <script>
     /* eslint-disable */
-    import * as api from '../API';
 
+    import * as urlparse from 'url-parse'
+
+    function getLocation(href) {
+        var match = href.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
+        return match && {
+            href: href,
+            protocol: match[1],
+            host: match[2],
+            hostname: match[3],
+            port: match[4],
+            pathname: match[5],
+            search: match[6],
+            hash: match[7]
+        }
+    }
 
     export default {
         name: "Settings",
@@ -168,6 +188,19 @@
             }
         },
         methods: {
+            apply: function(){
+
+                let listOfUrls = this.websiteDetailsModel.url.split(' ').join('').split(',');
+
+                this.websiteDetailsModel.url = listOfUrls.map((url_link)=>{
+                    console.log(url_link);
+                    console.log(getLocation(url_link).hostname)
+                    return getLocation(url_link).hostname
+                }).join(',')
+
+
+
+            },
             addContact: function () {
 
                 this.websiteDetailsModel.contacts.push({alias: "", email: ""});
@@ -197,8 +230,16 @@
             onSavePressed: function () {
                 this.$refs.form.validate();
 
-                if (this.formValidModel)
+                if (this.formValidModel) {
+
+
+
+
+
+
+
                     this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
+                }
 
 
             },
@@ -224,10 +265,20 @@
                     if (url === 'localhost' || url === '127.0.0.1')
                         valid = valid && true;
                     else {
-                        let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
-                        if (!urlValid)
-                            return url + ' is not a valid domain name';
-                        valid = valid && urlValid;
+
+                        let validLocalhost = /https?:\/\/localhost/.test(url);
+                        if(validLocalhost)
+                            valid = valid && true;
+                        else{
+                            let urlValid = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url);
+
+
+                            if (!urlValid)
+                                return url + ' is not a valid domain name';
+                            valid = valid && urlValid;
+                        }
+
+
 
                     }
                 }

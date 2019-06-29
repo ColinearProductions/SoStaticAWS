@@ -10,9 +10,9 @@
         </p>
 
         <v-text-field label="E-mail" v-model="email" :rules="emailRules"></v-text-field>
+        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-2"></v-text-field>
 
 
-        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules"></v-text-field>
         <div class="mt-3">
             <v-btn @click="onSubmit" color="deep-purple lighten-1 ma-0" dark>
                 Login

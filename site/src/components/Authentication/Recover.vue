@@ -1,21 +1,21 @@
 <template>
 
-                    <v-form class="pa-5"  ref="form">
-                        <p class="display-2 deep-purple--text text--lighten-1 thin">
-                            Recover
-                        </p>
-                        <v-text-field label="E-mail" v-model="email" :rules="emailRules"></v-text-field>
+    <v-form class="pa-5" ref="form">
+        <p class="display-2 deep-purple--text text--lighten-1 thin">
+            Recover
+        </p>
+        <v-text-field label="E-mail" v-model="email" :rules="emailRules" class="pb-2"></v-text-field>
 
-                        <v-btn color="deep-purple lighten-1 ma-0" dark @click="sendMail">
-                            Send recovery Email
-                        </v-btn>
-                        <div class="mt-3">
-                            <router-link class="mr-3" :to="{name:'Login'}">
-                                <a class=" text--lighten-4"
-                                   style="text-decoration: none;">Remembered your password?</a>
-                            </router-link>
-                        </div>
-                    </v-form>
+        <v-btn color="deep-purple lighten-1 ma-0" dark @click="sendMail">
+            Send recovery Email
+        </v-btn>
+        <div class="mt-3">
+            <router-link class="mr-3" :to="{name:'Login'}">
+                <a class=" text--lighten-4"
+                   style="text-decoration: none;">Remembered your password?</a>
+            </router-link>
+        </div>
+    </v-form>
 
 </template>
 
@@ -26,9 +26,9 @@
 
     export default {
         name: "Forgot",
-        data: function(){
-            return{
-                email:'',
+        data: function () {
+            return {
+                email: '',
                 emailRules: [
                     v => !!v || 'E-mail is required',
                     v =>
@@ -37,17 +37,19 @@
                 ],
             }
         },
-        methods:{
-            sendMail: function(){
+        methods: {
+            sendMail: function () {
                 if (!this.$refs.form.validate())
                     return;
-                this.$emit('changeLoading',true);
+                this.$emit('changeLoading', true);
 
-                api.sendRecoveryEmail(this.email).then(()=> {
+                //todo auth/too-many-requests
+
+                api.sendRecoveryEmail(this.email).then(() => {
                     console.log('Done')
-                }).catch(error=> {
+                }).catch(error => {
                     console.log(error);
-                }).then(()=>this.$emit('changeLoading',false))
+                }).then(() => this.$emit('changeLoading', false))
             }
         }
     }
