@@ -9,7 +9,7 @@
             <v-layout flex align-center justify-center>
 
 
-                <v-menu offset-y style="width:100%">
+                <v-menu offset-y style="width:100%" v-if="!loading">
 
                     <div style="width:100%" slot="activator">
 
@@ -18,7 +18,7 @@
                             {{currentWebsite.alias}}</p>
                         <v-icon id="arrow_drop_down">arrow_drop_down</v-icon>
                         <p class="caption text-lg-center  deep-purple--text text--lighten-2">
-                            {{currentWebsite.url}}</p>
+                            {{websiteDomains}}</p>
 
                         <p class="subheading text-lg-center deep-purple--text " v-if="loading">
                             loading...</p>
@@ -72,6 +72,9 @@
             },
             loading(){
                 return this.$store.getters.isDataLoading;
+            },
+            websiteDomains: function(){
+                return this.currentWebsite.domains[0].name;
             }
         },
         methods: {
@@ -93,6 +96,7 @@
 
 
             },
+
             addNewWebsitePressed: function () {
                 this.$store.commit('setCreateWebsiteDialogVisibility', true)
             }

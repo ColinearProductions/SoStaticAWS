@@ -29,9 +29,9 @@
                             ></v-text-field>
                             <v-text-field
                                     prepend-icon="assignment"
-                                    label="Website Urls (Separated by commas)"
-                                    v-model="website.url"
-                                    :rules="[min3, listOfLinks]" required=""
+                                    label="Website Domain"
+                                    v-model="domain"
+                                    :rules="[min3, domainRule]" required=""
                             ></v-text-field>
 
 
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+    import * as validateDomain from 'is-valid-domain'
 
 
     /* eslint-disable */
@@ -90,7 +91,8 @@
                 website: {},
                 formValidModel: false,
                 visible: true,
-                loading:false
+                loading:false,
+                domain:'',
 
             }
         },
@@ -111,6 +113,7 @@
 
                     this.loading = true;
                     this.website.contacts = [this.website.contacts];
+                    this.website.domains = [{name:this.domain}];
                     this.$store.dispatch("createWebsite", this.website);
 
 
@@ -137,31 +140,26 @@
 
                 return re.test(v.toLowerCase()) || 'Email invalid'
             },
-            listOfLinks: function (value) {
-                let urls = value.split(',');
-                let valid = true;
-                for (let idx in urls) {
-                    let url = urls[idx].trim();
-                    if (url.length < 1)
-                        continue;
-                    if (url === 'localhost' || url === '127.0.0.1')
-                        valid = valid && true;
-                    else {
-                        let urlValid = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(url);
-                        if (!urlValid)
-                            return url + ' is not a valid domain name';
-                        valid = valid && urlValid;
+            domainRule: function (value) {
+                console.log(value);
+                let tmp = value;
 
-                    }
-                }
-                return valid || 'Not all urls are valid'
-            }
+
+                tmp = tmp.replace(/(^\w+:|^)\/\//, '');
+                tmp = tmp.trim().toLowerCase();
+
+                console.log(tmp);
+                let domainValid = validateDomain(tmp);
+                console.log(domainValid);
+                return (domainValid || tmp === 'localhost' || tmp === '127.0.0.1') || "Domain name invalid";
+
+
+            },
 
         },
         beforeMount() {
             this.website = {
                 alias: 'A12',
-                url: 'aaa.com',
                 contacts: {
                     alias: 'aaa',
                     email: 'aaa@aaa.aaa'

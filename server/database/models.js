@@ -21,6 +21,11 @@ let websiteSchema = new mongoose.Schema({
 
     alias: String,
     url: String,
+    domains:[
+        {
+            name:String
+        }
+    ],
     contacts: [
         {
             alias: String,

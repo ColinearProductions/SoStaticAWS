@@ -10,13 +10,8 @@
                     ></v-progress-linear>
                     <v-layout row justify-center>
                         <v-flex xl10 md10 xs12 class="pa-2">
-
-
                             <v-card-text class="pa-4">
-
-
                                 <v-form v-model="formValidModel" ref="form" @submit.prevent="">
-
                                     <div style="width:100%; text-align:left">
                                         <span class="display-1 deep-purple--text bold">Website details</span><br>
                                     </div>
@@ -25,39 +20,43 @@
                                         <span class="body-1 grey--text text--lighten-1">   Information about this website</span><br>
 
                                     </div>
-
-
                                     <v-text-field
-                                            prepend-icon="assignment"
                                             label="Website Name"
                                             v-model="websiteDetailsModel.alias"
                                             v-on:keyup="onWebsiteModelChanged"
                                             :rules="[min3]" required
                                     ></v-text-field>
-
-
-
-                                    <v-text-field
-                                            prepend-icon="assignment"
-                                            label="Website Urls (Separated by commas)"
-                                            v-model="websiteDetailsModel.url"
-                                            v-on:keyup="onWebsiteModelChanged"
-                                            :rules="[min3, listOfLinks]" required=""
-
-                                    ></v-text-field>
-
-
-                                    <v-checkbox label="HTTPs Only" v-model="websiteDetailsModel.httpsOnly"
+                                    <div class="text-sm-left pb-2">
+                                        <p class="subheading bold mb-1">Your domains</p>
+                                        <v-chip
+                                                v-for="domain in websiteDetailsModel.domains"
+                                                v-model="domain.on"
+                                                @input="onDomainRemoveClicked"
+                                                close
+                                        >{{domain.name}}
+                                        </v-chip>
+                                    </div>
+                                    <v-layout row wrap class="px-2 ">
+                                        <v-text-field class="pl-1"
+                                                      label="Add a new domain"
+                                                      v-model="currentDomainInput"
+                                                      :error="addDomainError.showError"
+                                                      :error-messages="addDomainError.message"
+                                                      placeholder="example.com"
+                                                      @keydown.enter="onAddDomainPressed"
+                                        ></v-text-field>
+                                        <v-btn color="primary" class="lighten-1" @click="onAddDomainPressed">
+                                            Add
+                                        </v-btn>
+                                    </v-layout>
+                                    <v-checkbox class="mt-3" label="HTTPs Only" v-model="websiteDetailsModel.httpsOnly"
                                                 v-on:change="onWebsiteModelChanged"
                                     ></v-checkbox>
-
                                     <v-switch :label="recaptchaSwitchLabel" v-model="websiteDetailsModel.recaptcha"
                                               :disabled="recaptchaLocked"
                                               v-on:change="onWebsiteModelChanged"
                                     ></v-switch>
-
                                     <div v-bind:class="{hidden:!websiteDetailsModel.recaptcha}">
-
                                         <v-text-field
                                                 prepend-icon="assignment"
                                                 label="Site key"
@@ -73,19 +72,13 @@
                                                 v-on:keyup="onWebsiteModelChanged"
 
                                         ></v-text-field>
-
-
                                     </div>
-
-
                                     <div style="width:100%; text-align:left" class="mt-4">
                                         <span class="display-1 deep-purple--text bold">Contacts</span><br>
                                     </div>
                                     <v-divider class=" mb-2"></v-divider>
-
                                     <div style="width:100%; text-align:left" class="pb-3">
                                         <span class="body-1 grey--text text--lighten-1">Enter email addresses where you want the messages to be forwarded to</span><br>
-
                                     </div>
                                     <v-layout row wrap v-for="(contact,index) in websiteDetailsModel.contacts"
                                               :key="index">
@@ -134,16 +127,14 @@
 
                     <v-divider></v-divider>
                     <v-card-actions>
-                        <v-btn flat color="red"  @click="onDeleteWebsiteClicked">
+                        <v-btn flat color="red" @click="onDeleteWebsiteClicked">
                             Delete Website
                         </v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn flat color="primary" v-bind:disabled="!websiteModelChangePending" @click="onSavePressed">
+                        <v-btn flat color="primary" v-bind:disabled="!isWebsiteChangePending" @click="onSavePressed">
                             Save
                         </v-btn>
-                        <v-btn flat color="primary" @click="apply">
-                            Apply
-                        </v-btn>
+
 
                     </v-card-actions>
                 </v-card>
@@ -152,6 +143,8 @@
 
 
         </v-layout>
+
+
     </v-container>
 
 
@@ -160,21 +153,9 @@
 <script>
     /* eslint-disable */
 
-    import * as urlparse from 'url-parse'
+    import * as validateDomain from 'is-valid-domain'
 
-    function getLocation(href) {
-        var match = href.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/);
-        return match && {
-            href: href,
-            protocol: match[1],
-            host: match[2],
-            hostname: match[3],
-            port: match[4],
-            pathname: match[5],
-            search: match[6],
-            hash: match[7]
-        }
-    }
+    //todo on recaptcha, add a server function to check if the keypair is functional
 
     export default {
         name: "Settings",
@@ -182,22 +163,55 @@
             return {
 
                 websiteDetailsModel: {},
-                websiteModelChangePending: false,
                 formValidModel: false,
+                addDomainError: {
+                    showError: false,
+                    message: ''
+                },
+                currentDomainInput: ''
 
             }
         },
         methods: {
-            apply: function(){
 
-                let listOfUrls = this.websiteDetailsModel.url.split(' ').join('').split(',');
+            onDomainRemoveClicked: function () {
+                this.$store.commit("setPendingModification", true);
+            },
+            onAddDomainPressed: function () {
 
-                this.websiteDetailsModel.url = listOfUrls.map((url_link)=>{
-                    console.log(url_link);
-                    console.log(getLocation(url_link).hostname)
-                    return getLocation(url_link).hostname
-                }).join(',')
+                this.addDomainError.showError = false;
+                this.addDomainError.message = '';
 
+
+                let domain = this.currentDomainInput;
+                domain = domain.replace(/(^\w+:|^)\/\//, '');
+                domain = domain.trim().toLowerCase();
+
+                let domainValid = validateDomain(domain);
+                domainValid = domainValid || domain === 'localhost' || domain === '127.0.0.1';
+
+
+                if (this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on).find(d => d.name === domain) !== undefined) {
+                    this.addDomainError.showError = true;
+                    this.addDomainError.message = 'Domain already in list';
+                    return
+                }
+
+                if (domainValid) {
+                    this.websiteDetailsModel.domains.push({on: true, name: domain});
+                    this.$store.commit("setPendingModification", true);
+
+
+                    this.currentDomainInput = '';
+                    this.addDomainError.showError = false;
+                    this.addDomainError.message = '';
+
+
+                } else {
+                    this.addDomainError.showError = true;
+                    this.addDomainError.message = 'Not a valid domains name';
+
+                }
 
 
             },
@@ -209,17 +223,16 @@
             onWebsiteModelChanged: function () {
                 this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
-                let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'url', 'contacts'];
+                let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'contacts'];
                 let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props, ['alias', 'email']);
 
-                this.websiteModelChangePending = isChanged;
                 this.$store.commit("setPendingModification", isChanged);
 
             },
-            onDeleteWebsiteClicked: function(){
+            onDeleteWebsiteClicked: function () {
                 this.$confirm(
                     `This action is irreversible and will result in the permanent loss of all the messages archived for this website and all your settings. <br>
-                     This action will take effect immediately`,{ title: 'Are you sure you want to delete this website?' }).then(res => {
+                     This action will take effect immediately`, {title: 'Are you sure you want to delete this website?'}).then(res => {
                     if (res) {
                         this.$store.dispatch("deleteWebsite", this.websiteDetailsModel._id);
 
@@ -230,15 +243,26 @@
             onSavePressed: function () {
                 this.$refs.form.validate();
 
+
                 if (this.formValidModel) {
 
+                    let validDomains = this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on);
 
 
+                    if (validDomains < 1) {
+                        this.addDomainError.showError = true;
+                        this.addDomainError.message = 'You must add at least one domain';
+                        return;
+                    }
+
+                    this.websiteDetailsModel.domains = validDomains;
 
 
-
-
+                    console.log(this.websiteDetailsModel.domains);
                     this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
+                    this.addDomainError.showError = false;
+
+
                 }
 
 
@@ -252,37 +276,6 @@
                 if (v === undefined)
                     return true;
                 return v.length >= 3 || 'Field must have more than 3 characters'
-            },
-            listOfLinks: function (value) {
-                if (value === undefined)
-                    return true;
-                let urls = value.split(',');
-                let valid = true;
-                for (let idx in urls) {
-                    let url = urls[idx].trim();
-                    if (url.length < 1)
-                        continue;
-                    if (url === 'localhost' || url === '127.0.0.1')
-                        valid = valid && true;
-                    else {
-
-                        let validLocalhost = /https?:\/\/localhost/.test(url);
-                        if(validLocalhost)
-                            valid = valid && true;
-                        else{
-                            let urlValid = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url);
-
-
-                            if (!urlValid)
-                                return url + ' is not a valid domain name';
-                            valid = valid && urlValid;
-                        }
-
-
-
-                    }
-                }
-                return valid || 'Not all urls are valid'
             },
             email: function (value) {
                 let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -306,14 +299,11 @@
 
         },
         watch: {
-            'isWebsiteChangePending': function () {
-                this.websiteModelChangePending = this.isWebsiteChangePending
-            },
             'currentWebsite': function () {
 
                 this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
                 this.$refs.form.validate();
-                this.websiteModelChangePending = false;
+
                 this.$store.commit("setPendingModification", false);
 
             }
@@ -342,10 +332,10 @@
             countFormsUsingRecaptcha() {
                 return this.websiteDetailsModel.forms.filter(form => form.recaptcha).length;
             },
-            recaptchaSwitchLabel(){
-                if(this.recaptchaLocked){
+            recaptchaSwitchLabel() {
+                if (this.recaptchaLocked) {
                     return `Use ReCAPTCHA - ${this.countFormsUsingRecaptcha} forms are using ReCaptcha`
-                }else{
+                } else {
                     return `Use ReCAPTCHA `
                 }
             }

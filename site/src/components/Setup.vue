@@ -27,9 +27,9 @@
                                     <br>
                                     (If you plan to use the service while locally, add localhost as well)
                                 </h4>
-                                <v-text-field @keyup.enter="onNextPressed" label="URL"
-                                              hint="Ex: example.com, www.example.com, example.org, www.example.org"
-                                              v-model="website.url" :rules="[rules.min3, rules.url]" required=""
+                                <v-text-field @keyup.enter="onNextPressed" label="Website domain"
+                                              placeholder="Ex: example.com, facebook.com, 127.0.0.1, localhost"
+                                              v-model="website.domain" :rules="[rules.min3, rules.domain]" required=""
                                               autofocus></v-text-field>
                             </div>
 
@@ -77,15 +77,13 @@
                             </v-btn>
 
 
-
                             <v-btn color="primary" flat class="mt-4" dark right @click="onBackPressed"
                                    v-bind:disabled="current_step===1"
                                    v-text="'Back'">
                             </v-btn>
 
 
-
-                            <v-btn color="primary" outline  class="mt-4 right" dark right @click="logout"
+                            <v-btn color="primary" outline class="mt-4 right" dark right @click="logout"
                                    v-text="'Logout'">
                             </v-btn>
                         </v-form>
@@ -101,6 +99,7 @@
 <script>
 
     import * as api from '../API';
+    import * as validateDomain from 'is-valid-domain'
 
 
     /* eslint-disable */
@@ -111,18 +110,29 @@
                 current_step: 1,
                 website: {
                     alias: '',
-                    url: '',
+                    domain: '',
                     contacts: []
                 },
                 // form_alias:'',
                 formValidModel: false,
-                rules:{
-                    min3: v=> v.length >= 3 || 'Field must have more than 3 characters',
-                    url: function(value){
-                        let re = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-                        return re.test(value.toLowerCase()) || 'URL not valid'
+                rules: {
+                    min3: v => v.length >= 3 || 'Field must have more than 3 characters',
+                    domain: function (value) {
+                        console.log(value);
+                        let tmp = value;
+
+
+                        tmp = tmp.replace(/(^\w+:|^)\/\//, '');
+                        tmp = tmp.trim().toLowerCase();
+
+                        console.log(tmp);
+                        let domainValid = validateDomain(tmp);
+                        console.log(domainValid);
+                        return (domainValid || tmp === 'localhost' || tmp === '127.0.0.1') || "Domain name invalid";
+
+
                     },
-                    email: function(value) {
+                    email: function (value) {
                         let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                         return re.test(value.toLowerCase()) || 'Email invalid'
                     }
@@ -147,30 +157,41 @@
                 this.current_step = 1;
                 this.contact_email = '';
                 this.contact_alias = '';
-                this.website.url = '';
+                this.website.domain = '';
                 this.website.alias = '';
             },
             onBackPressed: function () {
                 this.current_step -= 1;
             },
             submit: function () {
-                this.website.contacts.push({alias: this.contact_alias, email: this.contact_email});
-                this.$store.dispatch("createWebsite", this.website);
+
+
+
+                let tmp = {
+                    alias: this.website.alias,
+                    domains: [{name: this.website.domain}],
+                    contacts: [{alias: this.contact_alias, email: this.contact_email}]
+
+                };
+
+                this.$store.dispatch("createWebsite", tmp);
+
+
             },
-            logout: function(){
-                api.logout(()=>this.$router.push("/"));
+            logout: function () {
+                api.logout(() => this.$router.push("/"));
             }
         },
         computed: {
             nextButtonText: function () {
-                return this.current_step===3?'Finish':'Next';
+                return this.current_step === 3 ? 'Finish' : 'Next';
             },
-            user:function(){
+            user: function () {
                 return this.$store.getters.getUser;
             }
         },
-        watch:{
-            'user': function(){
+        watch: {
+            'user': function () {
                 this.contact_alias = this.user.displayName;
                 this.contact_email = this.user.email;
             }
