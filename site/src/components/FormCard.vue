@@ -163,7 +163,7 @@
 
             },
             goToDemo: function () {
-                this.$router.push({name: 'DemoForm', params: {endpoint: this.form._id}})
+                this.$router.push({name: 'DemoForm', params: {endpoint: this.form._id, recaptcha:this.form.recaptcha}})
             }
         }
     }

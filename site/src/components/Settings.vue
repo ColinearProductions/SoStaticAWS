@@ -8,10 +8,10 @@
                             :active="loading"
                             :indeterminate="true"
                     ></v-progress-linear>
-                    <v-layout row justify-center>
+                    <v-layout row justify-center v-if="!loading">
                         <v-flex xl10 md10 xs12 class="pa-2">
                             <v-card-text class="pa-4">
-                                <v-form v-model="formValidModel" ref="form" @submit.prevent="">
+                                <v-form v-model="formValidModel" ref="form" @submit.prevent="" autocomplete="off">
                                     <div style="width:100%; text-align:left">
                                         <span class="display-1 deep-purple--text bold">Website details</span><br>
                                     </div>
@@ -26,6 +26,7 @@
                                             v-on:keyup="onWebsiteModelChanged"
                                             :rules="[min3]" required
                                     ></v-text-field>
+
                                     <div class="text-sm-left pb-2">
                                         <p class="subheading bold mb-1">Your domains</p>
                                         <v-chip
@@ -35,20 +36,44 @@
                                                 close
                                         >{{domain.name}}
                                         </v-chip>
+                                        <v-chip v-if="!domainInputVisible"
+                                                style="cursor: pointer;"
+                                                color="primary" dark
+                                                @click="domainInputVisible=true"
+
+
+                                        > <v-icon left> add </v-icon> Add more domains
+                                        </v-chip>
                                     </div>
-                                    <v-layout row wrap class="px-2 ">
+                                    <v-layout row wrap class="px-2 " v-if="domainInputVisible">
                                         <v-text-field class="pl-1"
+
+
                                                       label="Add a new domain"
                                                       v-model="currentDomainInput"
                                                       :error="addDomainError.showError"
                                                       :error-messages="addDomainError.message"
                                                       placeholder="example.com"
                                                       @keydown.enter="onAddDomainPressed"
+
+
+
+
                                         ></v-text-field>
-                                        <v-btn color="primary" class="lighten-1" @click="onAddDomainPressed">
+                                        <v-btn color="primary" class="lighten-1 mt-3" outline  @click="onAddDomainPressed">
                                             Add
                                         </v-btn>
+                                        <v-btn color="primary" class="lighten-1 mt-3" flat  @click="currentDomainInput=''">
+                                            Clear
+                                        </v-btn>
                                     </v-layout>
+                                    <!--
+                                    <v-layout row wrap class=" " v-else>
+                                        <v-btn color="primary" class="lighten-1 mt-3" flat @click="domainInputVisible=true" >
+                                            Add more domains
+                                        </v-btn>
+                                    </v-layout> -->
+
                                     <v-checkbox class="mt-3" label="HTTPs Only" v-model="websiteDetailsModel.httpsOnly"
                                                 v-on:change="onWebsiteModelChanged"
                                     ></v-checkbox>
@@ -56,19 +81,28 @@
                                               :disabled="recaptchaLocked"
                                               v-on:change="onWebsiteModelChanged"
                                     ></v-switch>
-                                    <div v-bind:class="{hidden:!websiteDetailsModel.recaptcha}">
+                                    <div v-if="websiteDetailsModel.recaptcha">
                                         <v-text-field
+                                                autocomplete="off"
                                                 prepend-icon="assignment"
                                                 label="Site key"
                                                 v-model="websiteDetailsModel.sitekey"
                                                 :rules="[requiredIf]"
+                                                @click:append-outer="hideRecaptchaSiteKey = !hideRecaptchaSiteKey"
+                                                :type="hideRecaptchaSiteKey?'password':'text'"
+                                                append-outer-icon="remove_red_eye"
+
                                                 v-on:keyup="onWebsiteModelChanged"
                                         ></v-text-field>
                                         <v-text-field
+                                                autocomplete="off"
                                                 prepend-icon="assignment"
                                                 label="Secret"
                                                 :rules="[requiredIf]"
+                                                :type="hideRecaptchaSecretKey?'password':'text'"
                                                 v-model="websiteDetailsModel.secret"
+                                                append-outer-icon="remove_red_eye"
+                                                @click:append-outer="hideRecaptchaSecretKey = !hideRecaptchaSecretKey"
                                                 v-on:keyup="onWebsiteModelChanged"
 
                                         ></v-text-field>
@@ -161,14 +195,16 @@
         name: "Settings",
         data: function () {
             return {
-
+                domainInputVisible:false,
                 websiteDetailsModel: {},
                 formValidModel: false,
                 addDomainError: {
                     showError: false,
                     message: ''
                 },
-                currentDomainInput: ''
+                currentDomainInput: '',
+                hideRecaptchaSecretKey: true,
+                hideRecaptchaSiteKey: false
 
             }
         },
@@ -209,7 +245,7 @@
 
                 } else {
                     this.addDomainError.showError = true;
-                    this.addDomainError.message = 'Not a valid domains name';
+                    this.addDomainError.message = 'Not a valid domain name';
 
                 }
 
@@ -302,7 +338,7 @@
             'currentWebsite': function () {
 
                 this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
-                this.$refs.form.validate();
+
 
                 this.$store.commit("setPendingModification", false);
 

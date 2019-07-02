@@ -8,4 +8,3 @@ docker push eu.gcr.io/sostaticgcp/server:latest
 gcloud compute instances update-container server --container-image eu.gcr.io/sostaticgcp/server:latest --zone europe-west6-a
 
 
-gcloud compute instances reset nginx

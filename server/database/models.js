@@ -38,6 +38,7 @@ let websiteSchema = new mongoose.Schema({
     secret:String,
     sitekey:String,
     messageCount:Number,
+    httpsOnly:Boolean
 
 });
 

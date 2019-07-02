@@ -9,7 +9,7 @@
                 <v-layout align-center justify-center>
                     <v-flex xs8 sm3 md3>
 
-                        <v-form  :action="endpoint" method="post">
+                        <v-form  :action="endpoint" method="post" class="text-xs-center">
 
                             <h2 class="pb-4 pt-2">
                                 This is a demo form for your website, that will behave like a real form
@@ -35,6 +35,13 @@
                                     value="Test"
                                     hint="Hint text"
                             ></v-textarea>
+
+
+                            <div v-if="usesRecaptcha">
+                            <vue-recaptcha v-if="!isDataLoading" class="d-inline-block" :sitekey="currentWebsiteSitekey" :loadRecaptchaScript="true"></vue-recaptcha>
+
+
+                            </div>
                             <v-btn type="submit">Submit</v-btn>
 
                         </v-form>
@@ -48,11 +55,23 @@
 <script>
     import * as api from '../API';
     const SERVER = api.SERVER;
+    import VueRecaptcha from 'vue-recaptcha';
 
 
     export default {
+        components: { VueRecaptcha },
         name: "DemoForm",
+
         computed:{
+            currentWebsiteSitekey: function () {
+                return this.$store.getters.currentWebsite.sitekey;
+            },
+            usesRecaptcha: function () {
+                return this.$route.params.recaptcha;
+            },
+            isDataLoading: function () {
+                return this.$store.getters.isDataLoading;
+            },
             endpoint:function(){
                 return  `${SERVER}/${this.$route.params.endpoint}`
             }

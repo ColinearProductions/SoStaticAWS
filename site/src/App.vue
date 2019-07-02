@@ -79,7 +79,7 @@
                 return;
             }
 
-            if (confirm('Do you want to proceed?')) {
+            if (confirm('You still have unsaved changes, are you sure you want to proceed?')) {
                 store.commit("setPendingModification", false);
 
                 next();

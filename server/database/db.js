@@ -6,6 +6,11 @@ let mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 let db_url = process.env.DB_ADDRESS;
 
+console.log(process.env);
+console.log(process.env.DB_ADDRESS);
+
+
+
 
 function initDb(onSuccess){
     //db is mapped in hosts to localhost. in docker to the network shared with the mongo container
