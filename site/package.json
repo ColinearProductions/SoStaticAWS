@@ -26,7 +26,8 @@
     "pixi-ease": "^1.3.0",
     "url-parse": "^1.4.7",
     "is-valid-domain": "^0.0.11",
-    "vue-recaptcha": "^1.2.0"
+    "vue-recaptcha": "^1.2.0",
+    "vue-analytics": "^5.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",

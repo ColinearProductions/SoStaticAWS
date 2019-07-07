@@ -10,7 +10,14 @@ import Vuetify from 'vuetify'
 
 import VueHighlightJS from 'vue-highlightjs'
 import VuetifyConfirm from 'vuetify-confirm'
+import VueAnalytics from 'vue-analytics'
 
+/*
+
+Vue.use(VueAnalytics, {
+    id: 'UA-143292193-1'
+});
+*/
 
 Vue.use(Vuetify, {
         theme: {
