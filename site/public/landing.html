@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Static forms - SoStatic</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="highlight.css">
+
+    <style>
+
+        .window-height {
+            height: 100vh
+        }
+
+        .logo {
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500 !important;
+            font-size: 3rem;
+            max-height: 16em;
+            padding-top: 8px;
+            display: inline;
+        }
+
+        .logo p {
+            position: relative;
+
+            color: #6E76EE;
+            left: -15px;
+
+            margin: 0;
+        }
+
+        .text-primary {
+            color: #6E76EE !important;
+        }
+
+        .text-secondary {
+            color: #00D9CD !important;
+        }
+
+        #logo img, svg {
+            position: relative;
+
+
+            max-width: 4rem;
+        }
+
+        .cls-1 {
+            fill: #6E75EE;
+        }
+
+        .btn-primary {
+            background-color: #6E76EE;
+            border-color: #6E76EE;
+            -webkit-box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+            -moz-box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+            box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            color: #6E76EE;
+            border-color: #6E76EE;
+
+        }
+
+        a {
+            color: #6E76EE;
+        }
+
+        a:hover {
+            color: #6E76EE;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #6E76EE;
+            color: white;
+            border-color: #6E76EE;
+
+        }
+
+        .bg-dark {
+            background-color: #253137 !important;
+        }
+
+        .no-select {
+
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
+                                             supported by Chrome and Opera */
+        }
+
+        pre {
+            margin-bottom: -5.5rem;
+            border-radius: .25rem;
+            -webkit-box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+            -moz-box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+            box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
+        }
+
+        @media (min-width: 992px) {
+            pre {
+                background: #000;
+                padding-left: 3rem;
+                padding-right: 3rem;
+                margin-top: 0;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        h6 {
+            font-weight: 400
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="pixis" style="position:absolute;background-position: top 0 right 0;background-repeat:no-repeat;
+        background-size: 100vh auto; background-color: white; z-index:-1; height:100vh; width:100vw; left:-17px;"></div>
+<div class="window-height p-lg-5">
+
+    <div class="row h-100 p-lg-5   m-0 p-0 ">
+
+
+        <div class="col-sm-12 col-lg-6 my-auto  text-center text-lg-left">
+
+            <div class="no-select logo">
+                <img class="icon" src="Logo.svg" alt="" style="margin-top:-15px;">
+
+
+                <p class=" d-inline-block ">
+                    SoStatic
+                </p>
+            </div>
+
+            <h1>
+                Form backend for static websites
+                <br>
+                <small>with email forwarding</small>
+            </h1>
+            <div class="text-sm-center text-lg-left">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="d-lg-none" style="top:2rem;"
+                     viewBox="0 0 102.35 102.35">
+                    <defs>
+                        <style>.cls-3 {
+                            fill: #253137;
+                        }
+
+                        .cls-2 {
+                            fill: #fff;
+                        }</style>
+                    </defs>
+                    <title>Asset 2</title>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1">
+                            <rect class="cls-3" width="102.35" height="102.35"/>
+                            <polygon class="cls-2"
+                                     points="88.41 13.8 88.41 37.22 71.72 37.22 41.8 88.28 13.94 88.28 13.94 64.74 28.93 64.74 59.15 13.8 88.41 13.8"/>
+                            <polygon class="cls-2" points="69.08 88.28 88.41 53.2 88.41 88.28 69.08 88.28"/>
+                            <polygon class="cls-2" points="33.27 13.8 13.94 48.87 13.94 13.8 33.27 13.8"/>
+                        </g>
+                    </g>
+                </svg>
+
+                <div class="clearfix"></div>
+                <pre class="text-left d-inline-block  " style="background:#253137">
+
+                    <code class="html "
+                          style="background:#253137;padding-left:1.5rem; padding-right:1.5rem; margin-top: -30px;margin-bottom: -50px;">
+&lt;form action=&quot;https://ssttc.xyz/{YOUR_KEY}&quot;&gt;
+    &lt;input name=&quot;name&quot;&gt;
+    &lt;input name=&quot;email&quot;&gt;
+    &lt;textarea name=&quot;message&quot;&gt;&lt;/textarea&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;
+                    </code>
+
+                </pre>
+                <div class="clearfix"></div>
+                <button type="button" class="btn btn-primary btn-lg d-lg-none" style="margin-top: 3.5rem;">Login
+                </button>
+
+
+
+                <div style="margin-top:6rem" class="d-sm-none d-none d-lg-block">
+                    <button type="button" class="btn btn-outline-primary btn-lg ">Login</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg ml-3 ">Register</button>
+
+                </div>
+
+                <h5 class="py-3">
+                    Never miss important opportunities because of server issues ever again
+                </h5>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<main class="p-3  col-lg-10 offset-lg-1 col-md-12">
+
+
+    <section class=" p-lg-5">
+
+        <div class="row  p-lg-2">
+            <div class="col-12 pl-lg-5 pl-4  ">
+
+                <h2 class="pl-2 display-3 " style="font-weight: 500"> Features </h2>
+
+            </div>
+
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/backend.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>We provide the backend</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/js.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Zero dependencies </h4>
+                        <h6>Our solution uses the native HTML
+                            form submission process. The only library you will need to add is Google's
+                            ReCaptcha, if you decide to use it for
+                            spam filtering</h6>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/recaptcha.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Simple ReCaptcha validation
+                        </h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/hide.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Hide your email from the internet</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/quick_setup.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Easy setup</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/redeployment.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Changes without redeployment</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/eu.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+                        <h4>GDPR compliant</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 pl-5 pt-5 pr-5 ">
+
+                <div class="row ">
+                    <div class="col-lg-1 col-1 p-0  mt-2">
+                        <img src="SVG/secure.svg" class="pr-3 icon p-lg-2"
+                             alt="">
+                    </div>
+                    <div class=" col-lg-11 col-11  pl-4">
+
+                        <h4>Secure</h4>
+                        <h6>Using SoStatic removes the need for
+                            developing, hosting and maintaining
+                            your own servers just for the simple
+                            task of receiving form submissions</h6>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <section class="  p-lg-5 pt-5">
+
+        <div class="row  p-lg-2">
+            <div class="col-12 pl-lg-5  pb-3 ">
+
+                <h2 class="pl-2 display-3  " style="font-weight: 500"> Pricing </h2>
+
+            </div>
+            <div class="col-12 pl-lg-5   ">
+
+                <h3 class="pl-2  text-primary" style="font-weight: 400"> Free for up to 100 valid messages / month
+                </h3>
+
+            </div>
+            <div class="col-12 pl-lg-5  py-4 ">
+
+                <h5 class="pl-2  " style="font-weight: 400">
+
+                    We understand that most small websites wont get more than a few contact messages per
+                    month. We offer our service for free for websites that receive less than 100 valid messages per
+                    month.
+                    A message is considered valid if the recaptcha was succesfully filled. Spam
+                    messages will not count towards your quota
+                </h5>
+
+            </div>
+
+            <div class="col-12 pl-lg-5   ">
+
+                <h3 class="pl-2  text-primary" style="font-weight: 400"> What if you get over 100 valid messages per
+                    month?
+                </h3>
+
+            </div>
+            <div class="col-12 pl-lg-5  py-4 ">
+
+                <h5 class="pl-2  " style="font-weight: 400">
+
+                    The messages will not be lost, but they will no longer be forwarded to your email, they
+                    will only be accessible via our platform. If you find value in having all messages forwarded,
+                    we can setup a recurring payment method for <span class="text-secondary">5$/month</span> for
+                    unlimited messages per
+                    month.
+                </h5>
+
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="bg-dark p-3 px-5">
+    <div class="row text-center px-lg-5">
+        <div class="col-md-6 text-lg-left pt-lg-3">
+            <div id="logo" class="no-select">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:3rem" viewBox="0 0 102.35 102.35">
+                    <defs>
+                        <style>.cls-3 {
+                            fill: #253137;
+                        }
+
+                        .cls-2 {
+                            fill: #fff;
+                        }</style>
+                    </defs>
+                    <title>Asset 2</title>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1">
+                            <polygon class="cls-2"
+                                     points="88.41 13.8 88.41 37.22 71.72 37.22 41.8 88.28 13.94 88.28 13.94 64.74 28.93 64.74 59.15 13.8 88.41 13.8"/>
+                            <polygon class="cls-2" points="69.08 88.28 88.41 53.2 88.41 88.28 69.08 88.28"/>
+                            <polygon class="cls-2" points="33.27 13.8 13.94 48.87 13.94 13.8 33.27 13.8"/>
+                        </g>
+                    </g>
+                </svg>
+
+                <h3 class="d-inline-block" style="color:white; position: relative; top:-8px">
+                    SoStatic
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6 text-white text-lg-right">
+            <p class="m-0">2019 SoStatic</p>
+            <p class="m-0"><a href="#">Terms of Service </a> / <a href="#"> Privacy Policy</a></p>
+            <p class="m-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
+
+        </div>
+    </div>
+
+</footer>
+
+</body>
+</html>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.0.4/pixi.js"></script>
+<script src="ease.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+    //called only for the initial page load
+
+
+    const app = new PIXI.Application({
+        width: window.innerWidth, height: window.innerHeight * 1.5,
+        // backgroundColor: 0xcccccc
+        transparent: true
+    });
+    document.getElementById('pixis').appendChild(app.view);
+
+    const animationlist = new Ease.Ease();
+
+
+    for (let i = 6; i >= 0; i--) {
+
+        let texture = PIXI.Texture.from(`${i + 1}.png`);
+        let blob = app.stage.addChild(new PIXI.Sprite(texture));
+        blob.position.set(1000, -100);
+
+        animationlist.add(blob, {x: 930 + i * 10, y: -100}, {
+            duration: 10000,
+            reverse: true,
+            repeat: true,
+            ease: 'easeInOutSine'
+        })
+    }
+
+    window.addEventListener('resize', resize);
+
+    function resize() {
+
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+
+    }
+</script>

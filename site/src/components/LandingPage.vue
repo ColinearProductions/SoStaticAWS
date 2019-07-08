@@ -450,38 +450,6 @@
             const animationlist = new Ease.list();
 
 
-            /*
-
-                       let d1 = PIXI.Texture.from('dot1.png');
-                       let d2 = PIXI.Texture.from('dot2.png');
-
-
-                       for(let i=0;i<4;i++){
-                           let db1 = app.stage.addChild(new PIXI.Sprite(d1));
-                           let db2 = app.stage.addChild(new PIXI.Sprite(d2));
-
-
-
-                           let x1=getRandomInt(900,window.innerWidth);
-                           let x2 =getRandomInt(900,window.innerWidth);
-                           let y1 =getRandomInt(0,window.innerHeight);
-                           let y2 = getRandomInt(0,window.innerHeight);
-
-                           db1.position.set(x1,y1);
-                           db2.position.set(x2,y2);
-
-
-
-                       }
-
-
-                       let t1 = PIXI.Texture.from('Layer 10.png');
-                       let t2 = PIXI.Texture.from('Layer 11.png');
-
-                       let b1 = app.stage.addChild(new PIXI.Sprite(t1));
-                       let b2 = app.stage.addChild(new PIXI.Sprite(t2));
-                       b1.position.set(700,-100);
-                       b2.position.set(1200,200); */
 
             for(let i=6;i>=0;i--){
 
@@ -494,14 +462,11 @@
 
             window.addEventListener('resize', resize);
 
-            // Resize function window
             function resize() {
-                // Resize the renderer
+
                 app.renderer.resize(window.innerWidth, window.innerHeight);
 
-                // You can use the 'screen' property as the renderer visible
-                // area, this is more useful than view.width/height because
-                // it handles resolution
+
             }
 
 
