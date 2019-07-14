@@ -18,10 +18,10 @@ let config = {
 firebase.initializeApp(config);
 
 
-function logout(callback) {
+function logout() {
     firebase.auth().signOut().then(function () {
         console.log('Signed Out');
-        callback()
+        window.location.href="/"
     }, function (error) {
         console.error('Sign Out Error', error);
     });

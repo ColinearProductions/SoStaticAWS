@@ -37,7 +37,7 @@
             let noAuthNeeded = ['Login', 'Register', 'Recover', 'Unsubscribe'];
 
             if (noAuthNeeded.find(x => router.currentRoute.name === x)) {
-                alert(router.currentRoute.name);
+               // alert(router.currentRoute.name);
             }else{
                 router.push('/');
 

@@ -62,7 +62,13 @@ let router = new Router({
             component: Setup //todo replace
         },
         {
-            path: '/',
+          path:'/',
+          beforeEnter: (to, from, next)=>{
+              window.location.href="/"
+          }
+        },
+        {
+            path: '/old',
             name: 'Landing Page',
             component: LandingPage
         },

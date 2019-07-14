@@ -179,7 +179,7 @@
 
             },
             logout: function () {
-                api.logout(() => this.$router.push("/"));
+                api.logout();
             }
         },
         computed: {

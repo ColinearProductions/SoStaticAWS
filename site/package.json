@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && move \"dist\\index.html\" \"dist\\app.html\" && purgecss --css dist\\lib\\bootstrap.min.css --content dist\\landing.html --out dist\\lib\\ && echo 'Done'",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -27,12 +27,14 @@
     "url-parse": "^1.4.7",
     "is-valid-domain": "^0.0.11",
     "vue-recaptcha": "^1.2.0",
-    "vue-analytics": "^5.17.0"
+    "vue-analytics": "^5.17.0",
+    "html-loader": "^0.5.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",
     "@vue/cli-plugin-eslint": "^3.5.1",
     "@vue/cli-service": "^3.5.3",
+    "purgecss": "^1.3.0",
     "vue-template-compiler": "^2.5.16"
   },
   "babel": {

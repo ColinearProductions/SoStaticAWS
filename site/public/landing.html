@@ -2,52 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Static forms - SoStatic</title>
+    <title>SoStatic | Form backend for static websites with email forwarding</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="bootstrap.css">
-    <link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-          href="highlight.css">
+
+
+    <meta name="description"
+          content="Free form submission backend for static websites with email forwarding and ReCaptcha support"/>
+
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="lib/highlight.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
 
     <style>
+
+        * {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .row {
+            margin: 0 !important;
+        }
+
 
         .window-height {
             height: 100vh
         }
 
-        .logo {
-            font-family: 'Prompt', sans-serif;
-            font-weight: 500 !important;
-            font-size: 3rem;
-            max-height: 16em;
-            padding-top: 8px;
-            display: inline;
-        }
-
-        .logo p {
-            position: relative;
-
-            color: #6E76EE;
-            left: -15px;
-
-            margin: 0;
-        }
 
         .text-primary {
             color: #6E76EE !important;
         }
 
         .text-secondary {
-            color: #00D9CD !important;
+            color: #DFD9EE !important;
         }
 
-        #logo img, svg {
-            position: relative;
-
-
-            max-width: 4rem;
-        }
 
         .cls-1 {
             fill: #6E75EE;
@@ -74,6 +66,12 @@
 
         a:hover {
             color: #6E76EE;
+        }
+
+        a:active {
+            color: white !important;
+            background-color: #6E76EE !important;
+            border-color: #747cff !important;
         }
 
         .btn-outline-primary:hover {
@@ -118,96 +116,167 @@
             }
         }
 
-        .icon {
-            width: 48px;
-            height: 48px;
-        }
 
         h6 {
             font-weight: 400
         }
 
 
+        .icon-wrapper {
+            padding-left: .3rem;
+            padding-right: 0;
+            padding-top: .25rem;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+        }
+
+        .feature-text .pricing-text {
+            font-size: .9em;
+        }
+
+        .feature {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+
+        .hljs {
+            display: block;
+            overflow-x: auto;
+
+            background: #e8e8e8;
+            -webkit-text-size-adjust: none;
+            font-size: 3.7vw;
+            font-size: 12px;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500;
+
+
+        }
+
+
+        .logo {
+            max-width: 13rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-footer {
+            max-width: 13rem;
+
+        }
+
+        @media (min-width: 992px) {
+            .hljs {
+                font-size: 1.1rem;
+                display: inline;
+            }
+
+            .logo {
+                max-width: 18rem;
+            }
+
+            .h5 {
+                font-size: 1.7rem;
+            }
+
+            .h6 {
+                font-size: 1.3rem;
+                font-weight: normal;
+            }
+
+            footer > .offset-lg-2 {
+                margin-left: 16.666667% !important;
+            }
+        }
+
+
     </style>
 </head>
 <body>
-<div id="pixis" style="position:absolute;background-position: top 0 right 0;background-repeat:no-repeat;
-        background-size: 100vh auto; background-color: white; z-index:-1; height:100vh; width:100vw; left:-17px;"></div>
-<div class="window-height p-lg-5">
-
-    <div class="row h-100 p-lg-5   m-0 p-0 ">
 
 
-        <div class="col-sm-12 col-lg-6 my-auto  text-center text-lg-left">
-
-            <div class="no-select logo">
-                <img class="icon" src="Logo.svg" alt="" style="margin-top:-15px;">
+<div id="pixis" class="d-none d-xl-block"
+     style="position:absolute;background-position: top 0 right 0; z-index:-1; height:100vh; width:100vw; left:-17px;"></div>
 
 
-                <p class=" d-inline-block ">
-                    SoStatic
-                </p>
+<main class="col-lg-8 offset-lg-2 col-md-12 p-0">
+    <div class="row window-height align-items-center">
+
+
+        <div class="col-sm col-xl-5 col-lg-10 col-md-12 text-center text-lg-left">
+
+            <div>
+                <img class="logo" src="SVG/Logo_purple_full.svg" alt="company logo">
             </div>
 
-            <h1>
+            <h1 class="h5">
                 Form backend for static websites
                 <br>
-                <small>with email forwarding</small>
+                <span class="h6">with email forwarding</span>
             </h1>
             <div class="text-sm-center text-lg-left">
-
-                <svg xmlns="http://www.w3.org/2000/svg" class="d-lg-none" style="top:2rem;"
-                     viewBox="0 0 102.35 102.35">
-                    <defs>
-                        <style>.cls-3 {
-                            fill: #253137;
-                        }
-
-                        .cls-2 {
-                            fill: #fff;
-                        }</style>
-                    </defs>
-                    <title>Asset 2</title>
-                    <g id="Layer_2" data-name="Layer 2">
-                        <g id="Layer_1-2" data-name="Layer 1">
-                            <rect class="cls-3" width="102.35" height="102.35"/>
-                            <polygon class="cls-2"
-                                     points="88.41 13.8 88.41 37.22 71.72 37.22 41.8 88.28 13.94 88.28 13.94 64.74 28.93 64.74 59.15 13.8 88.41 13.8"/>
-                            <polygon class="cls-2" points="69.08 88.28 88.41 53.2 88.41 88.28 69.08 88.28"/>
-                            <polygon class="cls-2" points="33.27 13.8 13.94 48.87 13.94 13.8 33.27 13.8"/>
-                        </g>
-                    </g>
-                </svg>
-
-                <div class="clearfix"></div>
-                <pre class="text-left d-inline-block  " style="background:#253137">
-
-                    <code class="html "
-                          style="background:#253137;padding-left:1.5rem; padding-right:1.5rem; margin-top: -30px;margin-bottom: -50px;">
+                <div>
+                    <pre class="text-left d-inline-block  " style="background:#253137">
+                    <code class="html hljs xml pl-3 no-select"
+                          style="background:#253137; padding-right:0.5rem; margin-top:-20px;margin-bottom: -30px;">
 &lt;form action=&quot;https://ssttc.xyz/{YOUR_KEY}&quot;&gt;
-    &lt;input name=&quot;name&quot;&gt;
-    &lt;input name=&quot;email&quot;&gt;
-    &lt;textarea name=&quot;message&quot;&gt;&lt;/textarea&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+   &lt;input name=&quot;name&quot;&gt;
+   &lt;input name=&quot;email&quot;&gt;
+   &lt;textarea name=&quot;message&quot;&gt;&lt;/textarea&gt;
+   &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
 &lt;/form&gt;
-                    </code>
-
-                </pre>
-                <div class="clearfix"></div>
-                <button type="button" class="btn btn-primary btn-lg d-lg-none" style="margin-top: 3.5rem;">Login
-                </button>
-
-
-
-                <div style="margin-top:6rem" class="d-sm-none d-none d-lg-block">
-                    <button type="button" class="btn btn-outline-primary btn-lg ">Login</button>
-                    <button type="button" class="btn btn-outline-primary btn-lg ml-3 ">Register</button>
+                        </code>
+                    </pre>
 
                 </div>
 
-                <h5 class="py-3">
-                    Never miss important opportunities because of server issues ever again
-                </h5>
+
+                <div class="clearfix"></div>
+
+                <div class="d-lg-none">
+
+                    <div class=" mobile not-logged-in">
+
+                        <a href="/auth/login" class="btn btn-primary  login " style="margin-top: 3.5rem;">
+                            Login
+                        </a>
+                        <a href="/auth/register" class="btn btn-primary  register"
+                           style="margin-top: 3.5rem; margin-left: 1rem;">Register
+                        </a>
+                    </div>
+                    <div class="mobile logged-in" style="display:none">
+                        <a href="/app/0/settings" class="btn btn-primary  dashboard" style="margin-top: 3.5rem;">
+                            Go to dashboard
+                        </a>
+                        <button onclick="logout()" class="btn btn-primary  logout"
+                                style="margin-top: 3.5rem; margin-left: 1rem;">Logout
+                        </button>
+                    </div>
+                </div>
+
+
+                <div style="margin-top:6rem" class="d-none d-lg-block ">
+                    <div class="desktop not-logged-in">
+                        <a href="/auth/login" class="btn btn-outline-primary btn-lg ">Login</a>
+                        <a href="/auth/register" class="btn btn-outline-primary btn-lg ml-3 ">Register</a>
+                    </div>
+                    <div class="desktop logged-in " style="display:none">
+                        <a href="/app/0/settings" class="btn btn-outline-primary btn-lg dashboard">Go to dashboard</a>
+                        <button onclick="logout()" class="btn btn-outline-primary btn-lg ml-3 logout">Logout</button>
+                    </div>
+                </div>
+
+                <h6 class="py-3 h6">
+                    Never miss important opportunities because of server issues ever again.
+                </h6>
 
 
             </div>
@@ -216,277 +285,300 @@
 
 
     </div>
-</div>
-<main class="p-3  col-lg-10 offset-lg-1 col-md-12">
 
+    <section>
 
-    <section class=" p-lg-5">
-
-        <div class="row  p-lg-2">
-            <div class="col-12 pl-lg-5 pl-4  ">
-
-                <h2 class="pl-2 display-3 " style="font-weight: 500"> Features </h2>
-
+        <div class="row" id="features">
+            <div class="col-12 text-center my-4">
+                <p class="h1" style="font-weight: 300"> Features </p>
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/backend.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/backend.svg" class="icon"
+                             alt="backend icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>We provide the backend</h4>
-                        <h6>Using SoStatic removes the need for
+                        <h4 class="feature-title">No server needed</h4>
+                        <p class="feature-text">Using SoStatic removes the need for
                             developing, hosting and maintaining
                             your own servers just for the simple
-                            task of receiving form submissions</h6>
+                            task of receiving form submissions</p>
                     </div>
                 </div>
 
             </div>
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/js.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+            <div class="col-12 col-xl-6 feature">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/js.svg" class="icon"
+                             alt="javscript icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Zero dependencies </h4>
-                        <h6>Our solution uses the native HTML
+                        <h4 class="feature-title">Zero dependencies </h4>
+                        <p class="feature-text">Our solution uses the native HTML
                             form submission process. The only library you will need to add is Google's
                             ReCaptcha, if you decide to use it for
-                            spam filtering</h6>
+                            spam filtering</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/recaptcha.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/recaptcha.svg" class="icon"
+                             alt="recaptcha icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Simple ReCaptcha validation
-                        </h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                        <h4 class="feature-title">ReCaptcha support</h4>
+                        <p class="feature-text">With just a checkbox, you can integrate spam filtering on the
+                            using Google's recaptcha for free.</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/hide.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/hide.svg" class="icon"
+                             alt="hide icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Hide your email from the internet</h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                        <h4 class="feature-title">Hide your email</h4>
+                        <p class="feature-text">Using our service, you wont have to make your form processing email
+                            public to the
+                            visitors</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/quick_setup.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/quick_setup.svg" class="icon"
+                             alt="setup icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Easy setup</h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                        <h4 class="feature-title">Easy setup</h4>
+                        <p class="feature-text">Adding SoStatic to your website is as easy as replacing the
+                            <b>Action</b> parameter on your form</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/redeployment.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/redeployment.svg" class="icon"
+                             alt="redeployment icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Changes without redeployment</h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                        <h4 class="feature-title">Easy updates</h4>
+                        <p class="feature-text">You can change the behaviour of your form processing without needing
+                            to redeploy your website</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/eu.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/eu.svg" class="icon"
+                             alt="european union icon">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
-                        <h4>GDPR compliant</h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                    <div class="col-lg-10 col-10 p-1">
+
+                        <h4 class="feature-title">GDPR compliant</h4>
+                        <p class="feature-text">We implement all the required mechanism to be compliant with GDPR and
+                            will guide you through adding them to your website as well</p>
                     </div>
                 </div>
 
             </div>
+            <div class="col-12 col-xl-6 feature">
 
-            <div class="col-md-6 pl-5 pt-5 pr-5 ">
-
-                <div class="row ">
-                    <div class="col-lg-1 col-1 p-0  mt-2">
-                        <img src="SVG/secure.svg" class="pr-3 icon p-lg-2"
-                             alt="">
+                <div class="row">
+                    <div class="col-lg-1 col-2 icon-wrapper">
+                        <img src="SVG/secure.svg" class="icon"
+                             alt="secure">
                     </div>
-                    <div class=" col-lg-11 col-11  pl-4">
+                    <div class="col-lg-10 col-10 p-1">
 
-                        <h4>Secure</h4>
-                        <h6>Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</h6>
+                        <h4 class="feature-title">Secure</h4>
+                        <p class="feature-text">All communication can be done through SSL just by adding an 's' to
+                            the link we provide ;)</p>
                     </div>
                 </div>
 
             </div>
-
-
         </div>
-
-
     </section>
 
 
-    <section class="  p-lg-5 pt-5">
+    <section>
 
-        <div class="row  p-lg-2">
-            <div class="col-12 pl-lg-5  pb-3 ">
-
-                <h2 class="pl-2 display-3  " style="font-weight: 500"> Pricing </h2>
-
+        <div class="row" id="pricing">
+            <div class="col-12 text-center my-4">
+                <p class="h1" style="font-weight: 300"> Pricing </p>
             </div>
-            <div class="col-12 pl-lg-5   ">
+            <div class="col-lg-6 col-12 mt-4">
+                <p class="h5 text-primary text-lg-left " style="font-weight: 300"> Free for up to 100 valid messages /
+                    month</p>
 
-                <h3 class="pl-2  text-primary" style="font-weight: 400"> Free for up to 100 valid messages / month
-                </h3>
 
-            </div>
-            <div class="col-12 pl-lg-5  py-4 ">
-
-                <h5 class="pl-2  " style="font-weight: 400">
+                <p class="pricing-text text-justify">
 
                     We understand that most small websites wont get more than a few contact messages per
                     month. We offer our service for free for websites that receive less than 100 valid messages per
                     month.
                     A message is considered valid if the recaptcha was succesfully filled. Spam
                     messages will not count towards your quota
-                </h5>
+                </p>
 
             </div>
 
-            <div class="col-12 pl-lg-5   ">
-
-                <h3 class="pl-2  text-primary" style="font-weight: 400"> What if you get over 100 valid messages per
+            <div class="col-lg-6 col-12 mt-4">
+                <p class="h5 text-primary text-lg-left " style="font-weight: 300"> More than 100 valid messages per
                     month?
-                </h3>
+                </p>
 
-            </div>
-            <div class="col-12 pl-lg-5  py-4 ">
 
-                <h5 class="pl-2  " style="font-weight: 400">
+                <p class="pricing-text text-justify">
 
                     The messages will not be lost, but they will no longer be forwarded to your email, they
                     will only be accessible via our platform. If you find value in having all messages forwarded,
-                    we can setup a recurring payment method for <span class="text-secondary">5$/month</span> for
+                    we can setup a recurring payment method for <span class="text-primary">5$/month</span> for
                     unlimited messages per
                     month.
-                </h5>
+                </p>
 
             </div>
         </div>
     </section>
-</main>
-<footer class="bg-dark p-3 px-5">
-    <div class="row text-center px-lg-5">
-        <div class="col-md-6 text-lg-left pt-lg-3">
-            <div id="logo" class="no-select">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:3rem" viewBox="0 0 102.35 102.35">
-                    <defs>
-                        <style>.cls-3 {
-                            fill: #253137;
-                        }
 
-                        .cls-2 {
-                            fill: #fff;
-                        }</style>
-                    </defs>
-                    <title>Asset 2</title>
-                    <g id="Layer_2" data-name="Layer 2">
-                        <g id="Layer_1-2" data-name="Layer 1">
-                            <polygon class="cls-2"
-                                     points="88.41 13.8 88.41 37.22 71.72 37.22 41.8 88.28 13.94 88.28 13.94 64.74 28.93 64.74 59.15 13.8 88.41 13.8"/>
-                            <polygon class="cls-2" points="69.08 88.28 88.41 53.2 88.41 88.28 69.08 88.28"/>
-                            <polygon class="cls-2" points="33.27 13.8 13.94 48.87 13.94 13.8 33.27 13.8"/>
-                        </g>
-                    </g>
-                </svg>
+    <div class="text-center">
 
-                <h3 class="d-inline-block" style="color:white; position: relative; top:-8px">
-                    SoStatic
-                </h3>
-            </div>
+        <div class="  not-logged-in">
+
+            <a href="/auth/login" class="btn  btn-outline-primary btn-lg login " style="margin-top: 3.5rem;">
+                Login
+            </a>
+            <a href="/auth/register" class="btn  btn-outline-primary btn-lg register"
+               style="margin-top: 3.5rem; margin-left: 1rem;">Register
+            </a>
         </div>
-        <div class="col-md-6 text-white text-lg-right">
-            <p class="m-0">2019 SoStatic</p>
-            <p class="m-0"><a href="#">Terms of Service </a> / <a href="#"> Privacy Policy</a></p>
-            <p class="m-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
+        <div class=" logged-in" style="display:none">
+            <a href="/app/0/settings" class="btn  btn-outline-primary btn-lg dashboard" style="margin-top: 3.5rem;">
+                Go to dashboard
+            </a>
+            <button onclick="logout()" class="btn  btn-outline-primary btn-lg logout"
+                    style="margin-top: 3.5rem; margin-left: 1rem;">Logout
+            </button>
+        </div>
+    </div>
+
+</main>
+
+
+<footer class="bg-dark mt-5 py-3">
+    <div class="row text-center  col-lg-8 offset-lg-2 col-md-12 p-0">
+        <div class="col-md-6 text-lg-left align-self-center ">
+            <img class="logo-footer" src="SVG/Logo_dark_full.svg" alt="">
+        </div>
+        <div class="col-md-6 text-white text-lg-right align-self-center">
+            <p class="my-0"><a href="#">Terms of Service </a> / <a href="#"> Privacy Policy</a></p>
+            <p class="my-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
+            <p class="my-0"> SoStatic 2019</p>
 
         </div>
     </div>
+
 
 </footer>
 
 </body>
 </html>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.0.4/pixi.js"></script>
-<script src="ease.js"></script>
+<script src="lib/highlight.pack.js"></script>
+<script src="lib/pixi.min.js"></script>
+<script src="lib/ease.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+
+
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script>
-    //called only for the initial page load
+    let config = {
+        apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
+        authDomain: "sostatic-aws.firebaseapp.com",
+        databaseURL: "https://sostatic-aws.firebaseio.com",
+        projectId: "sostatic-aws",
+        storageBucket: "",
+        messagingSenderId: "1045757408696"
+    };
+
+
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            loggedIn()
+        } else {
+            notLoggedIn()
+        }
+    });
+
+    let mobileNotLoggedIn = document.querySelectorAll(".mobile.not-logged-in")[0];
+    let mobileLoggedIn = document.querySelectorAll(".mobile.logged-in")[0];
+
+    let desktopNotLoggedIn = document.querySelectorAll(".desktop.not-logged-in")[0];
+    let desktopLoggedIn = document.querySelectorAll(".desktop.logged-in")[0];
+
+
+    function loggedIn() {
+        mobileNotLoggedIn.style.display = "none";
+        desktopNotLoggedIn.style.display = "none";
+        mobileLoggedIn.style.display = "block";
+        desktopLoggedIn.style.display = "block";
+    }
+
+    function notLoggedIn() {
+
+        mobileNotLoggedIn.style.display = "block";
+        desktopNotLoggedIn.style.display = "block";
+        mobileLoggedIn.style.display = "none";
+        desktopLoggedIn.style.display = "none";
+
+    }
+
+    function logout() {
+        firebase.auth().signOut()
+            .then(function () {
+                notLoggedIn()
+            })
+            .catch(function (error) {
+                console.log(error);
+                window.location.reload();
+            });
+    }
+</script>
+
+<script>
 
 
     const app = new PIXI.Application({
@@ -501,7 +593,7 @@
 
     for (let i = 6; i >= 0; i--) {
 
-        let texture = PIXI.Texture.from(`${i + 1}.png`);
+        let texture = PIXI.Texture.from(`blob/${i + 1}.png`);
         let blob = app.stage.addChild(new PIXI.Sprite(texture));
         blob.position.set(1000, -100);
 
@@ -518,7 +610,47 @@
     function resize() {
 
         app.renderer.resize(window.innerWidth, window.innerHeight);
-
-
     }
+
+
+</script>
+<script type="application/ld+json">
+
+{
+"@context": "https://schema.org",
+"@type": "Organization",
+"url": "https://sostatic.xyz",
+"logo": "https://sostatic.xyz/SVG/Logo_purple_full.svg",
+"contactPoint": [
+        {
+            "@type": "ContactPoint",
+            "telephone": "+1-401-555-1212",
+            "contactType": "customer service",
+            "areaServed": [
+                "US",
+                "CA",
+                "MX"
+            ]
+        },
+        {
+            "@type": "ContactPoint",
+            "telephone": "+1-401-555-1212",
+            "contactType": "sales",
+            "areaServed": [
+                "US",
+                "CA",
+                "MX"
+            ]
+        }
+    ]
+}
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-143292193-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-143292193-1');
 </script>

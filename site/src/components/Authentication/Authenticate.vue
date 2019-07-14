@@ -10,11 +10,11 @@
                         <v-card md-12 raised>
                             <v-progress-linear :active="loading" :indeterminate="true"></v-progress-linear>
 
-                            <v-btn color="primary" dark absolute bottom right fab
-                                   :to="{name:'Landing Page'}">
+                            <a href="/landing.html">
+                            <v-btn color="primary" dark absolute bottom right fab>
                                 <v-icon>home</v-icon>
                             </v-btn>
-
+                            </a>
 
                                 <v-card flat color="grey lighten-5" style="height:100%">
                                     <v-layout align-center justify-center>
