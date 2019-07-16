@@ -1,0 +1,72 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(content='width=device-width, initial-scale=1, shrink-to-fit=no', name='viewport')
+        title Privacy - SoStatic
+        link(rel='stylesheet', href='../lib/bootstrap.css')
+        link(href='https://fonts.googleapis.com/css?family=Prompt:300,400,500,600&display=swap', rel='stylesheet')
+        link(rel='stylesheet', href='../lib/mine.css')
+    body
+        include header
+        main
+            section.legal-content
+                .container
+                    .row.justify-content-center
+                        .col-md-7
+                            h1.page-title-text.mt-4.font-weight-700.primary-underline Data removal request
+                            .mt-1.mb-5.lh-180
+                                p.lead.text-block
+                                    | In line with the conditions of our privacy policy and the General Data Protection
+                                    | Regulation, you have the right to contact us and request we remove your personal information
+                                    | from our systems.
+                            script(async='true', defer='true', src='https://www.google.com/recaptcha/api.js')
+                            .data-removal-form
+                                form(accept-charset='UTF-8', action='#', method='POST')
+                                    .form-group
+                                        label.form-control-label
+                                            | Are you a person or a
+                                            | company?
+                                        select.custom-select.form-control(aria-invalid='false', required='true')
+                                            option(disabled='disabled', value='')  Pick an option
+                                            option(value='person')  I'm a person
+                                            option(value='company')  I'm representing a company
+                                    .form-group
+                                        label.form-control-label Legal Name
+                                        input.form-control(placeholder='eg. Joe Smith', type='text')
+                                    .form-group
+                                        label.form-control-label Email address
+                                        input.form-control(placeholder='', type='email')
+                                    .form-group
+                                        label.form-control-label VAT number (if applicable)
+                                        input.form-control(placeholder='', type='text')
+                                    .form-group
+                                        label.form-control-label
+                                            | What action are you
+                                            | requesting?
+                                        select.custom-select.form-control(aria-invalid='true', required='true')
+                                            option(disabled='disabled', value='')  Pick an option
+                                            option(value='be_forgotten')
+                                                | I want SoStatic to delete my personal data ('right to be
+                                                | forgotten').
+                                            option(value='data_transfer')
+                                                | I want SoStatic to transfer my data to me or a third
+                                                | party.
+                                            option(value='data_access')
+                                                | I want to know how SoStatic is using my personal
+                                                | information.
+                                            option(value='rectification')
+                                                | I want to rectify incorrect data SoStatic has about me.
+                                            option(value='stop_marketing_profiling')
+                                                | I want SoStatic to stop using my information for
+                                                | direct marketing and profiling.
+                                            option(value='stop_processing')
+                                                | I want SoStatic to keep my data, but stop processing it.
+                                            option(value='objection')
+                                                | I want to object to the way SoStatic is using my personal
+                                                | information.
+                                    .form-group.text-center
+                                        .g-recaptcha(data-sitekey='6Lew3SMUAAAAAJ82QoS7gqOTkRI_dhYrFy1f7Sqy').d-inline-block
+                                    div.text-center
+                                        button.btn.btn-primary.btn-lg.mt-3(type='submit') Submit Request
+        include footer

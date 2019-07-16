@@ -1,0 +1,1 @@
+mongodump.exe --uri "mongodb://34.65.128.73:27017" --out "C:\Users\Razvan\Desktop"
