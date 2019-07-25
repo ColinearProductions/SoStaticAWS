@@ -9,21 +9,22 @@
             <v-layout flex align-center justify-center>
 
 
-                <v-menu offset-y style="width:100%" v-if="!loading">
+                <v-menu offset-y style="width:100%">
 
                     <div style="width:100%" slot="activator">
 
+                        <template v-if="!loading">
+                            <p class="subheading text-lg-center deep-purple--text ">
+                                {{currentWebsite.alias}}</p>
+                            <v-icon id="arrow_drop_down">arrow_drop_down</v-icon>
+                            <p class="caption text-lg-center  deep-purple--text text--lighten-2">
+                                {{websiteDomains}}</p>
 
-                        <p class="subheading text-lg-center deep-purple--text ">
-                            {{currentWebsite.alias}}</p>
-                        <v-icon id="arrow_drop_down">arrow_drop_down</v-icon>
-                        <p class="caption text-lg-center  deep-purple--text text--lighten-2">
-                            {{websiteDomains}}</p>
-
-                        <p class="subheading text-lg-center deep-purple--text " v-if="loading">
-                            loading...</p>
+                            <p class="subheading text-lg-center deep-purple--text " v-if="loading">
+                                loading...</p>
+                        </template>
                         <v-progress-linear v-if="loading"
-                                :indeterminate="true"
+                                           :indeterminate="true"
                         ></v-progress-linear>
 
 
@@ -64,16 +65,16 @@
     export default {
         name: "WebsitePicker",
         computed: {
-            websites(){
+            websites() {
                 return this.$store.getters.websites;
             },
-            currentWebsite(){
+            currentWebsite() {
                 return this.$store.getters.currentWebsite;
             },
-            loading(){
+            loading() {
                 return this.$store.getters.isDataLoading;
             },
-            websiteDomains: function(){
+            websiteDomains: function () {
                 return this.currentWebsite.domains[0].name;
             }
         },

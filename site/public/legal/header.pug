@@ -1,4 +1,11 @@
 mixin legal_heading(selected)
+    div.d-lg-none.d-sm-block.text-center.mt-5
+        a.mr-2(href='/')
+            img.d-inline-block.align-middle.mr-2.pb-1(alt='', height='38px', src='../SVG/Logo_purple_full.svg')
+        br
+        br
+        a.btn.btn-outline-primary.mr-2(href='/auth/login') Login
+        a.btn.btn-outline-primary(href='/auth/register') Sign-up
     section.page-title-bg.slice.bg-gradient-primary
         .container
             .row.justify-content-center
@@ -13,26 +20,27 @@ mixin legal_heading(selected)
         .container
             .row
                 .col-md-12
-                    ul.nav.justify-content-center.legal-menu.my-5
+                    ul.nav.justify-content-center.legal-menu.my-lg-5
                         li.nav-item
-                            a.nav-link.h3(href='privacy.html', class=(selected==='privacy')?'active':'') Privacy
+                            a.nav-link.h3.my-sm-1(href='privacy.html', class=(selected==='privacy')?'active':'') Privacy
                         li.nav-item
-                            a.nav-link.h3(href='terms.html', class=(selected==='terms')?'active':'') Terms
+                            a.nav-link.h3.my-sm-1(href='terms.html', class=(selected==='terms')?'active':'') Terms
                         li.nav-item
-                            a.nav-link.h3(href='gdpr.html', class=(selected==='gdpr')?'active':'') GDPR
+                            a.nav-link.h3.my-sm-1(href='gdpr.html', class=(selected==='gdpr')?'active':'') GDPR
 
 
 header
+
     nav.navbar.navbar-expand-lg.navbar-light.d-none.d-lg-block
         .container
             a.navbar-brand(href='/')
                 img.d-inline-block.align-middle.mr-2.pb-1(alt='', height='38px', src='../SVG/Logo_purple_full.svg')
             ul.navbar-nav.mr-auto.mt-3
                 li.nav-item.active
-                    a.nav-link(href='#') Home
+                    a.nav-link(href='/') Home
                 li.nav-item
-                    a.nav-link(href='#') Features
+                    a.nav-link(href='/') Features
                 li.nav-item
-                    a.nav-link(href='#') Pricing
-            button.btn.btn-outline-primary.mr-2 Login
-            button.btn.btn-outline-primary Sign-up
+                    a.nav-link(href='/') Pricing
+            a.btn.btn-outline-primary.mr-2(href='/auth/login') Login
+            a.btn.btn-outline-primary(href='/auth/register') Sign-up

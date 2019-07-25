@@ -1,18 +1,16 @@
 <template>
 
-    <v-form class="pa-5"  ref="form">
-        <p class="display-2 deep-purple--text text--lighten-1 thin">
-            Register
-        </p>
+    <v-form class="pa-5"  ref="form" @submit="onSubmit">
+
         <p class="subheading red--text text--lighten-1" v-if="error" >
             {{error}}
         </p>
-        <v-text-field label="Display name" v-model="displayName" :rules="displayNameRules"></v-text-field>
-        <v-text-field label="E-mail" v-model="username" :rules="emailRules"></v-text-field>
-        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-2"></v-text-field>
+        <v-text-field label="Display name" v-model="displayName" :rules="displayNameRules" ></v-text-field>
+        <v-text-field label="E-mail" v-model="username" :rules="emailRules" class="mt-3"></v-text-field>
+        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-4 mt-3"></v-text-field>
 
 
-        <v-btn color="deep-purple lighten-1 ma-0" dark @click="onSubmit">
+        <v-btn color="deep-purple lighten-1" class="ma-0" large outline  @click="onSubmit">
             Register
         </v-btn>
         <div class="mt-3">

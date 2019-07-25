@@ -1,20 +1,17 @@
 <template>
 
-    <v-form class="pa-5" ref="form">
+    <v-form class="pa-5" ref="form" @submit="onSubmit" @keyup.native.enter="onSubmit">
 
-        <p class="display-2 deep-purple--text text--lighten-1 thin">
-            Login
-        </p>
         <p class="subheading red--text text--lighten-1" v-if="error">
             {{error}}
         </p>
 
         <v-text-field label="E-mail" v-model="email" :rules="emailRules"></v-text-field>
-        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-2"></v-text-field>
+        <v-text-field label="Password" v-model="password" type="password" :rules="passwordRules" class="pb-0 mt-3"></v-text-field>
 
 
-        <div class="mt-3">
-            <v-btn @click="onSubmit" color="deep-purple lighten-1 ma-0" dark>
+        <div class="mt-3 text-center">
+            <v-btn @click="onSubmit" color="deep-purple lighten-1" large outline class="ma-0" dark>
                 Login
             </v-btn>
 
@@ -26,11 +23,11 @@
                 <a class=" text--lighten-4 pr-3"
                    style="text-decoration: none;">Dont have an account?</a>
             </router-link>
-
             <router-link :to="{name:'Recover'}">
-                <a class=" text--lighten-4"
+                <a class=" text--lighten-4 right"
                    style="text-decoration: none;">Forgot your password?</a>
             </router-link>
+
 
         </div>
 

@@ -20,7 +20,15 @@
                             </v-list-tile-content>
                     </v-list-tile>
                 </template>
+                <v-footer class="justify-center px-5 py-2 white" inset app height="auto">
+                    <v-img>
+                        <a href="/">
+                            <LOGO style="color:#6e77ee;fill:currentColor"></LOGO>
+                        </a>
+                    </v-img>
+                </v-footer>
             </v-list>
+
         </v-navigation-drawer>
         <v-toolbar color="primary " dark app fixed>
             <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
@@ -54,13 +62,17 @@
     import Messages from "./Messages";
     import Settings from "./Settings";
 
+    import LOGO from '../../public/SVG/Logo_purple_full.svg'
+
     const axios = require('axios');
 
     export default {
         components: {
             CreateWebsiteDialog,
+            LOGO,
             'WebsitePicker': WebsitePicker,
-            'Forms': Forms
+            'Forms': Forms,
+
         },
         data: function () {
             return {
@@ -72,7 +84,6 @@
                     {icon: 'insert_comment', text: 'Messages', to: 'messages'},
                     {icon: 'settings', text: 'Settings', to:'settings'},
                     {icon: 'person', text: 'Account', to:'account'},
-                    {icon: 'home', text: 'Home', to:"/"},
 
                 ]
 
@@ -90,6 +101,7 @@
             deletionPending(){
                 return this.$store.getters.getDeletionPending;
             }
+
         },
         methods:{
             logout: function(){

@@ -1,31 +1,43 @@
 <template>
 
     <v-app id="inspire" class="deep-purple lighten-1">
-        <section style="position:absolute;background: linear-gradient(120deg,#74309d 0,#7660b8);width:100%;height:100vh">
+        <section
+                style="position:absolute;background: linear-gradient(120deg,#f0f1f1 0,#f0f1f1);width:100%;height:100vh">
         </section>
         <v-content>
             <v-container fluid fill-height>
                 <v-layout align-center justify-center>
-                    <v-flex xs12 sm8 md4>
+                    <v-flex xs12 sm8 md3>
                         <v-card md-12 raised>
-                            <v-progress-linear :active="loading" :indeterminate="true"></v-progress-linear>
 
-                            <a href="/landing.html">
-                            <v-btn color="primary" dark absolute bottom right fab>
-                                <v-icon>home</v-icon>
-                            </v-btn>
-                            </a>
-
-                                <v-card flat color="grey lighten-5" style="height:100%">
-                                    <v-layout align-center justify-center>
-                                        <v-flex xs12 sm12 md12>
-                                            <router-view v-on:changeLoading ="changeLoading">
-
-                                            </router-view>
+                            <div style="height:100px; width:100%;background: linear-gradient(170deg,#a386ff 0,#7544a9)">
+                                <v-container fill-height>
+                                    <v-layout row wrap align-center>
+                                        <v-flex class="text-xs-center">
+                                            <p class="display-2  white--text thin">
+                                                {{routeName}}
+                                            </p>
                                         </v-flex>
                                     </v-layout>
-                                </v-card>
+                                </v-container>
+                            </div>
 
+                            <v-layout align-center justify-center>
+                                <v-flex xs12 sm12 md12>
+                                    <router-view v-on:changeLoading="changeLoading">
+
+                                    </router-view>
+                                </v-flex>
+                            </v-layout>
+
+
+                            <a href="/landing.html">
+                                <v-btn color="primary" dark absolute bottom right fab>
+                                    <v-icon>home</v-icon>
+                                </v-btn>
+                            </a>
+
+                            <v-progress-linear :active="loading" :indeterminate="true"></v-progress-linear>
 
                         </v-card>
 
@@ -42,7 +54,7 @@
         data: function () {
             return {
                 tab: 1,
-                loading:false,
+                loading: false,
                 menuItems: [
                     {
                         title: 'Login',
@@ -57,8 +69,13 @@
                 ]
             }
         },
-        methods:{
-            changeLoading: function(state){
+        computed: {
+          routeName(){
+              return this.$route.name
+          }
+        },
+        methods: {
+            changeLoading: function (state) {
                 this.loading = state;
             }
         }

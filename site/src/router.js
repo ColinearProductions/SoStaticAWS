@@ -5,7 +5,6 @@ import Settings from './components/Settings'
 import Account from './components/Account'
 import Layout from './components/Layout'
 import Setup from './components/Setup'
-import LandingPage from './components/LandingPage'
 import Authenticate from './components/Authentication/Authenticate'
 import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
@@ -16,12 +15,6 @@ import Unsubscribe from "./components/Unsubscribe";
 
 
 Vue.use(Router);
-
-
-
-
-
-
 
 
 let router = new Router({
@@ -36,22 +29,22 @@ let router = new Router({
             children: [
                 {
 
-                path: 'forms',
-                name: 'Forms',
-                component: Forms,
-            }, {
-                path: 'settings',
-                name: 'Settings',
-                component: Settings
-            },{
-                path: 'account',
-                name: 'Account',
-                component: Account
-            }, {
-                path: 'messages',
-                name: 'Messages',
-                component: Messages
-            }
+                    path: 'forms',
+                    name: 'Forms',
+                    component: Forms,
+                }, {
+                    path: 'settings',
+                    name: 'Settings',
+                    component: Settings
+                }, {
+                    path: 'account',
+                    name: 'Account',
+                    component: Account
+                }, {
+                    path: 'messages',
+                    name: 'Messages',
+                    component: Messages
+                }
             ]
 
 
@@ -62,15 +55,14 @@ let router = new Router({
             component: Setup //todo replace
         },
         {
-          path:'/',
-          beforeEnter: (to, from, next)=>{
-              window.location.href="/"
-          }
-        },
-        {
-            path: '/old',
-            name: 'Landing Page',
-            component: LandingPage
+            path: '/',
+            name: 'Home',
+            beforeEnter: (to, from, next) => {
+                if (process.env.NODE_ENV === 'development')
+                    window.location.href = '/landing.html'
+                else
+                    window.location.href = '/'
+            }
         },
         {
             path: '/auth',
@@ -95,20 +87,18 @@ let router = new Router({
             ]
         },
         {
-            path:'/app/demo/:endpoint',
-            name:'DemoForm',
-            component:DemoForm
+            path: '/app/demo/:endpoint',
+            name: 'DemoForm',
+            component: DemoForm
         },
         {
-            path:'/unsubscribe/:unsubscribeUrl',
-            name:'Unsubscribe',
-            component:Unsubscribe
+            path: '/unsubscribe/:unsubscribeUrl',
+            name: 'Unsubscribe',
+            component: Unsubscribe
         }
 
     ]
 });
-
-
 
 
 export default router;

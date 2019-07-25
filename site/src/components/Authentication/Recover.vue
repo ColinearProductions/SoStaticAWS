@@ -1,12 +1,10 @@
 <template>
 
     <v-form class="pa-5" ref="form">
-        <p class="display-2 deep-purple--text text--lighten-1 thin">
-            Recover
-        </p>
+
         <v-text-field label="E-mail" v-model="email" :rules="emailRules" class="pb-2"></v-text-field>
 
-        <v-btn color="deep-purple lighten-1 ma-0" dark @click="sendMail">
+        <v-btn color="deep-purple lighten-1" class="ma-0" large outline dark @click="sendMail">
             Send recovery Email
         </v-btn>
         <div class="mt-3">
