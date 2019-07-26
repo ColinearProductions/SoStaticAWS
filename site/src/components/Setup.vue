@@ -1,96 +1,127 @@
 <template>
     <v-app id="inspire">
         <v-content>
-            <v-container fluid fill-height>
-                <v-layout align-center justify-center>
-                    <v-flex xs12 sm6 md6>
-
+            <v-container class="fill-height" fluid>
+                <v-row align="center" justify="center">
+                    <v-col cols="12" sm="6" md="6" lg="5">
                         <v-form v-model="formValidModel" @submit.prevent="">
-
-
                             <div v-if="current_step===1">
                                 <h1> Step 1. </h1>
-                                <h4 class="pb-4 pt-2">
-                                    Let's setup your website. What is the name of your website?
+                                <h4 class="pb-6 pt-2"> Let's
+                                    setup your website. What is the name of your website?
                                 </h4>
-                                <v-text-field @keyup.enter="onNextPressed" label="Website alias"
-                                              hint="My awesome website"
-                                              v-model="website.alias" :rules="[rules.min3]" required
-                                              autofocus></v-text-field>
-                            </div>
 
+                                <v-text-field
+                                        v-model="website.alias"
+                                        label="Website alias"
+                                        hint="My awesome website"
+                                        :rules="[rules.min3]"
+                                        required
+                                        autofocus
+                                        @keyup.enter="onNextPressed"/>
+                            </div>
                             <div v-else-if="current_step===2">
                                 <h1> Step 2. </h1>
-                                <h4 class="pb-4 pt-2">
-                                    Enter the domains of your website separated by comma. Ex:
-                                    example.com, www.example.com, example.org, www.example.org
-                                    <br>
-                                    (If you plan to use the service while locally, add localhost as well)
+                                <h4 class="pb-6 pt-2">
+                                    Enter the domains of your website separated by comma. Ex: example.com,
+                                    www.example.com,
+                                    example.org, www.example.org
+                                    <br> (If you plan to use the service while locally, add
+                                    localhost as well)
                                 </h4>
-                                <v-text-field @keyup.enter="onNextPressed" label="Website domain"
-                                              placeholder="Ex: example.com, facebook.com, 127.0.0.1, localhost"
-                                              v-model="website.domain" :rules="[rules.min3, rules.domain]" required=""
-                                              autofocus></v-text-field>
+                                <v-text-field
+                                        v-model="website.domain"
+                                        label="Website domain"
+                                        placeholder="Ex: example.com, facebook.com, 127.0.0.1, localhost"
+                                        :rules="[rules.min3, rules.domain]"
+                                        required=""
+                                        autofocus
+                                        @keyup.enter="onNextPressed"
+                                />
                             </div>
 
                             <div v-else-if="current_step===3">
                                 <h1> Step 3. </h1>
-                                <h4 class="pb-4 pt-2">
+                                <h4 class="pb-6 pt-2">
                                     Enter an email address where you want the messages to be redirected to
                                     and an alias for that email
                                 </h4>
 
-                                <v-layout>
-                                    <v-flex xs12 sm6 md4 class="mr-4">
-                                        <v-text-field @keyup.enter="onNextPressed" label="Alias"
-                                                      hint="Ex: Joe, Jane, Parzival"
-                                                      v-model="contact_alias" :rules="[rules.min3]" required
-                                                      autofocus></v-text-field>
+                                <v-row>
+                                    <v-col
+                                            cols="12"
+                                            sm="6"
+                                            md="4"
+                                            class="pr-2"
+                                    >
+                                        <v-text-field
+                                                v-model="contact_alias"
+                                                label="Alias"
+                                                hint="Ex: Joe, Jane, Parzival"
+                                                :rules="[rules.min3]"
+                                                required
+                                                autofocus
+                                                @keyup.enter="onNextPressed"
+                                        />
+                                    </v-col>
 
-                                    </v-flex>
-
-                                    <v-flex xs12 sm6 md8>
-                                        <v-text-field @keyup.enter="onNextPressed" label="Email"
-                                                      v-model="contact_email" :rules="[rules.email]" required
-                                                      hint="Ex: joe@example.com, jane@example.com, parzival@gss.com"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
+                                    <v-col
+                                            cols="12"
+                                            sm="6"
+                                            md="8"
+                                    >
+                                        <v-text-field
+                                                v-model="contact_email"
+                                                label="Email"
+                                                :rules="[rules.email]"
+                                                required
+                                                hint="Ex: joe@example.com, jane@example.com, parzival@gss.com"
+                                                @keyup.enter="onNextPressed"
+                                        />
+                                    </v-col>
+                                </v-row>
                             </div>
 
-                            <!--
-                            <div v-else-if="current_step===4">
-                                <h1> Step 4. </h1>
-                                <h4 class="pb-4 pt-2">
-                                    Add an alias for a form on your website (you can add more later)
-                                </h4>
-                                <v-text-field @keyup.enter="onNextPressed" name="input-1" label="Form alias" v-model="form_alias"
-                                              hint="Ex: Contact Form"></v-text-field>
-                            </div> -->
 
-
-                            <v-btn color="primary" class="mt-4" dark right @click="onNextPressed">
-                                {{nextButtonText}}
+                            <v-btn
+                                    color="primary"
+                                    class="mt-6"
+                                    right
+                                    @click="onNextPressed"
+                            >
+                                {{ nextButtonText }}
                             </v-btn>
 
-                            <v-btn color="primary" flat class="mt-4" dark right @click="onResetPressed"
-                                   v-text="'Reset'">
-                            </v-btn>
+                            <v-btn
+                                    color="primary"
+                                    text
+                                    class="mt-6"
+                                    right
+                                    @click="onResetPressed"
+                                    v-text="'Reset'"
+                            />
 
+                            <v-btn
+                                    color="primary"
+                                    text
+                                    class="mt-6"
+                                    right
+                                    :disabled="current_step===1"
+                                    @click="onBackPressed"
+                                    v-text="'Back'"
+                            />
 
-                            <v-btn color="primary" flat class="mt-4" dark right @click="onBackPressed"
-                                   v-bind:disabled="current_step===1"
-                                   v-text="'Back'">
-                            </v-btn>
-
-
-                            <v-btn color="primary" outline class="mt-4 right" dark right @click="logout"
-                                   v-text="'Logout'">
-                            </v-btn>
+                            <v-btn
+                                    color="primary"
+                                    outlined
+                                    class="mt-6 float-right"
+                                    right
+                                    @click="logout"
+                                    v-text="'Logout'"
+                            />
                         </v-form>
-                    </v-flex>
-
-                </v-layout>
-
+                    </v-col>
+                </v-row>
             </v-container>
         </v-content>
     </v-app>
@@ -98,9 +129,8 @@
 
 <script>
 
-    import * as api from '../API';
+    import * as api from '../API'
     import * as validateDomain from 'is-valid-domain'
-
 
     /* eslint-disable */
     export default {
@@ -164,7 +194,6 @@
                 this.current_step -= 1;
             },
             submit: function () {
-
 
 
                 let tmp = {

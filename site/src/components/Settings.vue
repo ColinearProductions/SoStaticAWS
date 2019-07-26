@@ -1,206 +1,299 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-layout row wrap justify-center>
-            <v-flex xl8 md10 xs12 class="pa-2">
+    <v-container
+            class="text-center"
+            grid-list-md
+    >
+        <v-row
+
+                justify="center"
+        >
+            <v-col
+                    xl="8"
+                    md="10"
+                    cols="12"
+                    class="pa-2"
+            >
                 <v-card>
                     <v-progress-linear
 
-                            :active="loading"
+                            :active="isDataLoading"
                             :indeterminate="true"
-                    ></v-progress-linear>
-                    <v-layout row justify-center v-if="!loading">
-                        <v-flex xl10 md10 xs12 class="pa-2">
-                            <v-card-text class="pa-4">
-                                <v-form v-model="formValidModel" ref="form" @submit.prevent="" autocomplete="off">
+                    />
+                    <v-row
+                            v-if="!isDataLoading"
+
+                            justify="center"
+                    >
+                        <v-col
+                                xl="10"
+                                md="10"
+                                cols="12"
+                                class="pa-2"
+                        >
+                            <v-card-text class="pa-6">
+                                <v-form
+                                        ref="form"
+                                        v-model="formValidModel"
+                                        autocomplete="off"
+                                        @submit.prevent=""
+                                >
                                     <div style="width:100%; text-align:left">
                                         <span class="display-1 deep-purple--text bold">Website details</span><br>
                                     </div>
-                                    <v-divider class=" mb-2"></v-divider>
-                                    <div style="width:100%; text-align:left" class="mb-4">
+                                    <v-divider class=" mb-2"/>
+                                    <div
+                                            style="width:100%; text-align:left"
+                                            class="mb-6"
+                                    >
                                         <span class="body-1 grey--text text--lighten-1">   Information about this website</span><br>
-
                                     </div>
                                     <v-text-field
-                                            label="Website Name"
                                             v-model="websiteDetailsModel.alias"
-                                            v-on:keyup="onWebsiteModelChanged"
-                                            :rules="[min3]" required
-                                    ></v-text-field>
+                                            label="Website Name"
+                                            :rules="[min3]"
+                                            required
+                                            @keyup="onWebsiteModelChanged"
+                                    />
 
-                                    <div class="text-sm-left pb-2">
-                                        <p class="subheading bold mb-1">Your domains</p>
+
+                                    <div class="text-sm-left py-2">
+                                        <p class="subheading bold mb-0">
+                                            Your domains
+                                        </p>
+
                                         <v-chip
-                                                v-for="domain in websiteDetailsModel.domains"
-                                                v-model="domain.on"
-                                                @input="onDomainRemoveClicked"
+                                                v-for="(domain,index) in websiteDetailsModel.domains"
+                                                outlined
+                                                color="primary"
+                                                class="mr-2"
                                                 close
-                                        >{{domain.name}}
+                                                @click:close="onDomainRemoveClicked(index)"
+                                        >
+                                            {{ domain.name }}
                                         </v-chip>
-                                        <v-chip v-if="!domainInputVisible"
+                                        <v-chip
+                                                v-if="!domainInputVisible"
                                                 style="cursor: pointer;"
-                                                color="primary" dark
+                                                color="primary"
+                                                class="mr-2"
+
                                                 @click="domainInputVisible=true"
-
-
-                                        > <v-icon left> add </v-icon> Add more domains
+                                        >
+                                            <v-icon left>
+                                                add
+                                            </v-icon>
+                                            Add more domains
                                         </v-chip>
                                     </div>
-                                    <v-layout row wrap class="px-2 " v-if="domainInputVisible">
-                                        <v-text-field class="pl-1"
 
 
-                                                      label="Add a new domain"
-                                                      v-model="currentDomainInput"
-                                                      :error="addDomainError.showError"
-                                                      :error-messages="addDomainError.message"
-                                                      placeholder="example.com"
-                                                      @keydown.enter="onAddDomainPressed"
+                                    <v-row
+                                            v-if="domainInputVisible"
+                                            class="px-2 "
+                                    >
+                                        <v-text-field
+                                                v-model="currentDomainInput"
 
-
-
-
-                                        ></v-text-field>
-                                        <v-btn color="primary" class="lighten-1 mt-3" outline  @click="onAddDomainPressed">
+                                                class="pl-1 pr-5"
+                                                label="Add a new domain"
+                                                :error="addDomainError.showError"
+                                                :error-messages="addDomainError.message"
+                                                placeholder="example.com"
+                                                @keydown.enter="onAddDomainPressed"
+                                        />
+                                        <v-btn
+                                                color="primary"
+                                                class="lighten-1 mt-4 "
+                                                outlined
+                                                @click="onAddDomainPressed"
+                                        >
                                             Add
                                         </v-btn>
-                                        <v-btn color="primary" class="lighten-1 mt-3" flat  @click="currentDomainInput=''">
+                                        <v-btn
+                                                color="primary"
+                                                class="lighten-1 mt-4"
+                                                text
+                                                @click="currentDomainInput=''"
+                                        >
                                             Clear
                                         </v-btn>
-                                    </v-layout>
+                                    </v-row>
                                     <!--
-                                    <v-layout row wrap class=" " v-else>
-                                        <v-btn color="primary" class="lighten-1 mt-3" flat @click="domainInputVisible=true" >
-                                            Add more domains
-                                        </v-btn>
-                                    </v-layout> -->
+                                                      <v-layout row wrap class=" " v-else>
+                                                          <v-btn color="primary" class="lighten-1 mt-4" text @click="domainInputVisible=true" >
+                                                              Add more domains
+                                                          </v-btn>
+                                                      </v-layout> -->
 
-                                    <v-checkbox class="mt-3" label="HTTPs Only" v-model="websiteDetailsModel.httpsOnly"
-                                                v-on:change="onWebsiteModelChanged"
-                                    ></v-checkbox>
-                                    <v-switch :label="recaptchaSwitchLabel" v-model="websiteDetailsModel.recaptcha"
-                                              :disabled="recaptchaLocked"
-                                              v-on:change="onWebsiteModelChanged"
-                                    ></v-switch>
+                                    <v-checkbox
+                                            v-model="websiteDetailsModel.httpsOnly"
+                                            class="mt-4"
+                                            label="HTTPs Only"
+                                            @change="onWebsiteModelChanged"
+                                    />
+                                    <v-switch
+                                            v-model="websiteDetailsModel.recaptcha"
+                                            :label="recaptchaSwitchLabel"
+                                            :disabled="recaptchaLocked"
+                                            @change="onWebsiteModelChanged"
+                                    />
                                     <div v-if="websiteDetailsModel.recaptcha">
                                         <v-text-field
+                                                v-model="websiteDetailsModel.sitekey"
                                                 autocomplete="off"
                                                 prepend-icon="assignment"
                                                 label="Site key"
-                                                v-model="websiteDetailsModel.sitekey"
                                                 :rules="[requiredIf]"
-                                                @click:append-outer="hideRecaptchaSiteKey = !hideRecaptchaSiteKey"
                                                 :type="hideRecaptchaSiteKey?'password':'text'"
                                                 append-outer-icon="remove_red_eye"
+                                                @click:append-outer="hideRecaptchaSiteKey = !hideRecaptchaSiteKey"
 
-                                                v-on:keyup="onWebsiteModelChanged"
-                                        ></v-text-field>
+                                                @keyup="onWebsiteModelChanged"
+                                        />
                                         <v-text-field
+                                                v-model="websiteDetailsModel.secret"
                                                 autocomplete="off"
                                                 prepend-icon="assignment"
                                                 label="Secret"
                                                 :rules="[requiredIf]"
                                                 :type="hideRecaptchaSecretKey?'password':'text'"
-                                                v-model="websiteDetailsModel.secret"
                                                 append-outer-icon="remove_red_eye"
                                                 @click:append-outer="hideRecaptchaSecretKey = !hideRecaptchaSecretKey"
-                                                v-on:keyup="onWebsiteModelChanged"
-
-                                        ></v-text-field>
+                                                @keyup="onWebsiteModelChanged"
+                                        />
                                     </div>
-                                    <div style="width:100%; text-align:left" class="mt-4">
+                                    <div
+                                            style="width:100%; text-align:left"
+                                            class="mt-6"
+                                    >
                                         <span class="display-1 deep-purple--text bold">Contacts</span><br>
                                     </div>
-                                    <v-divider class=" mb-2"></v-divider>
-                                    <div style="width:100%; text-align:left" class="pb-3">
+                                    <v-divider class=" mb-2"/>
+                                    <div
+                                            style="width:100%; text-align:left"
+                                            class="pb-4"
+                                    >
                                         <span class="body-1 grey--text text--lighten-1">Enter email addresses where you want the messages to be forwarded to</span><br>
                                     </div>
-                                    <v-layout row wrap v-for="(contact,index) in websiteDetailsModel.contacts"
-                                              :key="index">
-                                        <v-flex xs5 class="pa-2">
+                                    <v-row
+                                            v-for="(contact,index) in websiteDetailsModel.contacts"
+                                            :key="index"
+                                    >
+                                        <v-col
+                                                cols="5"
+                                                class="pa-2"
+                                        >
                                             <v-text-field
 
-                                                    label="Alias"
                                                     v-model="contact.alias"
-                                                    v-on:keyup="onWebsiteModelChanged"
+                                                    label="Alias"
                                                     :rules="[min3]"
-                                            ></v-text-field>
-                                        </v-flex>
+                                                    @keyup="onWebsiteModelChanged"
+                                            />
+                                        </v-col>
 
-                                        <v-flex xs6 class="pa-2">
+                                        <v-col
+                                                cols="6"
+                                                class="pa-2"
+                                        >
                                             <v-text-field
 
+                                                    v-model="contact.email"
                                                     label="Email"
-                                                    v-model="contact.email" :rules="[email, min3]"
-                                                    v-on:keyup="onWebsiteModelChanged"
-                                            ></v-text-field>
-                                        </v-flex>
+                                                    :rules="[email, min3]"
+                                                    @keyup="onWebsiteModelChanged"
+                                            />
+                                        </v-col>
 
-                                        <v-flex xs1 class="pt-3">
-                                            <v-btn color="primary lighten-1" fab small dark
-                                                   v-on:click="removeContact(index)" v-if="index!==0">
+                                        <v-col
+                                                cols="1"
+                                                class="pt-4"
+                                        >
+                                            <v-btn
+                                                    v-if="index!==0"
+                                                    color="primary lighten-1"
+                                                    fab
+                                                    small
+                                                    @click="removeContact(index)"
+                                            >
                                                 <v-icon>delete_outline</v-icon>
                                             </v-btn>
-                                        </v-flex>
-
-
-                                    </v-layout>
-                                    <v-layout row wrap>
-                                        <v-flex xs12>
-
-                                            <v-btn right flat color="primary" v-on:click="addContact"
-                                                   v-bind:disabled="websiteDetailsModel.contacts.length>=5">Add more
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <v-btn
+                                                    right
+                                                    text
+                                                    color="primary"
+                                                    :disabled="websiteDetailsModel.contacts.length>=5"
+                                                    @click="addContact"
+                                            >
+                                                Add more
                                             </v-btn>
-                                        </v-flex>
-                                    </v-layout>
-
+                                        </v-col>
+                                    </v-row>
                                 </v-form>
                             </v-card-text>
+                        </v-col>
+                    </v-row>
 
-                        </v-flex>
-                    </v-layout>
-
-                    <v-divider></v-divider>
+                    <v-divider/>
                     <v-card-actions>
-                        <v-btn flat color="red" @click="onDeleteWebsiteClicked">
+                        <v-btn
+                                text
+                                color="red"
+                                @click="onDeleteWebsiteClicked"
+                        >
                             Delete Website
                         </v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="primary" v-bind:disabled="!isWebsiteChangePending" @click="onSavePressed">
+                        <v-spacer/>
+                        <v-btn
+                                text
+                                color="primary"
+                                :disabled="!getPendingModification"
+                                @click="onDiscardPressed"
+                        >
+                            Discard
+                        </v-btn>
+                        <v-btn
+                                text
+                                color="primary"
+                                :disabled="!getPendingModification"
+                                @click="onSavePressed"
+                        >
                             Save
                         </v-btn>
-
-
                     </v-card-actions>
                 </v-card>
-
-            </v-flex>
-
-
-        </v-layout>
-
-
+            </v-col>
+        </v-row>
     </v-container>
-
-
 </template>
 
 <script>
     /* eslint-disable */
 
     import * as validateDomain from 'is-valid-domain'
+    import cloneDeep from 'lodash.clonedeep'
+    import rulesMixin from './rulesMixin'
+
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
 
     //todo on recaptcha, add a server function to check if the keypair is functional
 
     export default {
+        mixins:[rulesMixin],
         name: "Settings",
         data: function () {
             return {
-                domainInputVisible:false,
+                domainInputVisible: false,
                 websiteDetailsModel: {},
                 formValidModel: false,
                 addDomainError: {
                     showError: false,
-                    message: ''
+                    message: '',
+                    generalError:''
                 },
                 currentDomainInput: '',
                 hideRecaptchaSecretKey: true,
@@ -210,8 +303,9 @@
         },
         methods: {
 
-            onDomainRemoveClicked: function () {
-                this.$store.commit("setPendingModification", true);
+            onDomainRemoveClicked: function (domainIndex) {
+                this.websiteDetailsModel.domains.splice(domainIndex, 1);
+                this.setPendingModification(true);
             },
             onAddDomainPressed: function () {
 
@@ -235,14 +329,10 @@
 
                 if (domainValid) {
                     this.websiteDetailsModel.domains.push({on: true, name: domain});
-                    this.$store.commit("setPendingModification", true);
-
-
+                    this.setPendingModification(true);
                     this.currentDomainInput = '';
                     this.addDomainError.showError = false;
                     this.addDomainError.message = '';
-
-
                 } else {
                     this.addDomainError.showError = true;
                     this.addDomainError.message = 'Not a valid domain name';
@@ -260,9 +350,9 @@
                 this.$refs.form.validate();
                 console.log("ON Detail Model Changed");
                 let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'contacts'];
-                let isChanged = !isEquivalent(this.websiteDetailsModel, this.$store.getters.currentWebsite, props, ['alias', 'email']);
+                let isChanged = !isEquivalent(this.websiteDetailsModel, this.currentWebsite, props, ['alias', 'email']);
 
-                this.$store.commit("setPendingModification", isChanged);
+                this.setPendingModification(isChanged);
 
             },
             onDeleteWebsiteClicked: function () {
@@ -270,13 +360,13 @@
                     `This action is irreversible and will result in the permanent loss of all the messages archived for this website and all your settings. <br>
                      This action will take effect immediately`, {title: 'Are you sure you want to delete this website?'}).then(res => {
                     if (res) {
-                        this.$store.dispatch("deleteWebsite", this.websiteDetailsModel._id);
-
+                        this.deleteWebsite(this.websiteDetailsModel._id);
                     }
 
                 })
             },
             onSavePressed: function () {
+                //todo if no domains, show error message
                 this.$refs.form.validate();
 
 
@@ -286,6 +376,7 @@
 
 
                     if (validDomains < 1) {
+                        this.domainInputVisible=true;
                         this.addDomainError.showError = true;
                         this.addDomainError.message = 'You must add at least one domain';
                         return;
@@ -295,7 +386,7 @@
 
 
                     console.log(this.websiteDetailsModel.domains);
-                    this.$store.dispatch("updateWebsite", this.websiteDetailsModel);
+                    this.updateWebsite(this.websiteDetailsModel);
                     this.addDomainError.showError = false;
 
 
@@ -303,65 +394,51 @@
 
 
             },
+            onDiscardPressed: function () {
+                this.websiteDetailsModel = cloneDeep(this.currentWebsite);
+                this.domainInputVisible=false;
+                this.setPendingModification(false);
+
+            },
             removeContact: function (index) {
                 this.websiteDetailsModel.contacts.splice(index, 1);
                 this.onWebsiteModelChanged();
             },
             //RULES
-            min3: v => {
-                if (v === undefined)
-                    return true;
-                return v.length >= 3 || 'Field must have more than 3 characters'
-            },
-            email: function (value) {
-                let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-                if (value === undefined)
-                    return true;
-
-                if (value.length < 1)
-                    return true;
-
-                return re.test(value.toLowerCase()) || 'Email invalid'
-            },
             requiredIf: function (value) {
                 if (this.websiteDetailsModel.recaptcha)
                     return !(value === undefined || value === null || value === '') || "This field is required";
                 else
                     return true;
-            }
-            //RULES,
+            },
+            ...mapMutations([
+                'setPendingModification'
+            ]),
+            ...mapActions([
+                'updateWebsite','deleteWebsite'
+            ])
 
 
         },
         watch: {
             'currentWebsite': function () {
-
-                this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
-
-
-                this.$store.commit("setPendingModification", false);
+                this.websiteDetailsModel = cloneDeep(this.currentWebsite);
+                this.setPendingModification(false);
 
             }
         },
         computed: {
-            isWebsiteChangePending() {
-                return this.$store.getters.getPendingModification;
-            },
-            currentWebsite() {
-                return this.$store.getters.currentWebsite;
-            },
-            currentWebsiteClone() {
-                return JSON.parse(JSON.stringify(this.$store.getters.currentWebsiteClone));
-            },
-            loading() {
-                return this.$store.getters.isDataLoading;
-            },
+
+            ...mapGetters([
+                'currentWebsite',
+                'getPendingModification',
+                'isDataLoading'
+
+            ]),
             recaptchaLocked() {
                 if (!this.websiteDetailsModel.recaptcha) //if recaptcha is not yet enabled there is no reason to lock it.
                     return false;
                 else {
-
                     return this.countFormsUsingRecaptcha > 0;
                 }
             },
@@ -377,7 +454,8 @@
             }
         },
         beforeMount: function () {
-            this.websiteDetailsModel = this.$store.getters.currentWebsiteClone;
+
+            this.websiteDetailsModel = cloneDeep(this.currentWebsite);
 
         }
 
@@ -434,9 +512,6 @@
         font-weight: bold;
     }
 
-    .hidden {
-        display: none
-    }
 
 
 </style>

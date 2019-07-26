@@ -1,4 +1,4 @@
-import Vue from 'vue'
+
 import Router from 'vue-router'
 import Forms from './components/Forms'
 import Settings from './components/Settings'
@@ -10,12 +10,8 @@ import Login from './components/Authentication/Login'
 import Register from './components/Authentication/Register'
 import Recover from './components/Authentication/Recover'
 import Messages from './components/Messages'
-import DemoForm from "./components/DemoForm";
-import Unsubscribe from "./components/Unsubscribe";
-
-
-Vue.use(Router);
-
+import DemoForm from './components/DemoForm'
+import Unsubscribe from './components/Unsubscribe'
 
 let router = new Router({
     mode: 'history',
@@ -31,7 +27,7 @@ let router = new Router({
 
                     path: 'forms',
                     name: 'Forms',
-                    component: Forms,
+                    component: Forms
                 }, {
                     path: 'settings',
                     name: 'Settings',
@@ -47,21 +43,17 @@ let router = new Router({
                 }
             ]
 
-
         },
         {
             path: '/setup',
             name: 'Setup',
-            component: Setup //todo replace
+            component: Setup // todo replace
         },
         {
             path: '/',
             name: 'Home',
             beforeEnter: (to, from, next) => {
-                if (process.env.NODE_ENV === 'development')
-                    window.location.href = '/landing.html'
-                else
-                    window.location.href = '/'
+                if (process.env.NODE_ENV === 'development') { window.location.href = '/landing.html' } else { window.location.href = '/' }
             }
         },
         {
@@ -98,7 +90,6 @@ let router = new Router({
         }
 
     ]
-});
+})
 
-
-export default router;
+export default router

@@ -4,7 +4,7 @@ services:
     image: mongo
     container_name: testing_mongo
     ports:
-      - 27017:27017
+      - 27020:27017
   nginx:
     image: nginx:latest
     container_name: testing_nginx

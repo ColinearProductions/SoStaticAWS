@@ -1,79 +1,117 @@
 <template>
+    <v-row>
+        <v-container
+                v-if="formsCount<1"
+                class="bg fill-height text-center"
+                grid-list-md
+        >
+            <v-row
 
-
-    <v-layout row wrap>
-
-        <v-container v-if="formsCount<1" bg fill-height grid-list-md text-xs-center>
-            <v-layout row wrap align-center>
-                <v-flex>
+                    align="center"
+            >
+                <v-col>
                     <h3 class="display-1 text--secondary text--lighten-3">
                         You have no forms at the moment, click <span class="deep-purple--text text--lighten-3">+</span>
                         to create a form
                     </h3>
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </v-container>
 
+        <form-card
+                v-for="form in currentWebsite.forms"
+                :key="form._id"
+                :form="form"
+                @onEditFormClicked="onEditFormClicked"
+        />
 
-        <FormCard v-for="form in currentWebsiteClone.forms" :key="form._id" v-bind:form="form"
-                  v-on:onEditFormClicked="onEditFormClicked"></FormCard>
-
-        <v-btn fab bottom right color="primary" dark fixed @click="onCreateFormClicked">
+        <v-btn
+                fab
+                bottom
+                right
+                color="primary"
+                fixed
+                @click="onCreateFormClicked"
+        >
             <v-icon>add</v-icon>
         </v-btn>
 
-
-        <v-dialog v-model="dialogModel.visible" width="800px">
-
-
+        <v-dialog
+                v-model="dialogModel.visible"
+                width="800px"
+        >
             <v-card>
-                <v-form v-model="formValidModel" ref="form" @submit.prevent="">
-                    <v-card-title class="grey lighten-4 py-4 title deep-purple--text">
-                        {{dialogModel.title}}
+                <v-form
+                        ref="form"
+                        v-model="formValidModel"
+                        @submit.prevent=""
+                >
+                    <v-card-title class="grey lighten-4 py-6 title deep-purple--text">
+                        {{ dialogModel.title }}
                     </v-card-title>
-                    <v-container grid-list-sm class="pa-5">
-                        <v-layout row wrap>
-                            <v-flex xs12>
+                    <v-container
+                            grid-list-sm
+                            class="pa-12"
+                    >
+                        <v-row>
+                            <v-col cols="12">
                                 <v-text-field
-                                        :rules="[min3, uniqueFormName]" required=""
+                                        v-model="dialogModel.aliasField"
+                                        :rules="[min3, uniqueFormName]"
+                                        required=""
                                         prepend-icon="assignment"
-                                        label="Form alias" v-model="dialogModel.aliasField"
-                                ></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-switch label="Use ReCAPTCHA" :disabled="!currentWebsiteClone.recaptcha"
-                                          v-model="dialogModel.useRecaptcha"
-                                ></v-switch>
-                            </v-flex>
-
-
-                        </v-layout>
+                                        label="Form alias"
+                                />
+                            </v-col>
+                            <v-col cols="12">
+                                <v-switch
+                                        v-model="dialogModel.useRecaptcha"
+                                        label="Use ReCAPTCHA"
+                                        :disabled="!currentWebsite.recaptcha"
+                                />
+                            </v-col>
+                        </v-row>
                     </v-container>
                     <v-card-actions>
-                        <v-btn flat color="red" @click="deleteForm" v-if="dialogModel.update">Delete form</v-btn>
+                        <v-btn
+                                v-if="dialogModel.update"
+                                text
+                                color="red"
+                                @click="deleteForm"
+                        >
+                            Delete form
+                        </v-btn>
 
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="primary" @click="dialogModel.visible = false">Cancel</v-btn>
+                        <v-spacer/>
+                        <v-btn
+                                text
+                                color="primary"
+                                @click="dialogModel.visible = false"
+                        >
+                            Cancel
+                        </v-btn>
 
-                        <v-btn flat color="primary" @click="onAddFormConfirm()" v-text="dialogModel.confirmButton">
+                        <v-btn
+                                text
+                                color="primary"
+                                @click="onAddFormConfirm()"
+                                v-text="dialogModel.confirmButton"
+                        >
                             Create
                         </v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
-
         </v-dialog>
-
-
-    </v-layout>
-
-
+    </v-row>
 </template>
-
 
 <script>
     /* eslint-disable */
     import FormCard from "./FormCard";
+    import rulesMixin from './rulesMixin'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
+
 
     function objToArray(obj) {
         return Object.keys(obj).map(function (key) {
@@ -84,6 +122,9 @@
 
 
     export default {
+        mixins: [
+            rulesMixin
+        ],
         name: "Forms",
         components: {FormCard},
         data: function () {
@@ -103,16 +144,13 @@
             }
         },
         methods: {
-            min3: v => {
-                return v.length >= 3 || 'Field must have more than 3 characters'
-            },
             uniqueFormName: function (v) {
                 let res = true;
 
-                if (this.currentWebsiteClone.forms === undefined)
+                if (this.currentWebsite.forms === undefined)
                     return true;
 
-                Object.values(this.currentWebsiteClone.forms).forEach((form) => {
+                Object.values(this.currentWebsite.forms).forEach((form) => {
                     // if the form didnt change name
                     if (this.dialogModel.formToBeUpdated !== null && this.dialogModel.formToBeUpdated.alias === v)
                         return true;
@@ -128,31 +166,30 @@
                     return;
 
                 if (this.dialogModel.update) {
-                    this.$store.dispatch('updateForm',
-                        {
-                            alias: this.dialogModel.aliasField,
-                            recaptcha: this.dialogModel.useRecaptcha,
-                            form_id: this.dialogModel.formToBeUpdatedId
-                        }
-                    );
+
+                    let payload = {
+                        alias: this.dialogModel.aliasField,
+                        recaptcha: this.dialogModel.useRecaptcha,
+                        form_id: this.dialogModel.formToBeUpdatedId
+                    };
+                    this.updateForm(payload)
 
                 } else {
-                    this.$store.dispatch('addFormToWebsite',
-                        {
-                            alias: this.dialogModel.aliasField,
-                            recaptcha: this.dialogModel.useRecaptcha
-                        }
-                    );
+                    let payload =  {
+                        alias: this.dialogModel.aliasField,
+                        recaptcha: this.dialogModel.useRecaptcha
+                    };
+                    this.addFormToWebsite(payload);
+
 
                 }
                 this.dialogModel.visible = false;
             },
             onCreateFormClicked: function () {
-                PUB = this.currentWebsiteClone;
                 this.dialogModel = {
                     visible: true,
                     useRecaptcha: false,
-                    title: "Add form to " + this.currentWebsiteClone.alias,
+                    title: "Add form to " + this.currentWebsite.alias,
                     confirmButton: "Create",
                     aliasField: "",
                     update: false,
@@ -174,36 +211,32 @@
             },
             deleteForm: function () {
                 let formId = this.dialogModel.formToBeUpdatedId;
-                this.$store.dispatch('deleteForm', formId);
+                this.deleteForm(formId);
                 this.dialogModel.visible = false;
-            }
+            },
+            ...mapActions([
+                'addFormToWebsite','updateForm','deleteForm'
+            ])
         },
         computed: {
-            currentWebsiteClone: function () {
-                return this.$store.getters.currentWebsiteClone;
-            },
             formsCount: function () {
-                if (this.currentWebsiteClone.forms !== undefined && this.currentWebsiteClone.forms !== null)
-                    return objToArray(this.currentWebsiteClone.forms).length;
+                if (this.currentWebsite.forms !== undefined && this.currentWebsite.forms !== null)
+                    return objToArray(this.currentWebsite.forms).length;
                 else
                     return 0;
             },
-            loading(){
-                return this.$store.getters.isDataLoading;
-            }
-
+            ...mapGetters([
+                'currentWebsite'
+            ])
         }
 
 
     }
 
 
-
-
 </script>
 
 <style scoped>
-
 
 
 </style>

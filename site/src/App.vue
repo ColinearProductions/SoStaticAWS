@@ -1,11 +1,8 @@
 <template>
-    <div id="app">
-
-
-        <Loader></Loader>
-        <router-view></router-view>
-        <MSnackBar></MSnackBar>
-    </div>
+  <div id="app">
+    <router-view />
+    <m-snack-bar />
+  </div>
 </template>
 
 <script>
@@ -13,7 +10,6 @@
     import MSnackBar from './components/TinyComponents/MSnackBar';
 
     import Layout from './components/Layout.vue'
-    import Loader from './components/TinyComponents/Loader'
 
     import firebase from 'firebase';
     import axios from 'axios';
@@ -97,7 +93,7 @@
         name: 'app',
         components: {
             MSnackBar,
-            Layout, Loader
+            Layout
         },
         data: function () {
             return {

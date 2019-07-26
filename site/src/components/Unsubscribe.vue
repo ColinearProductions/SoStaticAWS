@@ -1,84 +1,106 @@
 <template>
-    <v-app id="inspire">
+  <v-app id="inspire">
+    <v-content>
+      <v-container
+        class="fill-height"
+        fluid
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="10"
+            sm="6"
+            md="6"
+          >
+            <v-card>
+              <v-card-title class="pl-12 pt-12 pr-12 pb-0">
+                <h2 class=" mb-6 title ">
+                  You are about to unsubscribe from
 
-        <v-content>
-            <v-container fluid fill-height>
-                <v-layout align-center justify-center>
-                    <v-flex xs10 sm6 md6>
-                        <v-card>
-                            <v-card-title class="pl-5 pt-5 pr-5 pb-0">
-                                <h2 class=" mb-4 title ">
-                                    You are about to unsubscribe from
+                  <a href="http://google.com">google.com</a>
+                </h2>
 
-                                    <a href="http://google.com">google.com</a>
-                                </h2>
+                <h1 class="subheading  ">
+                  At the moment, there are 3 websites that have you as a contact for message
+                  forwarding. Please check all websites that you wish to be removed from as a contact
+                </h1>
 
-                                <h1 class="subheading  ">
-                                    At the moment, there are 3 websites that have you as a contact for message
-                                    forwarding. Please check all websites that you wish to be removed from as a contact
-                                </h1>
+                <v-container fluid>
+                  <v-checkbox
+                    v-for="site in sites"
+                    v-model="site.checked"
+                    :label="site.name"
+                  />
+                </v-container>
 
-                                <v-container fluid>
-                                    <v-checkbox v-for="site in sites" v-model="site.checked"
-                                                :label="site.name"></v-checkbox>
-                                </v-container>
+                <h1 class="subheading  ">
+                  If you wish to never receive any messages from any users on SoStatic.xyz, please
+                  check the next checkbox
+                </h1>
+                <v-container fluid>
+                  <v-checkbox
+                    v-model="global"
+                    label="Permanently unsubscribe"
+                  />
+                </v-container>
+              </v-card-title>
 
-                                <h1 class="subheading  ">
-                                    If you wish to never receive any messages from any users on SoStatic.xyz, please
-                                    check the next checkbox
-                                </h1>
-                                <v-container fluid>
-                                    <v-checkbox v-model="global"
-                                                label="Permanently unsubscribe"></v-checkbox>
-                                </v-container>
+              <v-card-actions>
+                <v-btn
+                  text
+                  large
+                  color="primary"
+                >
+                  Cancel
+                </v-btn>
 
-                            </v-card-title>
-
-                            <v-card-actions>
-                                <v-btn flat large color="primary">Cancel</v-btn>
-
-                                <v-spacer></v-spacer>
-                                <v-btn flat large color="primary">Unsubscribe</v-btn>
-                            </v-card-actions>
-
-
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-content>
-    </v-app>
+                <v-spacer />
+                <v-btn
+                  text
+                  large
+                  color="primary"
+                >
+                  Unsubscribe
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-    import * as api from '../API';
+  import * as api from '../API'
 
-    const SERVER = api.SERVER;
+  const SERVER = api.SERVER
 
+  export default {
+    name: 'Unsubsribe',
+    data: function () {
+      return {
+        global: false,
+        sites: [
+          {
+            name: 'google.com',
+            checked: true
+          },
+          {
+            name: 'facebook.com',
+            checked: false
+          },
+          {
+            name: 'reddit.com',
+            checked: false
+          }
 
-    export default {
-        name: "Unsubsribe",
-        data: function () {
-            return {
-                global: false,
-                sites: [
-                    {
-                        name: 'google.com',
-                        checked: true
-                    },
-                    {
-                        name: 'facebook.com',
-                        checked: false
-                    },
-                    {
-                        name: 'reddit.com',
-                        checked: false
-                    },
-
-                ]
-            }
-        }
+        ]
+      }
     }
+  }
 </script>
 
 <style scoped>

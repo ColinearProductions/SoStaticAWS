@@ -31,11 +31,11 @@ router.get('/list', (req, res) => {
         }
     };
 
-    query={};
+   // query={};
     query.valid = true; //todo implementation on client
 
     if (formId !== '-1') //todo or null
-        query.form_id = formId;
+        query.form_id = ObjectID(formId);
 
     if (websiteId !== '-1')
         query.website_id = ObjectID(websiteId);

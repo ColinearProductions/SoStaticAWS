@@ -1,61 +1,86 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-layout row wrap justify-center>
-            <v-flex xl8 md10 xs12 class="pa-2">
-                <v-card>
-                    <v-progress-linear :active="loading" :indeterminate="true"></v-progress-linear>
+  <v-container
+    class="text-center"
+    grid-list-md
+  >
+    <v-row
 
-                    <v-layout row justify-center v-if="!loading">
-                        <v-flex xl10 md10 xs12 class="pa-2">
+      justify="center"
+    >
+      <v-col
+        xl="8"
+        md="10"
+        cols="12"
+        class="pa-2"
+      >
+        <v-card>
+          <v-progress-linear
+            :active="loading"
+            :indeterminate="true"
+          />
 
+          <v-row
+            v-if="!loading"
 
-                            <v-card-text class="pa-4 text-sm-left">
+            justify="center"
+          >
+            <v-col
+              xl="10"
+              md="10"
+              cols="12"
+              class="pa-2"
+            >
+              <v-card-text class="pa-6 text-sm-left">
+                <div class="text-sm-left">
+                  <span class="display-1 deep-purple--text bold">{{ name }}</span><br>
+                </div>
 
+                <v-divider class=" mb-2" />
+                <div class="text-sm-left mb-6">
+                  <span class="subheading grey--text ">   {{ email }}</span>
+                </div>
 
-                                <div class="text-sm-left">
-                                    <span class="display-1 deep-purple--text bold">{{name}}</span><br>
-                                </div>
+                <div class="text-sm-center">
+                  <span
+                    v-if="timerValue"
+                    class="title"
+                  >Your account will be removed {{ humanizedTimerValue }} </span>
+                  <br>
+                  <span
+                    v-if="timerValue"
+                    class="body-2 grey--text "
+                  >{{ formattedTimerValue }} </span>
 
-                                <v-divider class=" mb-2"></v-divider>
-                                <div class="text-sm-left mb-4">
-                                    <span class="subheading grey--text ">   {{email}}</span>
-                                </div>
+                  <v-progress-linear
+                    v-if="timerValue"
+                    :active="true"
+                    :value="progressValue"
+                  />
 
-
-                                <div class="text-sm-center">
-                                    <span class="title" v-if="timerValue">Your account will be removed {{humanizedTimerValue}} </span>
-                                    <br>
-                                    <span class="body-2 grey--text " v-if="timerValue">{{formattedTimerValue}} </span>
-
-
-                                    <v-progress-linear :active="true" :value="progressValue"
-                                                       v-if="timerValue"></v-progress-linear>
-
-                                    <v-btn flat color="red" @click="onCancelDelete" v-if="timerValue">
-                                        Cancel Deletion
-                                    </v-btn>
-                                    <v-btn flat color="red" @click="onDeleteAccount" v-else>
-                                        Delete account
-                                    </v-btn>
-
-
-                                </div>
-
-
-                            </v-card-text>
-
-                        </v-flex>
-                    </v-layout>
-
-                </v-card>
-
-            </v-flex>
-
-
-        </v-layout>
-    </v-container>
-
-
+                  <v-btn
+                    v-if="timerValue"
+                    text
+                    color="red"
+                    @click="onCancelDelete"
+                  >
+                    Cancel Deletion
+                  </v-btn>
+                  <v-btn
+                    v-else
+                    text
+                    color="red"
+                    @click="onDeleteAccount"
+                  >
+                    Delete account
+                  </v-btn>
+                </div>
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
