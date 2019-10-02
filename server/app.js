@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -42,7 +44,8 @@ app.use('/api/users', usersRouter);
 const port = process.env.APP_PORT;
 
 initMongoDB((mongoDb)=>{
-    app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+    app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`));
 });
 
 

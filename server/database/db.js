@@ -4,10 +4,10 @@
 let mongoDB;
 let mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
-let db_url = process.env.DB_ADDRESS;
+let db_url = process.env.DB_PATH;
 
-console.log(process.env);
-console.log(process.env.DB_ADDRESS);
+
+
 
 
 
@@ -15,7 +15,8 @@ console.log(process.env.DB_ADDRESS);
 function initDb(onSuccess){
     //db is mapped in hosts to localhost. in docker to the network shared with the mongo container
 
-    mongoose.connect('mongodb://'+db_url+'/sostatic', {useNewUrlParser: true});
+    console.log("Trying to connect to db " + db_url);
+    mongoose.connect(db_url, { useNewUrlParser: true } );
     mongoDB = mongoose.connection;
     mongoDB.on('error', console.error.bind(console, 'connection error:'));
     mongoDB.once('open', ()=> {
