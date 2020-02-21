@@ -1,4 +1,0 @@
-node_modules
-/.env
-/build_for_gcp.cmd
-/.dockerignore
