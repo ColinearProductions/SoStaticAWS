@@ -1,8 +1,8 @@
 
 import firebase from 'firebase'
 import axios from 'axios'
-const SERVER = process.env.NODE_ENV === 'development' ? 'http://localhost:12345' : 'https://ssttc.xyz'
-axios.defaults.baseURL = SERVER
+const SERVER = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://sostatic.xyz';
+axios.defaults.baseURL = SERVER;
 
 let config = {
     apiKey: 'AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA',
@@ -13,11 +13,11 @@ let config = {
     messagingSenderId: '1045757408696'
 }
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
 function logout () {
     firebase.auth().signOut().then(function () {
-        console.log('Signed Out')
+        console.log('Signed Out');
         window.location.href = '/'
     }, function (error) {
         console.error('Sign Out Error', error)
