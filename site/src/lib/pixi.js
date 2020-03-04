@@ -40584,17 +40584,17 @@ var PIXI = (function (exports) {
     // Install renderer plugins
     Renderer.registerPlugin('accessibility', AccessibilityManager)
     Renderer.registerPlugin('extract', Extract)
-    Renderer.registerPlugin('interaction', InteractionManager)
-    Renderer.registerPlugin('particle', ParticleRenderer)
-    Renderer.registerPlugin('prepare', Prepare)
-    Renderer.registerPlugin('batch', BatchRenderer)
-    Renderer.registerPlugin('tilingSprite', TilingSpriteRenderer)
+    Renderer.registerPlugin('interaction', InteractionManager);
+    Renderer.registerPlugin('particle', ParticleRenderer);
+    Renderer.registerPlugin('prepare', Prepare);
+    Renderer.registerPlugin('batch', BatchRenderer);
+    Renderer.registerPlugin('tilingSprite', TilingSpriteRenderer);
 
-    Loader$2.registerPlugin(BitmapFontLoader)
-    Loader$2.registerPlugin(SpritesheetLoader)
+    Loader$2.registerPlugin(BitmapFontLoader);
+    Loader$2.registerPlugin(SpritesheetLoader);
 
-    Application.registerPlugin(TickerPlugin)
-    Application.registerPlugin(AppLoaderPlugin)
+    Application.registerPlugin(TickerPlugin);
+    Application.registerPlugin(AppLoaderPlugin);
 
     /**
      * String of the current PIXI version.
@@ -40605,7 +40605,7 @@ var PIXI = (function (exports) {
      * @name VERSION
      * @type {string}
      */
-    var VERSION$1 = '5.0.4'
+    var VERSION$1 = '5.0.4';
 
     /**
      * @namespace PIXI
@@ -40646,123 +40646,123 @@ var PIXI = (function (exports) {
         DisplacementFilter: DisplacementFilter,
         FXAAFilter: FXAAFilter,
         NoiseFilter: NoiseFilter
-    }
+    };
 
-    exports.AbstractRenderer = AbstractRenderer
-    exports.AnimatedSprite = AnimatedSprite
-    exports.AppLoaderPlugin = AppLoaderPlugin
-    exports.Application = Application
-    exports.Attribute = Attribute
-    exports.BLEND_MODES = BLEND_MODES
-    exports.BaseRenderTexture = BaseRenderTexture
-    exports.BaseTexture = BaseTexture
-    exports.BatchDrawCall = BatchDrawCall
-    exports.BatchGeometry = BatchGeometry
-    exports.BatchRenderer = BatchRenderer
-    exports.BitmapFontLoader = BitmapFontLoader
-    exports.BitmapText = BitmapText
-    exports.Bounds = Bounds
-    exports.Buffer = Buffer
-    exports.Circle = Circle
-    exports.Container = Container
-    exports.CubeTexture = CubeTexture
-    exports.DEG_TO_RAD = DEG_TO_RAD
-    exports.DRAW_MODES = DRAW_MODES
-    exports.DisplayObject = DisplayObject
-    exports.ENV = ENV
-    exports.Ellipse = Ellipse
-    exports.FORMATS = FORMATS
-    exports.FillStyle = FillStyle
-    exports.Filter = Filter
-    exports.Framebuffer = Framebuffer
-    exports.GC_MODES = GC_MODES
-    exports.GLProgram = GLProgram
-    exports.GLTexture = BaseTexture
-    exports.GRAPHICS_CURVES = GRAPHICS_CURVES
-    exports.Geometry = Geometry
-    exports.Graphics = Graphics
-    exports.GraphicsData = GraphicsData
-    exports.GraphicsGeometry = GraphicsGeometry
-    exports.GroupD8 = GroupD8
-    exports.LineStyle = LineStyle
-    exports.Loader = Loader$2
-    exports.LoaderResource = LoaderResource
-    exports.MIPMAP_MODES = MIPMAP_MODES
-    exports.Matrix = Matrix
-    exports.Mesh = Mesh
-    exports.MeshBatchUvs = MeshBatchUvs
-    exports.MeshGeometry = MeshGeometry
-    exports.MeshMaterial = MeshMaterial
-    exports.NineSlicePlane = NineSlicePlane
-    exports.ObjectRenderer = ObjectRenderer
-    exports.ObservablePoint = ObservablePoint
-    exports.PI_2 = PI_2
-    exports.PRECISION = PRECISION
-    exports.ParticleContainer = ParticleContainer
-    exports.ParticleRenderer = ParticleRenderer
-    exports.PlaneGeometry = PlaneGeometry
-    exports.Point = Point
-    exports.Polygon = Polygon
-    exports.Program = Program
-    exports.Quad = Quad
-    exports.QuadUv = QuadUv
-    exports.RAD_TO_DEG = RAD_TO_DEG
-    exports.RENDERER_TYPE = RENDERER_TYPE
-    exports.Rectangle = Rectangle
-    exports.RenderTexture = RenderTexture
-    exports.Renderer = Renderer
-    exports.RopeGeometry = RopeGeometry
-    exports.RoundedRectangle = RoundedRectangle
-    exports.Runner = Runner
-    exports.SCALE_MODES = SCALE_MODES
-    exports.SHAPES = SHAPES
-    exports.Shader = Shader
-    exports.SimpleMesh = SimpleMesh
-    exports.SimplePlane = SimplePlane
-    exports.SimpleRope = SimpleRope
-    exports.Sprite = Sprite
-    exports.SpriteMaskFilter = SpriteMaskFilter
-    exports.Spritesheet = Spritesheet
-    exports.SpritesheetLoader = SpritesheetLoader
-    exports.State = State
-    exports.System = System
-    exports.TARGETS = TARGETS
-    exports.TEXT_GRADIENT = TEXT_GRADIENT
-    exports.TYPES = TYPES
-    exports.Text = Text
-    exports.TextMetrics = TextMetrics
-    exports.TextStyle = TextStyle
-    exports.Texture = Texture
-    exports.TextureLoader = TextureLoader
-    exports.TextureMatrix = TextureMatrix
-    exports.TextureUvs = TextureUvs
-    exports.Ticker = Ticker
-    exports.TickerPlugin = TickerPlugin
-    exports.TilingSprite = TilingSprite
-    exports.TilingSpriteRenderer = TilingSpriteRenderer
-    exports.Transform = Transform
-    exports.UPDATE_PRIORITY = UPDATE_PRIORITY
-    exports.UniformGroup = UniformGroup
-    exports.VERSION = VERSION$1
-    exports.WRAP_MODES = WRAP_MODES
-    exports.accessibility = accessibility_es
-    exports.autoDetectRenderer = autoDetectRenderer
-    exports.checkMaxIfStatementsInShader = checkMaxIfStatementsInShader
-    exports.defaultFilterVertex = defaultFilter
-    exports.defaultVertex = _default
-    exports.extract = extract_es
-    exports.filters = filters
-    exports.generateMultiTextureShader = generateMultiTextureShader
-    exports.interaction = interaction_es
-    exports.isMobile = isMobile_min
-    exports.prepare = prepare_es
-    exports.resources = index
-    exports.settings = settings
-    exports.systems = systems
-    exports.useDeprecated = useDeprecated
-    exports.utils = utils_es
+    exports.AbstractRenderer = AbstractRenderer;
+    exports.AnimatedSprite = AnimatedSprite;
+    exports.AppLoaderPlugin = AppLoaderPlugin;
+    exports.Application = Application;
+    exports.Attribute = Attribute;
+    exports.BLEND_MODES = BLEND_MODES;
+    exports.BaseRenderTexture = BaseRenderTexture;
+    exports.BaseTexture = BaseTexture;
+    exports.BatchDrawCall = BatchDrawCall;
+    exports.BatchGeometry = BatchGeometry;
+    exports.BatchRenderer = BatchRenderer;
+    exports.BitmapFontLoader = BitmapFontLoader;
+    exports.BitmapText = BitmapText;
+    exports.Bounds = Bounds;
+    exports.Buffer = Buffer;
+    exports.Circle = Circle;
+    exports.Container = Container;
+    exports.CubeTexture = CubeTexture;
+    exports.DEG_TO_RAD = DEG_TO_RAD;
+    exports.DRAW_MODES = DRAW_MODES;
+    exports.DisplayObject = DisplayObject;
+    exports.ENV = ENV;
+    exports.Ellipse = Ellipse;
+    exports.FORMATS = FORMATS;
+    exports.FillStyle = FillStyle;
+    exports.Filter = Filter;
+    exports.Framebuffer = Framebuffer;
+    exports.GC_MODES = GC_MODES;
+    exports.GLProgram = GLProgram;
+    exports.GLTexture = BaseTexture;
+    exports.GRAPHICS_CURVES = GRAPHICS_CURVES;
+    exports.Geometry = Geometry;
+    exports.Graphics = Graphics;
+    exports.GraphicsData = GraphicsData;
+    exports.GraphicsGeometry = GraphicsGeometry;
+    exports.GroupD8 = GroupD8;
+    exports.LineStyle = LineStyle;
+    exports.Loader = Loader$2;
+    exports.LoaderResource = LoaderResource;
+    exports.MIPMAP_MODES = MIPMAP_MODES;
+    exports.Matrix = Matrix;
+    exports.Mesh = Mesh;
+    exports.MeshBatchUvs = MeshBatchUvs;
+    exports.MeshGeometry = MeshGeometry;
+    exports.MeshMaterial = MeshMaterial;
+    exports.NineSlicePlane = NineSlicePlane;
+    exports.ObjectRenderer = ObjectRenderer;
+    exports.ObservablePoint = ObservablePoint;
+    exports.PI_2 = PI_2;
+    exports.PRECISION = PRECISION;
+    exports.ParticleContainer = ParticleContainer;
+    exports.ParticleRenderer = ParticleRenderer;
+    exports.PlaneGeometry = PlaneGeometry;
+    exports.Point = Point;
+    exports.Polygon = Polygon;
+    exports.Program = Program;
+    exports.Quad = Quad;
+    exports.QuadUv = QuadUv;
+    exports.RAD_TO_DEG = RAD_TO_DEG;
+    exports.RENDERER_TYPE = RENDERER_TYPE;
+    exports.Rectangle = Rectangle;
+    exports.RenderTexture = RenderTexture;
+    exports.Renderer = Renderer;
+    exports.RopeGeometry = RopeGeometry;
+    exports.RoundedRectangle = RoundedRectangle;
+    exports.Runner = Runner;
+    exports.SCALE_MODES = SCALE_MODES;
+    exports.SHAPES = SHAPES;
+    exports.Shader = Shader;
+    exports.SimpleMesh = SimpleMesh;
+    exports.SimplePlane = SimplePlane;
+    exports.SimpleRope = SimpleRope;
+    exports.Sprite = Sprite;
+    exports.SpriteMaskFilter = SpriteMaskFilter;
+    exports.Spritesheet = Spritesheet;
+    exports.SpritesheetLoader = SpritesheetLoader;
+    exports.State = State;
+    exports.System = System;
+    exports.TARGETS = TARGETS;
+    exports.TEXT_GRADIENT = TEXT_GRADIENT;
+    exports.TYPES = TYPES;
+    exports.Text = Text;
+    exports.TextMetrics = TextMetrics;
+    exports.TextStyle = TextStyle;
+    exports.Texture = Texture;
+    exports.TextureLoader = TextureLoader;
+    exports.TextureMatrix = TextureMatrix;
+    exports.TextureUvs = TextureUvs;
+    exports.Ticker = Ticker;
+    exports.TickerPlugin = TickerPlugin;
+    exports.TilingSprite = TilingSprite;
+    exports.TilingSpriteRenderer = TilingSpriteRenderer;
+    exports.Transform = Transform;
+    exports.UPDATE_PRIORITY = UPDATE_PRIORITY;
+    exports.UniformGroup = UniformGroup;
+    exports.VERSION = VERSION$1;
+    exports.WRAP_MODES = WRAP_MODES;
+    exports.accessibility = accessibility_es;
+    exports.autoDetectRenderer = autoDetectRenderer;
+    exports.checkMaxIfStatementsInShader = checkMaxIfStatementsInShader;
+    exports.defaultFilterVertex = defaultFilter;
+    exports.defaultVertex = _default;
+    exports.extract = extract_es;
+    exports.filters = filters;
+    exports.generateMultiTextureShader = generateMultiTextureShader;
+    exports.interaction = interaction_es;
+    exports.isMobile = isMobile_min;
+    exports.prepare = prepare_es;
+    exports.resources = index;
+    exports.settings = settings;
+    exports.systems = systems;
+    exports.useDeprecated = useDeprecated;
+    exports.utils = utils_es;
 
     return exports
-}({}))
-PIXI.useDeprecated()
+}({}));
+PIXI.useDeprecated();
 // # sourceMappingURL=pixi.js.map

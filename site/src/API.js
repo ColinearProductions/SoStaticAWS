@@ -11,7 +11,7 @@ let config = {
     projectId: 'sostatic-aws',
     storageBucket: '',
     messagingSenderId: '1045757408696'
-}
+};
 
 firebase.initializeApp(config);
 

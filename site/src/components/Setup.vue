@@ -13,6 +13,7 @@
 
                                 <v-text-field
                                         v-model="website.alias"
+                                        id="website_alias"
                                         label="Website alias"
                                         hint="My awesome website"
                                         :rules="[rules.min3]"
@@ -23,16 +24,16 @@
                             <div v-else-if="current_step===2">
                                 <h1> Step 2. </h1>
                                 <h4 class="pb-6 pt-2">
-                                    Enter the domains of your website separated by comma. Ex: example.com,
-                                    www.example.com,
-                                    example.org, www.example.org
-                                    <br> (If you plan to use the service while locally, add
-                                    localhost as well)
+                                    Enter the domain of your website (You will be able to add subdomains later)
+
+                                    <br> <span style="font-weight: normal">(If you plan to use the service while developing on a localhost, add
+                                    it as well)</span>
                                 </h4>
                                 <v-text-field
+                                        id="website_domains"
                                         v-model="website.domain"
                                         label="Website domain"
-                                        placeholder="Ex: example.com, facebook.com, 127.0.0.1, localhost"
+                                        placeholder="Ex: 127.0.0.1, localhost, facebook.com"
                                         :rules="[rules.min3, rules.domain]"
                                         required=""
                                         autofocus
@@ -56,6 +57,7 @@
                                     >
                                         <v-text-field
                                                 v-model="contact_alias"
+                                                id="contact_alias"
                                                 label="Alias"
                                                 hint="Ex: Joe, Jane, Parzival"
                                                 :rules="[rules.min3]"
@@ -72,6 +74,8 @@
                                     >
                                         <v-text-field
                                                 v-model="contact_email"
+                                                id="contact_email"
+
                                                 label="Email"
                                                 :rules="[rules.email]"
                                                 required
@@ -87,6 +91,7 @@
                                     color="primary"
                                     class="mt-6"
                                     right
+                                    id="next_button"
                                     @click="onNextPressed"
                             >
                                 {{ nextButtonText }}

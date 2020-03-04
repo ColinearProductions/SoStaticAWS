@@ -15,6 +15,14 @@
     <link rel="stylesheet" href="lib/highlight.css">
     <link rel="stylesheet" href="lib/mine.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link href="blob/1.png" rel="preload" as="image">
+    <link href="blob/2.png" rel="preload" as="image">
+    <link href="blob/3.png" rel="preload" as="image">
+    <link href="blob/4.png" rel="preload" as="image">
+    <link href="blob/5.png" rel="preload" as="image">
+    <link href="blob/6.png" rel="preload" as="image">
+    <link href="blob/7.png" rel="preload" as="image">
+
     <style>
         * {
             font-family: 'Prompt', sans-serif;
@@ -321,7 +329,9 @@
             <img class="logo-footer" src="SVG/Logo_dark_full.svg" alt="">
         </div>
         <div class="col-md-6 text-white text-lg-right align-self-center">
-            <p class="my-0"><a href="legal/terms.html">Terms of Service</a> |<a href="legal/privacy.html"> Privacy Policy</a> |<a href="legal/gdpr.html"> GDPR</a></p>            <p class="my-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
+            <p class="my-0"><a href="legal/terms.html">Terms of Service</a> |<a href="legal/privacy.html"> Privacy
+                Policy</a> |<a href="legal/gdpr.html"> GDPR</a></p>
+            <p class="my-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
             <p class="my-0"> SoStatic 2019</p>
 
         </div>
@@ -342,6 +352,8 @@
 <script>hljs.initHighlightingOnLoad();</script>
 
 <script>
+
+
     let config = {
         apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
         authDomain: "sostatic-aws.firebaseapp.com",
@@ -412,19 +424,54 @@
     const animationlist = new Ease.Ease();
 
 
-    for (let i = 6; i >= 0; i--) {
+    let loader = PIXI.Loader.shared;
 
-        let texture = PIXI.Texture.from(`blob/${i + 1}.png`);
-        let blob = app.stage.addChild(new PIXI.Sprite(texture));
-        blob.position.set(1000, -100);
+    for (let i = 6; i >= 0; i--)
+        loader.add(`blob/${i + 1}.png`);
+    loader.load();
 
-        animationlist.add(blob, {x: 930 + i * 10, y: -100}, {
-            duration: 10000,
-            reverse: true,
-            repeat: true,
-            ease: 'easeInOutSine'
-        })
+    let blobs = [];
+
+
+    loader.onComplete.add(() => {
+
+        for (let i = 6; i >= 0; i--) {
+            let texture = loader.resources[`blob/${i + 1}.png`].texture;
+            let blob = app.stage.addChild(new PIXI.Sprite(texture));
+            blob.position.set(1000, -100);
+
+            blob.alpha = 0;
+            blobs.push(blob);
+
+            animationlist.add(blob, {x: 930 + i * 10, y: -100}, {
+                duration: 10000,
+                reverse: true,
+                repeat: true,
+                ease: 'easeInOutSine'
+            });
+
+
+        }
+
+        fadeBlob(0);
+
+
+    });
+
+    function fadeBlob(index) {
+        animationlist.add(blobs[index], {alpha: 1}, {
+            duration: 200+100*index,
+            ease: 'easeInQuad',
+            wait: 100 * index
+        });
+
+
+        if (index < blobs.length)
+            fadeBlob(index + 1)
+
+
     }
+
 
     window.addEventListener('resize', resize);
 

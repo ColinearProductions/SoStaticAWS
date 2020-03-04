@@ -24,7 +24,6 @@ let router = new Router({
 
             children: [
                 {
-
                     path: 'forms',
                     name: 'Forms',
                     component: Forms

@@ -11,10 +11,6 @@ import Vuetify from 'vuetify/lib'
 import Router from 'vue-router'
 
 
-import VueClipboards from "vue-clipboards";
-
-Vue.use(VueClipboards);
-
 Vue.use(VueHighlightJS);
 Vue.use(VeeValidate);
 Vue.use(VuetifyConfirm, { color: 'red', width: 700 });
@@ -47,4 +43,4 @@ new Vue({
     vuetify: new Vuetify(vuetifyOptions),
     router,
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

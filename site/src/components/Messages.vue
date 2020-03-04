@@ -179,7 +179,7 @@
                                                             <v-btn
                                                                     class="ma-0 mb-1 align-end "
                                                                     color="primary"
-                                                                    flat
+                                                                    text
                                                                     small
                                                             >
                                                                 <v-icon class="pr-4">reply</v-icon>
@@ -256,7 +256,7 @@
 
     import moment from 'moment'
     import * as api from '../API'
-    import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import {mapGetters} from 'vuex'
     import rulesMixin from './rulesMixin'
 
 
@@ -294,7 +294,6 @@
         },
         computed: {
             listOfForms: function () {
-                console.log('*******', this.currentWebsite.forms);
                 let res = [];
                 res.push({'id': -1, 'alias': 'All'});
 
