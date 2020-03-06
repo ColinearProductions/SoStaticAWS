@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+
+    <style>
+        .key {
+            font-family: Tahoma, Geneva, sans-serif;
+            font-weight: 700;
+
+        }
+
+        .value {
+            font-family: Tahoma, Geneva, sans-serif;
+            font-weight: 400;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid rgb(224, 224, 224);
+        }
+
+        table {
+            border-spacing: 0
+        }
+
+        a{
+            font-weight:700;
+        }
+
+        .colored{
+            color: #7e57c2;
+        }
+    </style>
+
+</head>
+<body style="margin:0">
+<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-spacing: 0;">
+    <tr>
+        <td align="center" valign="top">
+            <table border="0" cellpadding="20" cellspacing="0" width="" id="emailContainer" style="border-spacing: 0;">
+                <tr>
+                    <td align="center" valign="top" style="padding:0;">
+                        <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailHeader" style="border-spacing: 0;">
+                            <tr>
+                                <td align="center" valign="top" style="padding:0;">
+                                    <img src="https://app.sostatic.xyz/email_banner.png">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" valign="top" style="padding:0;padding-top:20px;">
+                        <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailBody" style="padding: 0;border-spacing: 0;">
+                            <tr>
+                                <td align="center" valign="top" style="padding:0">
+
+                                    <div style="width:100%;padding-bottom:20px">
+                                        <h1 class="key" style="margin-top: 0;font-family: Tahoma, Geneva, sans-serif;font-weight: 700;">New message on your website <br> {{alias}}
+                                        </h1>
+                                        <h3 class="key" style="font-family: Tahoma, Geneva, sans-serif;font-weight: 700;">Form: {{formAlias}}</h3>
+                                    </div>
+                                    <table style="max-width: 600px;border-spacing: 0;">
+                                        <tr>
+                                            <th class="key border-bottom" style="font-family: Tahoma, Geneva, sans-serif;font-weight: 700;border-bottom: 1px solid rgb(224, 224, 224);"><h3>Key</h3></th>
+                                            <th class="key border-bottom" style="font-family: Tahoma, Geneva, sans-serif;font-weight: 700;border-bottom: 1px solid rgb(224, 224, 224);"><h3>Value</h3></th>
+
+                                        </tr>
+                                        {{#entries}}
+                                        <tr>
+                                            <td class="key border-bottom" style="padding: 15px;font-family: Tahoma, Geneva, sans-serif;font-weight: 700;border-bottom: 1px solid rgb(224, 224, 224);" valign="top">
+                                                <strong>
+                                                    {{key}}
+                                                </strong>
+                                            </td>
+                                            <td class="value border-bottom" style="padding: 15px;font-family: Tahoma, Geneva, sans-serif;font-weight: 400;border-bottom: 1px solid rgb(224, 224, 224);">
+                                                {{value}}
+
+                                            </td>
+
+                                        </tr>
+                                        {{/entries}}
+
+                                    </table>
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" valign="top">
+                        <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailFooter" style="border-spacing: 0;">
+                            <tr>
+                                <td align="center" valign="top">
+                                    <p class="value" style="margin: 5px;font-family: Tahoma, Geneva, sans-serif;font-weight: 400;"> Email sent by <a class="colored" href="https://sostatic.xyz" style="font-weight: 700;color: #7e57c2;">So Static</a></p>
+                                    <p class="value" style="margin: 5px;font-family: Tahoma, Geneva, sans-serif;font-weight: 400;">You are receieving this email because you have been listed as a contact email for
+                                        the website <a class="colored" href="{{websiteurl}}" style="font-weight: 700;color: #7e57c2;">{{websiteurl}}</a></p>
+                                    <p class="value" style="margin: 5px;font-family: Tahoma, Geneva, sans-serif;font-weight: 400;"> If you believe this was a mistake, you can stop these emails <a class="colored" href="{{unsubscribeUrl}}" style="font-weight: 700;color: #7e57c2;">
+                                        here </a></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

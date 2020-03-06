@@ -1,0 +1,47 @@
+{
+  "name": "so-static-heroku",
+  "version": "0.3.0",
+  "description": "So Static",
+  "engines": {
+    "node": "12.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node app -r dotenv/config",
+    "test-email": "node sendgrid -r dotenv/config",
+    "heroku-local": "heroku local web",
+    "heroku-deploy": "git add . && git commit -m \"new commit\" && git push heroku master && heroku open",
+    "heroku-open": "heroku open",
+    "heroku-log": "heroku logs --tail"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "firebase-admin": "^6.4.0",
+    "mongodb": "^3.1.10",
+    "morgan": "~1.9.0",
+    "mustache": "^3.0.1",
+    "nodemailer": "^5.0.0",
+    "request-promise": "^4.2.2",
+    "cors": "latest",
+    "dotenv": "^7.0.0",
+    "@sendgrid/mail": "^6.3.1",
+    "mongoose": "^5.5.12"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
