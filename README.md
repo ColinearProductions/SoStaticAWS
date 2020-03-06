@@ -1,0 +1,1 @@
+[![SoStatic](https://app.sostatic.xyz/GithubPreview.png "SoStatic")](https://app.sostatic.xyz "SoStatic")
