@@ -144,7 +144,7 @@
                                                 prepend-icon="assignment"
                                                 label="Site key"
                                                 :rules="[requiredIf]"
-                                                :type="hideRecaptchaSiteKey?'password':'text'"
+                                                type="text"
                                                 append-outer-icon="remove_red_eye"
                                                 @click:append-outer="hideRecaptchaSiteKey = !hideRecaptchaSiteKey"
 
@@ -156,7 +156,7 @@
                                                 prepend-icon="assignment"
                                                 label="Secret"
                                                 :rules="[requiredIf]"
-                                                :type="hideRecaptchaSecretKey?'password':'text'"
+                                                type="text"
                                                 append-outer-icon="remove_red_eye"
                                                 @click:append-outer="hideRecaptchaSecretKey = !hideRecaptchaSecretKey"
                                                 @keyup="onWebsiteModelChanged"

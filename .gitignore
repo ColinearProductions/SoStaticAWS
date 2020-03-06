@@ -1,6 +1,2 @@
-.idea
+*.cmd
 firebase_pkey.json
-/site/node_modules/
-*.env
-/server/node_modules/
-/site/dist/
