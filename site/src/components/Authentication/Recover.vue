@@ -36,7 +36,7 @@
 <script>
 
   import * as api from '../../API'
-
+  //todo show feedback
   export default {
     name: 'Forgot',
     data: function () {

@@ -118,6 +118,8 @@ const actions = {
     },
     createWebsite: (context, website) => {
         console.log(website);
+        context.commit('setCreateWebsiteDialogVisibility', true);
+        context.commit('setLoaderVisibility', true);
 
         api.createWebsite(website).then(response => {
             context.commit('addWebsite', response.data);
@@ -130,10 +132,11 @@ const actions = {
             });
 
             context.commit('showSnackbar', 'Form ' + website.alias + ' created successfully');
-
             context.commit('setCreateWebsiteDialogVisibility', false)
         }).catch((reason) => {
             console.log(reason)
+        }).finally(()=>{
+            context.commit('setLoaderVisibility', false);
         })
     },
     deleteWebsite: (context, websiteId) => {

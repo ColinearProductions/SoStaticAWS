@@ -321,8 +321,6 @@
     </div>
 
 </main>
-
-
 <footer class="bg-dark mt-5 py-3">
     <div class="row text-center  col-lg-8 offset-lg-2 col-md-12 p-0">
         <div class="col-md-6 text-lg-left align-self-center ">
@@ -412,14 +410,80 @@
 </script>
 
 <script>
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    const centerX = windowWidth / 2;
+    const centerY = windowHeight / 2;
 
 
     const app = new PIXI.Application({
-        width: window.innerWidth, height: window.innerHeight * 1.5,
+        width: windowWidth, height: windowHeight * 1.5,
         // backgroundColor: 0xcccccc
         transparent: true
     });
     document.getElementById('pixis').appendChild(app.view);
+
+    document.addEventListener("mousemove", onMouseMove, false);
+
+
+    let ticking = false;
+
+    let scrollOffsetY = 0;
+    let mousePositionX = 0;
+    let mousePositionY = 0;
+    let blobOffsetX = 1000;
+    let blobOffsetY = -100;
+
+    function onMouseMove(event) {
+
+        mousePositionX = event.clientX;
+        mousePositionY = event.clientY;
+        if (!ticking) {
+            window.requestAnimationFrame(function () {
+
+                redraw();
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+
+
+    }
+
+    function redraw() {
+        let xWitHOffset = (centerX - mousePositionX) * 2;
+        let yWithOffset = (centerY - mousePositionY) * 2;
+        console.log(xWitHOffset, yWithOffset, scrollOffsetY, yWithOffset+scrollOffsetY);
+
+        for (let i = 0; i < blobs.length; i++) {
+            let blob = blobs[i];
+            let damper = (blobs.length - (i)) / (150);
+
+
+            blob.position.set((blobOffsetX/2) + blobCenterX + xWitHOffset * damper,(blobOffsetY/2)+ blobCenterY + (yWithOffset * damper) - scrollOffsetY*damper*3)
+            //blob.position.set(blobCenterX + xWitHOffset * damper, scrollOffsetY*damper*5);
+        }
+    }
+
+
+    window.addEventListener('scroll', function (e) {
+        scrollOffsetY = window.scrollY;
+
+        if (!ticking) {
+            window.requestAnimationFrame(function () {
+
+                redraw();
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    });
+
+
+    const stage = app.stage;
+
 
     const animationlist = new Ease.Ease();
 
@@ -432,24 +496,30 @@
 
     let blobs = [];
 
+    let blobCenterX = 0;
+    let blobCenterY = 0;
 
     loader.onComplete.add(() => {
 
         for (let i = 6; i >= 0; i--) {
             let texture = loader.resources[`blob/${i + 1}.png`].texture;
-            let blob = app.stage.addChild(new PIXI.Sprite(texture));
-            blob.position.set(1000, -100);
+            let blob = stage.addChild(new PIXI.Sprite(texture));
+            blob.position.set(blobOffsetX, blobOffsetY);
+            blobCenterX = blob.position.x / 2;
+            blobCenterY = blob.position.y / 2;
 
             blob.alpha = 0;
             blobs.push(blob);
 
+
+            /*
             animationlist.add(blob, {x: 930 + i * 10, y: -100}, {
                 duration: 10000,
                 reverse: true,
                 repeat: true,
                 ease: 'easeInOutSine'
             });
-
+            */
 
         }
 
@@ -460,7 +530,7 @@
 
     function fadeBlob(index) {
         animationlist.add(blobs[index], {alpha: 1}, {
-            duration: 200+100*index,
+            duration: 200 + 100 * index,
             ease: 'easeInQuad',
             wait: 100 * index
         });

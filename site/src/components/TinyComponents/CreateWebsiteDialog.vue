@@ -6,7 +6,7 @@
     >
         <v-card class="px-5 pt-5">
             <v-progress-linear
-                    v-if="loading"
+                    v-if="getLoaderVisible"
                     height="3"
                     class="mt-1"
             />
@@ -84,7 +84,6 @@
                 </v-btn>
 
 
-                </v-btn>
 
                 <v-spacer/>
                 <v-btn
@@ -103,6 +102,7 @@
 
 
     import ruleMixin from '../rulesMixin'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
 
 
     export default {
@@ -121,7 +121,7 @@
                 },
                 formValidModel: false,
                 visible: true,
-                loading: false,
+
                 domain: '',
 
             }
@@ -138,11 +138,10 @@
                 this.$refs.form.validate();
                 if (this.formValidModel) {
 
-                    this.loading = true;
+
                     this.website.contacts = [this.website.contacts];
                     this.website.domains = [{name: this.domain}];
                     this.$store.dispatch("createWebsite", this.website);
-
 
                 }
 
@@ -151,8 +150,11 @@
                 this.$store.commit("setCreateWebsiteDialogVisibility", false);
                 this.formValidModel = false;
 
-            }
+            },
 
+        },
+        computed:{
+            ...mapGetters(['getLoaderVisible'])
         }
     }
 </script>
