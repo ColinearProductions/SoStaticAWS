@@ -30,6 +30,7 @@
                 <v-container fluid>
                   <v-checkbox
                     v-for="site in sites"
+                    v-bind:key="site.name"
                     v-model="site.checked"
                     :label="site.name"
                   />

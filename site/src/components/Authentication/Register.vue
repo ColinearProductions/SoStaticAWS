@@ -106,7 +106,7 @@
                 api.register(this.email, this.password).then(() => {
                     let user = firebase.auth().currentUser
                     user.updateProfile({
-                        displayName: '' + displayName
+                        displayName: '' + this.displayName
                     }).then(() => {
                         router.push({
                             name: 'Settings',

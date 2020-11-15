@@ -63,6 +63,7 @@
 
                                         <v-chip
                                                 v-for="(domain,index) in websiteDetailsModel.domains"
+                                                v-bind:key="index"
                                                 outlined
                                                 color="primary"
                                                 class="mr-2"
@@ -177,7 +178,7 @@
                                     </div>
                                     <v-row
                                             v-for="(contact,index) in websiteDetailsModel.contacts"
-                                            :key="index"
+                                            v-bind:key="index"
                                     >
                                         <v-col
                                                 cols="5"
@@ -272,237 +273,237 @@
 </template>
 
 <script>
-    /* eslint-disable */
+	/* eslint-disable */
 
-    import * as validateDomain from 'is-valid-domain'
-    import cloneDeep from 'lodash.clonedeep'
-    import rulesMixin from './rulesMixin'
+	import * as validateDomain from 'is-valid-domain'
+	import cloneDeep from 'lodash.clonedeep'
+	import rulesMixin from './rulesMixin'
 
-    import {mapGetters, mapActions, mapMutations} from 'vuex'
+	import {mapGetters, mapActions, mapMutations} from 'vuex'
 
-    //todo on recaptcha, add a server function to check if the keypair is functional
+	//todo on recaptcha, add a server function to check if the keypair is functional
 
-    export default {
-        mixins:[rulesMixin],
-        name: "Settings",
-        data: function () {
-            return {
-                domainInputVisible: false,
-                websiteDetailsModel: {},
-                formValidModel: false,
-                addDomainError: {
-                    showError: false,
-                    message: '',
-                    generalError:''
-                },
-                currentDomainInput: '',
-                hideRecaptchaSecretKey: true,
-                hideRecaptchaSiteKey: false
+	export default {
+		mixins: [rulesMixin],
+		name: "Settings",
+		data: function () {
+			return {
+				domainInputVisible: false,
+				websiteDetailsModel: {},
+				formValidModel: false,
+				addDomainError: {
+					showError: false,
+					message: '',
+					generalError: ''
+				},
+				currentDomainInput: '',
+				hideRecaptchaSecretKey: true,
+				hideRecaptchaSiteKey: false
 
-            }
-        },
-        methods: {
+			}
+		},
+		methods: {
 
-            onDomainRemoveClicked: function (domainIndex) {
-                this.websiteDetailsModel.domains.splice(domainIndex, 1);
-                this.setPendingModification(true);
-            },
-            onAddDomainPressed: function () {
+			onDomainRemoveClicked: function (domainIndex) {
+				this.websiteDetailsModel.domains.splice(domainIndex, 1);
+				this.setPendingModification(true);
+			},
+			onAddDomainPressed: function () {
 
-                this.addDomainError.showError = false;
-                this.addDomainError.message = '';
-
-
-                let domain = this.currentDomainInput;
-                domain = domain.replace(/(^\w+:|^)\/\//, '');
-                domain = domain.trim().toLowerCase();
-
-                let domainValid = validateDomain(domain);
-                domainValid = domainValid || domain === 'localhost' || domain === '127.0.0.1';
+				this.addDomainError.showError = false;
+				this.addDomainError.message = '';
 
 
-                if (this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on).find(d => d.name === domain) !== undefined) {
-                    this.addDomainError.showError = true;
-                    this.addDomainError.message = 'Domain already in list';
-                    return
-                }
+				let domain = this.currentDomainInput;
+				domain = domain.replace(/(^\w+:|^)\/\//, '');
+				domain = domain.trim().toLowerCase();
 
-                if (domainValid) {
-                    this.websiteDetailsModel.domains.push({on: true, name: domain});
-                    this.setPendingModification(true);
-                    this.currentDomainInput = '';
-                    this.addDomainError.showError = false;
-                    this.addDomainError.message = '';
-                } else {
-                    this.addDomainError.showError = true;
-                    this.addDomainError.message = 'Not a valid domain name';
-
-                }
+				let domainValid = validateDomain(domain);
+				domainValid = domainValid || domain === 'localhost' || domain === '127.0.0.1';
 
 
-            },
-            addContact: function () {
+				if (this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on).find(d => d.name === domain) !== undefined) {
+					this.addDomainError.showError = true;
+					this.addDomainError.message = 'Domain already in list';
+					return
+				}
 
-                this.websiteDetailsModel.contacts.push({alias: "", email: ""});
-                this.onWebsiteModelChanged();
-            },
-            onWebsiteModelChanged: function () {
-                this.$refs.form.validate();
-                console.log("ON Detail Model Changed");
-                let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'contacts'];
-                let isChanged = !isEquivalent(this.websiteDetailsModel, this.currentWebsite, props, ['alias', 'email']);
+				if (domainValid) {
+					this.websiteDetailsModel.domains.push({on: true, name: domain});
+					this.setPendingModification(true);
+					this.currentDomainInput = '';
+					this.addDomainError.showError = false;
+					this.addDomainError.message = '';
+				} else {
+					this.addDomainError.showError = true;
+					this.addDomainError.message = 'Not a valid domain name';
 
-                this.setPendingModification(isChanged);
+				}
 
-            },
-            onDeleteWebsiteClicked: function () {
-                this.$confirm(
-                    `This action is irreversible and will result in the permanent loss of all the messages archived for this website and all your settings. <br>
+
+			},
+			addContact: function () {
+
+				this.websiteDetailsModel.contacts.push({alias: "", email: ""});
+				this.onWebsiteModelChanged();
+			},
+			onWebsiteModelChanged: function () {
+				this.$refs.form.validate();
+				console.log("ON Detail Model Changed");
+				let props = ['alias', 'httpsOnly', 'recaptcha', 'secret', 'sitekey', 'contacts'];
+				let isChanged = !isEquivalent(this.websiteDetailsModel, this.currentWebsite, props, ['alias', 'email']);
+
+				this.setPendingModification(isChanged);
+
+			},
+			onDeleteWebsiteClicked: function () {
+				this.$confirm(
+					`This action is irreversible and will result in the permanent loss of all the messages archived for this website and all your settings. <br>
                      This action will take effect immediately`, {title: 'Are you sure you want to delete this website?'}).then(res => {
-                    if (res) {
-                        this.deleteWebsite(this.websiteDetailsModel._id);
-                    }
+					if (res) {
+						this.deleteWebsite(this.websiteDetailsModel._id);
+					}
 
-                })
-            },
-            onSavePressed: function () {
-                //todo if no domains, show error message
-                this.$refs.form.validate();
-
-
-                if (this.formValidModel) {
-
-                    let validDomains = this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on);
+				})
+			},
+			onSavePressed: function () {
+				//todo if no domains, show error message
+				this.$refs.form.validate();
 
 
-                    if (validDomains < 1) {
-                        this.domainInputVisible=true;
-                        this.addDomainError.showError = true;
-                        this.addDomainError.message = 'You must add at least one domain';
-                        return;
-                    }
+				if (this.formValidModel) {
 
-                    this.websiteDetailsModel.domains = validDomains;
+					let validDomains = this.websiteDetailsModel.domains.filter(d => d.on === undefined || d.on);
 
 
-                    console.log(this.websiteDetailsModel.domains);
-                    this.updateWebsite(this.websiteDetailsModel);
-                    this.addDomainError.showError = false;
+					if (validDomains < 1) {
+						this.domainInputVisible = true;
+						this.addDomainError.showError = true;
+						this.addDomainError.message = 'You must add at least one domain';
+						return;
+					}
+
+					this.websiteDetailsModel.domains = validDomains;
 
 
-                }
+					console.log(this.websiteDetailsModel.domains);
+					this.updateWebsite(this.websiteDetailsModel);
+					this.addDomainError.showError = false;
 
 
-            },
-            onDiscardPressed: function () {
-                this.websiteDetailsModel = cloneDeep(this.currentWebsite);
-                this.domainInputVisible=false;
-                this.setPendingModification(false);
-
-            },
-            removeContact: function (index) {
-                this.websiteDetailsModel.contacts.splice(index, 1);
-                this.onWebsiteModelChanged();
-            },
-            //RULES
-            requiredIf: function (value) {
-                if (this.websiteDetailsModel.recaptcha)
-                    return !(value === undefined || value === null || value === '') || "This field is required";
-                else
-                    return true;
-            },
-            ...mapMutations([
-                'setPendingModification'
-            ]),
-            ...mapActions([
-                'updateWebsite','deleteWebsite'
-            ])
+				}
 
 
-        },
-        watch: {
-            'currentWebsite': function () {
-                this.websiteDetailsModel = cloneDeep(this.currentWebsite);
-                this.setPendingModification(false);
+			},
+			onDiscardPressed: function () {
+				this.websiteDetailsModel = cloneDeep(this.currentWebsite);
+				this.domainInputVisible = false;
+				this.setPendingModification(false);
 
-            }
-        },
-        computed: {
+			},
+			removeContact: function (index) {
+				this.websiteDetailsModel.contacts.splice(index, 1);
+				this.onWebsiteModelChanged();
+			},
+			//RULES
+			requiredIf: function (value) {
+				if (this.websiteDetailsModel.recaptcha)
+					return !(value === undefined || value === null || value === '') || "This field is required";
+				else
+					return true;
+			},
+			...mapMutations([
+				'setPendingModification'
+			]),
+			...mapActions([
+				'updateWebsite', 'deleteWebsite'
+			])
 
-            ...mapGetters([
-                'currentWebsite',
-                'getPendingModification',
-                'isDataLoading'
 
-            ]),
-            recaptchaLocked() {
-                if (!this.websiteDetailsModel.recaptcha) //if recaptcha is not yet enabled there is no reason to lock it.
-                    return false;
-                else {
-                    return this.countFormsUsingRecaptcha > 0;
-                }
-            },
-            countFormsUsingRecaptcha() {
-                return this.websiteDetailsModel.forms.filter(form => form.recaptcha).length;
-            },
-            recaptchaSwitchLabel() {
-                if (this.recaptchaLocked) {
-                    return `Use ReCAPTCHA - ${this.countFormsUsingRecaptcha} forms are using ReCaptcha`
-                } else {
-                    return `Use ReCAPTCHA `
-                }
-            }
-        },
-        beforeMount: function () {
+		},
+		watch: {
+			'currentWebsite': function () {
+				this.websiteDetailsModel = cloneDeep(this.currentWebsite);
+				this.setPendingModification(false);
 
-            this.websiteDetailsModel = cloneDeep(this.currentWebsite);
+			}
+		},
+		computed: {
 
-        }
+			...mapGetters([
+				'currentWebsite',
+				'getPendingModification',
+				'isDataLoading'
 
-    }
+			]),
+			recaptchaLocked() {
+				if (!this.websiteDetailsModel.recaptcha) //if recaptcha is not yet enabled there is no reason to lock it.
+					return false;
+				else {
+					return this.countFormsUsingRecaptcha > 0;
+				}
+			},
+			countFormsUsingRecaptcha() {
+				return this.websiteDetailsModel.forms.filter(form => form.recaptcha).length;
+			},
+			recaptchaSwitchLabel() {
+				if (this.recaptchaLocked) {
+					return `Use ReCAPTCHA - ${this.countFormsUsingRecaptcha} forms are using ReCaptcha`
+				} else {
+					return `Use ReCAPTCHA `
+				}
+			}
+		},
+		beforeMount: function () {
 
-    /* eslint-disable */
+			this.websiteDetailsModel = cloneDeep(this.currentWebsite);
 
-    function isEquivalent(a, b, props, subprops) {
-        // Create arrays of property names
-        let aProps = props;
+		}
 
-        for (let i = 0; i < aProps.length; i++) {
-            let propName = aProps[i];
+	}
 
-            // If values of same property are not equal,
-            // objects are not equivalent
+	/* eslint-disable */
 
-            if (Array.isArray(a[propName])) {
+	function isEquivalent(a, b, props, subprops) {
+		// Create arrays of property names
+		let aProps = props;
 
-                if (a[propName].length !== b[propName].length) {
-                    console.log("Not equivalent because", propName, 'has a different length');
-                    return false;
-                }
-                for (let i = 0; i < a[propName].length; i++) {
-                    let result = true;
-                    subprops.forEach((subprop) => {
-                        if (a[propName][i][subprop] !== b[propName][i][subprop]) {
-                            console.log("Not equivalent because", propName, '[', i, ']', a[propName][i][subprop], b[propName][i][subprop]);
-                            result = result && false;
-                        }
-                    });
+		for (let i = 0; i < aProps.length; i++) {
+			let propName = aProps[i];
 
-                    if (result === false)
-                        return false;
+			// If values of same property are not equal,
+			// objects are not equivalent
 
-                }
+			if (Array.isArray(a[propName])) {
 
-            } else if (a[propName] !== b[propName]) {
-                console.log("Not equivalent because", propName, a[propName], b[propName]);
-                return false;
-            }
-        }
+				if (a[propName].length !== b[propName].length) {
+					console.log("Not equivalent because", propName, 'has a different length');
+					return false;
+				}
+				for (let i = 0; i < a[propName].length; i++) {
+					let result = true;
+					subprops.forEach((subprop) => {
+						if (a[propName][i][subprop] !== b[propName][i][subprop]) {
+							console.log("Not equivalent because", propName, '[', i, ']', a[propName][i][subprop], b[propName][i][subprop]);
+							result = result && false;
+						}
+					});
 
-        // If we made it this far, objects
-        // are considered equivalent
-        return true;
-    }
+					if (result === false)
+						return false;
+
+				}
+
+			} else if (a[propName] !== b[propName]) {
+				console.log("Not equivalent because", propName, a[propName], b[propName]);
+				return false;
+			}
+		}
+
+		// If we made it this far, objects
+		// are considered equivalent
+		return true;
+	}
 
 
 </script>
@@ -511,7 +512,6 @@
     .bold {
         font-weight: bold;
     }
-
 
 
 </style>

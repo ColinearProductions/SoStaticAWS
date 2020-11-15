@@ -1,6 +1,4 @@
 
-
-
 .row {
     margin: 0 !important;
 }
@@ -32,6 +30,10 @@
     box-shadow: 1px 1px 5px -1px rgba(0, 0, 0, 0.63);
 }
 
+.btn-primary:hover{
+    background-color: #483ffc;
+}
+
 .btn-outline-primary {
     background-color: transparent;
     color: #6E76EE;
@@ -52,6 +54,8 @@ a:active {
     background-color: #6E76EE !important;
     border-color: #747cff !important;
 }
+
+
 
 .btn-outline-primary:hover {
     background-color: #6E76EE;
@@ -216,3 +220,71 @@ h6 {
 }
 
 
+/*
+Pricing CSS
+ */
+
+
+
+.pricing .card {
+    border: 1px solid rgba(110, 118, 238, 0.53);
+    border-radius: .3rem;
+    transition: all 0.2s;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.pricing hr {
+    margin: 1.5rem 0;
+}
+
+.pricing .card-title {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+}
+
+.pricing .card-price {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.pricing .card-price .period {
+    font-size: 0.8rem;
+}
+
+.pricing ul li {
+    margin-bottom: 1rem;
+}
+
+.pricing .text-muted {
+    opacity: 0.7;
+}
+
+.pricing .btn {
+    font-size: 80%;
+    border-radius: .3rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    opacity: 0.7;
+    transition: all 0.2s;
+}
+
+.pricing .btn:focus{
+    box-shadow: none;
+}
+
+/* Hover Effects on Card */
+
+@media (min-width: 992px) {
+    .pricing .card:hover {
+        margin-top: -.25rem;
+        margin-bottom: .25rem;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, .3);
+    }
+
+    .pricing .card:hover .btn {
+        opacity: 1;
+    }
+}

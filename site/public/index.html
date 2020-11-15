@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <link rel="shortcut icon" href="<%= BASE_URL %>favicon.ico" type="image/x-icon"/>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+	<link rel="shortcut icon" href="<%= BASE_URL %>favicon.ico" type="image/x-icon"/>
 
-    <link rel="stylesheet" href="<%= BASE_URL %>lib/highlight.css">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143292193-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+	<link rel="stylesheet" href="<%= BASE_URL %>lib/highlight.css">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-143292193-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
 
-        gtag('config', 'UA-143292193-1');
-    </script>
+		function gtag() {
+			dataLayer.push(arguments);
+		}
 
-    <title>So Static</title>
+		gtag('js', new Date());
+
+		gtag('config', 'UA-143292193-1');
+	</script>
+
+	<title>So Static</title>
 </head>
 <body>
 <noscript>
-    <strong>We're sorry but vue-sostatics doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+	<strong>We're sorry but vue-sostatics doesn't work properly without JavaScript enabled. Please enable it to
+		continue.</strong>
 </noscript>
 <div id="app"></div>
 <!-- built files will be auto injected -->
 </body>
 
 <script>
-    let PUB = null;
+	let PUB = null;
 </script>
-
 
 
 </html>

@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>SoStatic | Form backend for static websites with email forwarding</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="UTF-8">
+	<title>SoStatic | Form backend for static websites with email forwarding</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <meta name="description"
-          content="Free form submission backend for static websites with email forwarding and ReCaptcha support"/>
+	<meta name="description"
+		  content="Free form submission backend for static websites with email forwarding "/>
 
-    <link rel="stylesheet" href="lib/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="lib/highlight.css">
-    <link rel="stylesheet" href="lib/mine.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <link href="blob/1.png" rel="preload" as="image">
-    <link href="blob/2.png" rel="preload" as="image">
-    <link href="blob/3.png" rel="preload" as="image">
-    <link href="blob/4.png" rel="preload" as="image">
-    <link href="blob/5.png" rel="preload" as="image">
-    <link href="blob/6.png" rel="preload" as="image">
-    <link href="blob/7.png" rel="preload" as="image">
+	<link rel="stylesheet" href="lib/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Prompt:300,400,500,600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="lib/highlight.css">
+	<link rel="stylesheet" href="lib/mine.css">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	<link href="blob/1.png" rel="preload" as="image">
+	<link href="blob/2.png" rel="preload" as="image">
+	<link href="blob/3.png" rel="preload" as="image">
+	<link href="blob/4.png" rel="preload" as="image">
+	<link href="blob/5.png" rel="preload" as="image">
+	<link href="blob/6.png" rel="preload" as="image">
+	<link href="blob/7.png" rel="preload" as="image">
 
-    <style>
-        * {
-            font-family: 'Prompt', sans-serif;
-        }
-    </style>
+	<style>
+		* {
+			font-family: 'Prompt', sans-serif;
+		}
+	</style>
 
 </head>
 <body>
 
 
 <div id="pixis" class="d-none d-xl-block"
-     style="position:absolute;background-position: top 0 right 0; z-index:-1; height:100vh; width:100vw; left:-17px;"></div>
+	 style="position:absolute;background-position: top 0 right 0; z-index:-1; height:100vh; width:100vw; left:-17px;"></div>
 
 
 <main class="col-lg-8 offset-lg-2 col-md-12 p-0">
-    <div class="row window-height align-items-center">
+	<div class="row window-height align-items-center">
 
 
-        <div class="col-sm col-xl-5 col-lg-10 col-md-12 text-center text-lg-left">
+		<div class="col-sm col-xl-5 col-lg-10 col-md-12 text-center text-lg-left">
 
-            <div>
-                <img class="logo" src="SVG/Logo_purple_full.svg" alt="company logo">
-            </div>
+			<div>
+				<img class="logo" src="SVG/Logo_purple_full.svg" alt="company logo">
+			</div>
 
-            <h1 class="h5">
-                Form backend for static websites
-                <br>
-                <span class="h6">with email forwarding</span>
-            </h1>
-            <div class="text-sm-center text-lg-left">
-                <div>
+			<h1 class="h5">
+				Form backend for static websites
+				<br>
+				<span class="h6">with email forwarding</span>
+			</h1>
+			<div class="text-sm-center text-lg-left">
+				<div>
                     <pre class="text-left d-inline-block  " style="background:#253137">
                     <code class="html hljs xml pl-3 no-select"
-                          style="background:#253137; padding-right:0.5rem; margin-top:-20px;margin-bottom: -30px;">
+						  style="background:#253137; padding-right:0.5rem; margin-top:-20px;margin-bottom: -30px;">
 &lt;form action=&quot;https://ssttc.xyz/{YOUR_KEY}&quot;&gt;
    &lt;input name=&quot;name&quot;&gt;
    &lt;input name=&quot;email&quot;&gt;
@@ -66,274 +66,319 @@
                         </code>
                     </pre>
 
-                </div>
+				</div>
 
 
-                <div class="clearfix"></div>
+				<div class="clearfix"></div>
 
-                <div class="d-lg-none">
+				<div class="d-lg-none">
 
-                    <div class=" mobile not-logged-in">
+					<div class=" mobile not-logged-in">
 
-                        <a href="/auth/login" class="btn btn-primary  login " style="margin-top: 3.5rem;">
-                            Login
-                        </a>
-                        <a href="/auth/register" class="btn btn-primary  register"
-                           style="margin-top: 3.5rem; margin-left: 1rem;">Register
-                        </a>
-                    </div>
-                    <div class="mobile logged-in" style="display:none">
-                        <a href="/app/0/settings" class="btn btn-primary  dashboard" style="margin-top: 3.5rem;">
-                            Go to dashboard
-                        </a>
-                        <button onclick="logout()" class="btn btn-primary  logout"
-                                style="margin-top: 3.5rem; margin-left: 1rem;">Logout
-                        </button>
-                    </div>
-                </div>
-
-
-                <div style="margin-top:6rem" class="d-none d-lg-block ">
-                    <div class="desktop not-logged-in">
-                        <a href="/auth/login" class="btn btn-outline-primary btn-lg ">Login</a>
-                        <a href="/auth/register" class="btn btn-outline-primary btn-lg ml-3 ">Register</a>
-                    </div>
-                    <div class="desktop logged-in " style="display:none">
-                        <a href="/app/0/settings" class="btn btn-outline-primary btn-lg dashboard">Go to dashboard</a>
-                        <button onclick="logout()" class="btn btn-outline-primary btn-lg ml-3 logout">Logout</button>
-                    </div>
-                </div>
-
-                <h6 class="py-3 h6">
-                    Never miss important opportunities because of server issues ever again.
-                </h6>
+						<a href="/auth/login" class="btn btn-primary  login " style="margin-top: 3.5rem;">
+							Login
+						</a>
+						<a href="/auth/register" class="btn btn-primary  register"
+						   style="margin-top: 3.5rem; margin-left: 1rem;">Register
+						</a>
+					</div>
+					<div class="mobile logged-in" style="display:none">
+						<a href="/app/0/settings" class="btn btn-primary  dashboard" style="margin-top: 3.5rem;">
+							Go to dashboard
+						</a>
+						<button onclick="logout()" class="btn btn-primary  logout"
+								style="margin-top: 3.5rem; margin-left: 1rem;">Logout
+						</button>
+					</div>
+				</div>
 
 
-            </div>
+				<div style="margin-top:6rem" class="d-none d-lg-block ">
+					<div class="desktop not-logged-in">
+						<a href="/auth/login" class="btn btn-outline-primary btn-lg ">Login</a>
+						<a href="/auth/register" class="btn btn-outline-primary btn-lg ml-3 ">Register</a>
+					</div>
+					<div class="desktop logged-in " style="display:none">
+						<a href="/app/0/settings" class="btn btn-outline-primary btn-lg dashboard">Go to dashboard</a>
+						<button onclick="logout()" class="btn btn-outline-primary btn-lg ml-3 logout">Logout</button>
+					</div>
+				</div>
 
-        </div>
-
-
-    </div>
-
-    <section>
-
-        <div class="row" id="features">
-            <div class="col-12 text-center my-4">
-                <p class="h1" style="font-weight: 300"> Features </p>
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/backend.svg" class="icon"
-                             alt="backend icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">No server needed</h4>
-                        <p class="feature-text">Using SoStatic removes the need for
-                            developing, hosting and maintaining
-                            your own servers just for the simple
-                            task of receiving form submissions</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/js.svg" class="icon"
-                             alt="javscript icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">Zero dependencies </h4>
-                        <p class="feature-text">Our solution uses the native HTML
-                            form submission process. The only library you will need to add is Google's
-                            ReCaptcha, if you decide to use it for
-                            spam filtering</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/recaptcha.svg" class="icon"
-                             alt="recaptcha icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">ReCaptcha support</h4>
-                        <p class="feature-text">With just a checkbox, you can integrate spam filtering on the
-                            using Google's recaptcha for free.</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/hide.svg" class="icon"
-                             alt="hide icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">Hide your email</h4>
-                        <p class="feature-text">Using our service, you wont have to make your form processing email
-                            public to the
-                            visitors</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/quick_setup.svg" class="icon"
-                             alt="setup icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">Easy setup</h4>
-                        <p class="feature-text">Adding SoStatic to your website is as easy as replacing the
-                            <b>Action</b> parameter on your form</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/redeployment.svg" class="icon"
-                             alt="redeployment icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">Easy updates</h4>
-                        <p class="feature-text">You can change the behaviour of your form processing without needing
-                            to redeploy your website</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/eu.svg" class="icon"
-                             alt="european union icon">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">GDPR compliant</h4>
-                        <p class="feature-text">We implement all the required mechanism to be compliant with GDPR and
-                            will guide you through adding them to your website as well</p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-xl-6 feature">
-
-                <div class="row">
-                    <div class="col-lg-1 col-2 icon-wrapper">
-                        <img src="SVG/secure.svg" class="icon"
-                             alt="secure">
-                    </div>
-                    <div class="col-lg-10 col-10 p-1">
-
-                        <h4 class="feature-title">Secure</h4>
-                        <p class="feature-text">All communication can be done through SSL just by adding an 's' to
-                            the link we provide ;)</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+				<h6 class="py-3 h6">
+					Never miss important opportunities because of server issues ever again.
+				</h6>
 
 
-    <section>
+			</div>
 
-        <div class="row" id="pricing">
-            <div class="col-12 text-center my-4">
-                <p class="h1" style="font-weight: 300"> Pricing </p>
-            </div>
-            <div class="col-lg-6 col-12 mt-4">
-                <p class="h5 text-primary text-lg-left " style="font-weight: 300"> Free for up to 100 valid messages /
-                    month</p>
+		</div>
 
 
-                <p class="pricing-text text-justify">
+	</div>
 
-                    We understand that most small websites wont get more than a few contact messages per
-                    month. We offer our service for free for websites that receive less than 100 valid messages per
-                    month.
-                    A message is considered valid if the recaptcha was succesfully filled. Spam
-                    messages will not count towards your quota
-                </p>
+	<section>
 
-            </div>
+		<div class="row" id="features">
+			<div class="col-12 text-center my-4">
+				<p class="h1" style="font-weight: 300"> Features </p>
+			</div>
+			<div class="col-12 col-xl-6 feature">
 
-            <div class="col-lg-6 col-12 mt-4">
-                <p class="h5 text-primary text-lg-left " style="font-weight: 300"> More than 100 valid messages per
-                    month?
-                </p>
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/backend.svg" class="icon"
+							 alt="backend icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">No server needed</h4>
+						<p class="feature-text">Using SoStatic removes the need for
+							developing, hosting and maintaining
+							your own servers just for the simple
+							task of receiving form submissions</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/js.svg" class="icon"
+							 alt="javscript icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">Zero dependencies </h4>
+						<p class="feature-text">Our solution uses the native HTML
+							form submission process. The only library you will need to add is Google's
+							ReCaptcha, if you decide to use it for
+							spam filtering</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/recaptcha.svg" class="icon"
+							 alt="recaptcha icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">ReCaptcha support</h4>
+						<p class="feature-text">With just a checkbox, you can integrate spam filtering on the
+							using Google's recaptcha for free.</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/hide.svg" class="icon"
+							 alt="hide icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">Hide your email</h4>
+						<p class="feature-text">Using our service, you wont have to make your form processing email
+							public to the
+							visitors</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/quick_setup.svg" class="icon"
+							 alt="setup icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">Easy setup</h4>
+						<p class="feature-text">Adding SoStatic to your website is as easy as replacing the
+							<b>Action</b> parameter on your form</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/redeployment.svg" class="icon"
+							 alt="redeployment icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">Easy updates</h4>
+						<p class="feature-text">You can change the behaviour of your form processing without needing
+							to redeploy your website</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/eu.svg" class="icon"
+							 alt="european union icon">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">GDPR compliant</h4>
+						<p class="feature-text">We implement all the required mechanism to be compliant with GDPR and
+							will guide you through adding them to your website as well</p>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-12 col-xl-6 feature">
+
+				<div class="row">
+					<div class="col-lg-1 col-2 icon-wrapper">
+						<img src="SVG/secure.svg" class="icon"
+							 alt="secure">
+					</div>
+					<div class="col-lg-10 col-10 p-1">
+
+						<h4 class="feature-title">Secure</h4>
+						<p class="feature-text">All communication can be done through SSL just by adding an 's' to
+							the link we provide ;)</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
 
 
-                <p class="pricing-text text-justify">
+	<section class="pricing py-3">
+		<div class="container">
+			<div class="row">
+				<!-- Free Tier -->
+				<div class="col-lg-4">
+					<div class="card mb-5 mb-lg-0">
+						<div class="card-body">
+							<h5 class="card-title text-muted text-uppercase text-center">Free</h5>
+							<h6 class="card-price text-center">$0<span class="period">/month</span></h6>
+							<hr>
+							<ul class="fa-ul">
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>1</strong> Website</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>1</strong> email target</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>100</strong> *messages</li>
+								<li class="text-muted"><span class="fa-li"><i class="fas fa-check"></i></span>Basic spam
+									filtering
+								</li>
+								<li class="text-muted"><span class="fa-li"><i class="fas fa-check"></i></span>No server side ReCaptcha
+								</li>
+								<li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Default
+									confirmation emails
+								</li>
+								<li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Default
+									redirect page
+								</li>
 
-                    The messages will not be lost, but they will no longer be forwarded to your email, they
-                    will only be accessible via our platform. If you find value in having all messages forwarded,
-                    we can setup a recurring payment method for <span class="text-primary">5$/month</span> for
-                    unlimited messages per
-                    month.
-                </p>
+							</ul>
+							<a href="#" class="btn btn-block btn-primary text-uppercase">Start</a>
+						</div>
+					</div>
+				</div>
+				<!-- Plus Tier -->
+				<div class="col-lg-4">
+					<div class="card mb-5 mb-lg-0">
+						<div class="card-body">
+							<h5 class="card-title text-muted text-uppercase text-center">Small Company</h5>
+							<h6 class="card-price text-center">$9<span class="period">/month</span></h6>
+							<hr>
+							<ul class="fa-ul">
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>1</strong> Website</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Unlimited</strong>
+									email targets
+								</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Unlimited</strong>
+									*messages
+								</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span>PRO spam filtering</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span>Server side ReCaptcha support</li>
+								<li><span class="fa-li"><i class="fas fa-times"></i></span>Branded confirmation emails
+								</li>
+								<li><span class="fa-li"><i class="fas fa-times"></i></span>Seamless redirects</li>
+							</ul>
+							<a href="#" class="btn btn-block btn-primary text-uppercase">Purchase</a>
+						</div>
+					</div>
+				</div>
+				<!-- Pro Tier -->
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title text-muted text-uppercase text-center">Pay as you go</h5>
+							<h6 class="card-price text-center">$5<span class="period">/website/month</span></h6>
+							<hr>
+							<ul class="fa-ul">
+								<li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Websites</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>3</strong>
+									email targets / website
+								</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span><strong>2500</strong>
+									*messages / website
+								</li>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span>PRO spam filtering</li>
 
-            </div>
-        </div>
-    </section>
+								<li><span class="fa-li"><i class="fas fa-check"></i></span>Server side ReCaptcha support</li>
+								<li><span class="fa-li"><i class="fas fa-times"></i></span>Branded confirmation emails
+								</li>
+								<li><span class="fa-li"><i class="fas fa-times"></i></span>Seamless redirects</li>
+							</ul>
+							<a href="#" class="btn btn-block btn-primary text-uppercase">Purchase</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-12 my-4 ">
 
-    <div class="text-center">
 
-        <div class="  not-logged-in">
+				<p class="pricing-text text-justify">
 
-            <a href="/auth/login" class="btn  btn-outline-primary btn-lg login " style="margin-top: 3.5rem;">
-                Login
-            </a>
-            <a href="/auth/register" class="btn  btn-outline-primary btn-lg register"
-               style="margin-top: 3.5rem; margin-left: 1rem;">Register
-            </a>
-        </div>
-        <div class=" logged-in" style="display:none">
-            <a href="/app/0/settings" class="btn  btn-outline-primary btn-lg dashboard" style="margin-top: 3.5rem;">
-                Go to dashboard
-            </a>
-            <button onclick="logout()" class="btn  btn-outline-primary btn-lg logout"
-                    style="margin-top: 3.5rem; margin-left: 1rem;">Logout
-            </button>
-        </div>
-    </div>
+					<strong>* A message </strong> is only counted if it is valid and not categorized as spam
+				</p>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<section>
+
+		<div class="row" id="pricing">
+
+
+		</div>
+	</section>
+
+
 
 </main>
 <footer class="bg-dark mt-5 py-3">
-    <div class="row text-center  col-lg-8 offset-lg-2 col-md-12 p-0">
-        <div class="col-md-6 text-lg-left align-self-center ">
-            <img class="logo-footer" src="SVG/Logo_dark_full.svg" alt="">
-        </div>
-        <div class="col-md-6 text-white text-lg-right align-self-center">
-            <p class="my-0"><a href="legal/terms.html">Terms of Service</a> |<a href="legal/privacy.html"> Privacy
-                Policy</a> |<a href="legal/gdpr.html"> GDPR</a></p>
-            <p class="my-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
-            <p class="my-0"> SoStatic 2019</p>
+	<div class="row text-center  col-lg-8 offset-lg-2 col-md-12 p-0">
+		<div class="col-md-6 text-lg-left align-self-center ">
+			<img class="logo-footer" src="SVG/Logo_dark_full.svg" alt="">
+		</div>
+		<div class="col-md-6 text-white text-lg-right align-self-center">
+			<p class="my-0"><a href="legal/terms.html">Terms of Service</a> |<a href="legal/privacy.html"> Privacy
+				Policy</a> |<a href="legal/gdpr.html"> GDPR</a></p>
+			<p class="my-0">Get in touch at <a href="#"> contact@sostatic.xyz</a></p>
+			<p class="my-0"> SoStatic 2020</p>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 
 </footer>
@@ -343,6 +388,7 @@
 <script src="lib/highlight.pack.js"></script>
 <script src="lib/pixi.min.js"></script>
 <script src="lib/ease.js"></script>
+<script src="lib/jquery.slim.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
 
@@ -352,167 +398,167 @@
 <script>
 
 
-    let config = {
-        apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
-        authDomain: "sostatic-aws.firebaseapp.com",
-        databaseURL: "https://sostatic-aws.firebaseio.com",
-        projectId: "sostatic-aws",
-        storageBucket: "",
-        messagingSenderId: "1045757408696"
-    };
+	let config = {
+		apiKey: "AIzaSyBFmN3pKDKU5weY2Vvn9ZYWBZxpkJTRjKA",
+		authDomain: "sostatic-aws.firebaseapp.com",
+		databaseURL: "https://sostatic-aws.firebaseio.com",
+		projectId: "sostatic-aws",
+		storageBucket: "",
+		messagingSenderId: "1045757408696"
+	};
 
 
-    // Initialize Firebase
-    firebase.initializeApp(config);
+	// Initialize Firebase
+	firebase.initializeApp(config);
 
 
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            loggedIn()
-        } else {
-            notLoggedIn()
-        }
-    });
+	firebase.auth().onAuthStateChanged(function (user) {
+		if (user) {
+			loggedIn()
+		} else {
+			notLoggedIn()
+		}
+	});
 
-    let mobileNotLoggedIn = document.querySelectorAll(".mobile.not-logged-in")[0];
-    let mobileLoggedIn = document.querySelectorAll(".mobile.logged-in")[0];
+	let mobileNotLoggedIn = document.querySelectorAll(".mobile.not-logged-in")[0];
+	let mobileLoggedIn = document.querySelectorAll(".mobile.logged-in")[0];
 
-    let desktopNotLoggedIn = document.querySelectorAll(".desktop.not-logged-in")[0];
-    let desktopLoggedIn = document.querySelectorAll(".desktop.logged-in")[0];
+	let desktopNotLoggedIn = document.querySelectorAll(".desktop.not-logged-in")[0];
+	let desktopLoggedIn = document.querySelectorAll(".desktop.logged-in")[0];
 
 
-    function loggedIn() {
-        mobileNotLoggedIn.style.display = "none";
-        desktopNotLoggedIn.style.display = "none";
-        mobileLoggedIn.style.display = "block";
-        desktopLoggedIn.style.display = "block";
-    }
+	function loggedIn() {
+		mobileNotLoggedIn.style.display = "none";
+		desktopNotLoggedIn.style.display = "none";
+		mobileLoggedIn.style.display = "block";
+		desktopLoggedIn.style.display = "block";
+	}
 
-    function notLoggedIn() {
+	function notLoggedIn() {
 
-        mobileNotLoggedIn.style.display = "block";
-        desktopNotLoggedIn.style.display = "block";
-        mobileLoggedIn.style.display = "none";
-        desktopLoggedIn.style.display = "none";
+		mobileNotLoggedIn.style.display = "block";
+		desktopNotLoggedIn.style.display = "block";
+		mobileLoggedIn.style.display = "none";
+		desktopLoggedIn.style.display = "none";
 
-    }
+	}
 
-    function logout() {
-        firebase.auth().signOut()
-            .then(function () {
-                notLoggedIn()
-            })
-            .catch(function (error) {
-                console.log(error);
-                window.location.reload();
-            });
-    }
+	function logout() {
+		firebase.auth().signOut()
+			.then(function () {
+				notLoggedIn()
+			})
+			.catch(function (error) {
+				console.log(error);
+				window.location.reload();
+			});
+	}
 </script>
 
 <script>
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
-    const centerX = windowWidth / 2;
-    const centerY = windowHeight / 2;
+	const windowHeight = window.innerHeight;
+	const windowWidth = window.innerWidth;
+	const centerX = windowWidth / 2;
+	const centerY = windowHeight / 2;
 
 
-    const app = new PIXI.Application({
-        width: windowWidth, height: windowHeight * 1.5,
-        // backgroundColor: 0xcccccc
-        transparent: true
-    });
-    document.getElementById('pixis').appendChild(app.view);
+	const app = new PIXI.Application({
+		width: windowWidth, height: windowHeight * 1.5,
+		// backgroundColor: 0xcccccc
+		transparent: true
+	});
+	document.getElementById('pixis').appendChild(app.view);
 
-    document.addEventListener("mousemove", onMouseMove, false);
-
-
-    let ticking = false;
-
-    let scrollOffsetY = 0;
-    let mousePositionX = 0;
-    let mousePositionY = 0;
-    let blobOffsetX = 1000;
-    let blobOffsetY = -100;
-
-    function onMouseMove(event) {
-
-        mousePositionX = event.clientX;
-        mousePositionY = event.clientY;
-        if (!ticking) {
-            window.requestAnimationFrame(function () {
-
-                redraw();
-                ticking = false;
-            });
-
-            ticking = true;
-        }
+	document.addEventListener("mousemove", onMouseMove, false);
 
 
-    }
+	let ticking = false;
 
-    function redraw() {
-        let xWitHOffset = (centerX - mousePositionX) * 2;
-        let yWithOffset = (centerY - mousePositionY) * 2;
-        console.log(xWitHOffset, yWithOffset, scrollOffsetY, yWithOffset+scrollOffsetY);
+	let scrollOffsetY = 0;
+	let mousePositionX = 0;
+	let mousePositionY = 0;
+	let blobOffsetX = 1000;
+	let blobOffsetY = -100;
 
-        for (let i = 0; i < blobs.length; i++) {
-            let blob = blobs[i];
-            let damper = (blobs.length - (i)) / (150);
+	function onMouseMove(event) {
 
+		mousePositionX = event.clientX;
+		mousePositionY = event.clientY;
+		if (!ticking) {
+			window.requestAnimationFrame(function () {
 
-            blob.position.set((blobOffsetX/2) + blobCenterX + xWitHOffset * damper,(blobOffsetY/2)+ blobCenterY + (yWithOffset * damper) - scrollOffsetY*damper*3)
-            //blob.position.set(blobCenterX + xWitHOffset * damper, scrollOffsetY*damper*5);
-        }
-    }
+				redraw();
+				ticking = false;
+			});
 
-
-    window.addEventListener('scroll', function (e) {
-        scrollOffsetY = window.scrollY;
-
-        if (!ticking) {
-            window.requestAnimationFrame(function () {
-
-                redraw();
-                ticking = false;
-            });
-
-            ticking = true;
-        }
-    });
+			ticking = true;
+		}
 
 
-    const stage = app.stage;
+	}
+
+	function redraw() {
+		let xWitHOffset = (centerX - mousePositionX) * 2;
+		let yWithOffset = (centerY - mousePositionY) * 2;
+		console.log(xWitHOffset, yWithOffset, scrollOffsetY, yWithOffset + scrollOffsetY);
+
+		for (let i = 0; i < blobs.length; i++) {
+			let blob = blobs[i];
+			let damper = (blobs.length - (i)) / (150);
 
 
-    const animationlist = new Ease.Ease();
+			blob.position.set((blobOffsetX / 2) + blobCenterX + xWitHOffset * damper, (blobOffsetY / 2) + blobCenterY + (yWithOffset * damper) - scrollOffsetY * damper * 3)
+			//blob.position.set(blobCenterX + xWitHOffset * damper, scrollOffsetY*damper*5);
+		}
+	}
 
 
-    let loader = PIXI.Loader.shared;
+	window.addEventListener('scroll', function (e) {
+		scrollOffsetY = window.scrollY;
 
-    for (let i = 6; i >= 0; i--)
-        loader.add(`blob/${i + 1}.png`);
-    loader.load();
+		if (!ticking) {
+			window.requestAnimationFrame(function () {
 
-    let blobs = [];
+				redraw();
+				ticking = false;
+			});
 
-    let blobCenterX = 0;
-    let blobCenterY = 0;
-
-    loader.onComplete.add(() => {
-
-        for (let i = 6; i >= 0; i--) {
-            let texture = loader.resources[`blob/${i + 1}.png`].texture;
-            let blob = stage.addChild(new PIXI.Sprite(texture));
-            blob.position.set(blobOffsetX, blobOffsetY);
-            blobCenterX = blob.position.x / 2;
-            blobCenterY = blob.position.y / 2;
-
-            blob.alpha = 0;
-            blobs.push(blob);
+			ticking = true;
+		}
+	});
 
 
-            /*
+	const stage = app.stage;
+
+
+	const animationlist = new Ease.Ease();
+
+
+	let loader = PIXI.Loader.shared;
+
+	for (let i = 6; i >= 0; i--)
+		loader.add(`blob/${i + 1}.png`);
+	loader.load();
+
+	let blobs = [];
+
+	let blobCenterX = 0;
+	let blobCenterY = 0;
+
+	loader.onComplete.add(() => {
+
+		for (let i = 6; i >= 0; i--) {
+			let texture = loader.resources[`blob/${i + 1}.png`].texture;
+			let blob = stage.addChild(new PIXI.Sprite(texture));
+			blob.position.set(blobOffsetX, blobOffsetY);
+			blobCenterX = blob.position.x / 2;
+			blobCenterY = blob.position.y / 2;
+
+			blob.alpha = 0;
+			blobs.push(blob);
+
+
+			/*
             animationlist.add(blob, {x: 930 + i * 10, y: -100}, {
                 duration: 10000,
                 reverse: true,
@@ -521,78 +567,78 @@
             });
             */
 
-        }
+		}
 
-        fadeBlob(0);
-
-
-    });
-
-    function fadeBlob(index) {
-        animationlist.add(blobs[index], {alpha: 1}, {
-            duration: 200 + 100 * index,
-            ease: 'easeInQuad',
-            wait: 100 * index
-        });
+		fadeBlob(0);
 
 
-        if (index < blobs.length)
-            fadeBlob(index + 1)
+	});
+
+	function fadeBlob(index) {
+		animationlist.add(blobs[index], {alpha: 1}, {
+			duration: 200 + 100 * index,
+			ease: 'easeInQuad',
+			wait: 100 * index
+		});
 
 
-    }
+		if (index < blobs.length)
+			fadeBlob(index + 1)
 
 
-    window.addEventListener('resize', resize);
+	}
 
-    function resize() {
 
-        app.renderer.resize(window.innerWidth, window.innerHeight);
-    }
+	window.addEventListener('resize', resize);
+
+	function resize() {
+
+		app.renderer.resize(window.innerWidth, window.innerHeight);
+	}
 
 
 </script>
 <script type="application/ld+json">
 
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "url": "https://sostatic.xyz",
-        "logo": "https://sostatic.xyz/SVG/Logo_purple_full.svg",
-        "contactPoint": [
-            {
-                "@type": "ContactPoint",
-                "telephone": "+1-401-555-1212",
-                "contactType": "customer service",
-                "areaServed": [
-                    "US",
-                    "CA",
-                    "MX"
-                ]
-            },
-            {
-                "@type": "ContactPoint",
-                "telephone": "+1-401-555-1212",
-                "contactType": "sales",
-                "areaServed": [
-                    "US",
-                    "CA",
-                    "MX"
-                ]
-            }
-        ]
-    }
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"url": "https://sostatic.xyz",
+		"logo": "https://sostatic.xyz/SVG/Logo_purple_full.svg",
+		"contactPoint": [
+			{
+				"@type": "ContactPoint",
+				"telephone": "+1-401-555-1212",
+				"contactType": "customer service",
+				"areaServed": [
+					"US",
+					"CA",
+					"MX"
+				]
+			},
+			{
+				"@type": "ContactPoint",
+				"telephone": "+1-401-555-1212",
+				"contactType": "sales",
+				"areaServed": [
+					"US",
+					"CA",
+					"MX"
+				]
+			}
+		]
+	}
 </script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143292193-1"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
+	window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
+	function gtag() {
+		dataLayer.push(arguments);
+	}
 
-    gtag('js', new Date());
+	gtag('js', new Date());
 
-    gtag('config', 'UA-143292193-1');
+	gtag('config', 'UA-143292193-1');
 </script>
